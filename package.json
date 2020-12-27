@@ -2,7 +2,7 @@
   "name": "restaurant",
   "version": "0.1.0",
   "private": true,
-  "homepage":"http://b5730300808.github.io/restaurant",
+  "homepage":"https://b5730300808.github.io/restaurant/",
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
