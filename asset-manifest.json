@@ -1,21 +1,22 @@
 {
   "files": {
     "main.css": "/restaurant/static/css/main.f03d2525.chunk.css",
-    "main.js": "/restaurant/static/js/main.f0d3aef2.chunk.js",
-    "main.js.map": "/restaurant/static/js/main.f0d3aef2.chunk.js.map",
+    "main.js": "/restaurant/static/js/main.9bc4557a.chunk.js",
+    "main.js.map": "/restaurant/static/js/main.9bc4557a.chunk.js.map",
     "runtime-main.js": "/restaurant/static/js/runtime-main.9360cee7.js",
     "runtime-main.js.map": "/restaurant/static/js/runtime-main.9360cee7.js.map",
-    "static/js/2.df1f9655.chunk.js": "/restaurant/static/js/2.df1f9655.chunk.js",
-    "static/js/2.df1f9655.chunk.js.map": "/restaurant/static/js/2.df1f9655.chunk.js.map",
+    "static/js/2.4c35a458.chunk.js": "/restaurant/static/js/2.4c35a458.chunk.js",
+    "static/js/2.4c35a458.chunk.js.map": "/restaurant/static/js/2.4c35a458.chunk.js.map",
     "index.html": "/restaurant/index.html",
     "static/css/main.f03d2525.chunk.css.map": "/restaurant/static/css/main.f03d2525.chunk.css.map",
-    "static/js/2.df1f9655.chunk.js.LICENSE.txt": "/restaurant/static/js/2.df1f9655.chunk.js.LICENSE.txt",
+    "static/js/2.4c35a458.chunk.js.LICENSE.txt": "/restaurant/static/js/2.4c35a458.chunk.js.LICENSE.txt",
+    "static/media/Kaphoa.3d768050.jpg": "/restaurant/static/media/Kaphoa.3d768050.jpg",
     "static/media/logo.6ce24c58.svg": "/restaurant/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.9360cee7.js",
-    "static/js/2.df1f9655.chunk.js",
+    "static/js/2.4c35a458.chunk.js",
     "static/css/main.f03d2525.chunk.css",
-    "static/js/main.f0d3aef2.chunk.js"
+    "static/js/main.9bc4557a.chunk.js"
   ]
 }
