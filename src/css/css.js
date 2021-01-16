@@ -3,6 +3,15 @@ export const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
     },
+    _root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        '& > *': {
+          margin: theme.spacing(1),
+          width: '100rem',
+          height: '100rem',
+        },
+    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
