@@ -1,5 +1,7 @@
-import { Item } from './Item'
-import { ItemList } from './ItemList'
+import { Title } from './Title'
+import { Location } from './Location'
 import { TextRecommend } from './TextRecommend'
+import { ItemList } from './ItemList'
+import { Item } from './Item'
 
-export { Item, ItemList, TextRecommend }
+export { Title, Location, TextRecommend, ItemList, Item }
