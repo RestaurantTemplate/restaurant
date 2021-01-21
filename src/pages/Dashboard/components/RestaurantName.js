@@ -1,11 +1,10 @@
 import { Container, Typography } from '@material-ui/core'
 import * as React from 'react'
-import { useRestaurantStyles } from './useStyles'
+import { useRestaurantStyles } from '../useStyles'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 
 export const RestaurantName = () => {
     const classes = useRestaurantStyles()
-    console.log('')
 
     return (
         <Container
