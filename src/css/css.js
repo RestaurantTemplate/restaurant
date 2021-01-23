@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 const drawerWidth = 240;
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme,black) => ({
     root: {
       flexGrow: 1,
     },
@@ -62,7 +62,7 @@ export const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     backgroundBlack: {
-        backgroundColor:'black',
+        backgroundColor:black,
     },
     backgroundGray: {
         backgroundColor:'#808080',

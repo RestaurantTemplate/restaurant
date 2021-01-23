@@ -88,7 +88,7 @@ function About(props) {
                             </Container>
                         </Container>
                     </Container>
-                    <Grid item xs={12}>
+                    <div>
                         <br />
                         <TabContext value={value}>
                             <AppBar position="static">
@@ -142,7 +142,7 @@ function About(props) {
                             <TabPanel value="3">ของหวาน</TabPanel>
                             <TabPanel value="4">เครื่องดื่ม</TabPanel>
                         </TabContext>
-                    </Grid>
+                    </div>
                     <Grid item xs={12}></Grid>
                 </Layoutbar>
             </>

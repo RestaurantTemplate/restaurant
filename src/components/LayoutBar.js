@@ -18,8 +18,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import LocalGroceryStoreSharpIcon from '@material-ui/icons/LocalGroceryStoreSharp';
 import { useStyles } from '../css/css';
 export const Layoutbar = ({children,...props}) =>{
-    const classes = useStyles();
-    const {isSidebar,isNotification,list,setopenmenu,topath} = props
+    const classes = useStyles({black:{backgroundColor:'black'}});
+    const {isSidebar,isNotification,menu,setopenmenu,topath} = props
     const [opensidebar, setopensidebar] = useState(false);
 
     const handleDrawerOpen = () => {
@@ -76,7 +76,7 @@ export const Layoutbar = ({children,...props}) =>{
                                 aria-label="show 4 new mails"
                                 color="inherit"
                             >
-                                <Badge badgeContent={list != null && list.length > 0 ? list.length : null } color="secondary" onClick={() => setopenmenu(true)}>
+                                <Badge badgeContent={menu != null && menu.length > 0 ? menu.length : null } color="secondary" onClick={() => setopenmenu(true)}>
                                     <LocalGroceryStoreSharpIcon />
                                 </Badge>
                             </IconButton>
