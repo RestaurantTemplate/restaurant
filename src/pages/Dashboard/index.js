@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Header, Recommend } from './containers'
+import { Header } from '../../containers'
+import { Recommend } from './containers'
 
 export const Dashboard = () => {
     return (
