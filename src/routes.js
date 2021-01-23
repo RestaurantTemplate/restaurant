@@ -5,12 +5,14 @@ import App from './App'
 import About from './pages/About'
 import { Dashboard } from './pages/Dashboard'
 import NotFound from './pages/NotFound'
+import Orders from './staff/pages/Orders/Orders'
 
 const Routes = () => (
     <Switch>
         <Route exact path="/" component={App} />
         <Route path="/about" component={About} />
         <Route path="/dashboard" component={Dashboard} />
+        <Route path="/orders" component={Orders} />
         <Route path="*" component={NotFound} />
     </Switch>
 )
