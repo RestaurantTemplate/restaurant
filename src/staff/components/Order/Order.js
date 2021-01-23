@@ -7,37 +7,53 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import { green,red } from '@material-ui/core/colors';
+
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 
 const useStyles = makeStyles({
     root: {
-        // minWidth: 275,
+        marginBottom: "20px"
     },
-    title: {
-        fontSize: 14,
+    description: {
+        padding: "5px",
+        minHeight: "60px",
+        border: "1px solid rgba(0, 0, 0, 0.7)",
+        boxSizing: "border-box",
+        borderRadius: "7px",
     },
-    pos: {
-        marginBottom: 12,
+    accept: {
+        color: "green"
     },
+    cancel: {
+        color: "red"
+    }
 });
 
-export default function Order() {
+export default function Order(props) {
     const classes = useStyles();
 
     return (
         <Card className={classes.root}>
-            <CardContent>
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    โต๊ะที่
-                </Typography>
-                <Typography className={classes.pos} color="textSecondary">
-                    ออเดอร์ที่
-                </Typography>
-
-            </CardContent>
-            <CardActions>
-                <CheckCircleOutlineIcon/>
-                <HighlightOffIcon/>
-            </CardActions>
+            <Grid container spacing={3}>
+                <Grid item xs={4}>
+                    <Typography>โต๊ะที่ {props.tableNumber}</Typography>
+                    <Typography>ออเดอร์ที่ {props.orderNumber}</Typography>
+                    <IconButton  className={classes.accept}>
+                        <CheckCircleOutlineIcon/>
+                    </IconButton>
+                    <IconButton  className={classes.cancel}>
+                        <CancelOutlinedIcon/>
+                    </IconButton>
+                </Grid>
+                <Grid item xs={8}>
+                    <Typography>รายละเอียด</Typography>
+                    <Box className={classes.description}>{props.description}</Box>
+                </Grid>
+            </Grid>
         </Card>
     )
 }
