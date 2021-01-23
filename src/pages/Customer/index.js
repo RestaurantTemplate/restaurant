@@ -19,6 +19,7 @@ import {
 import Kaphoa from './../../Image/Kaphoa.jpg';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import AddIcon from '@material-ui/icons/Add';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import {DialogValue} from './components/dialog';
 import { useStyles } from '../../css/css';
@@ -26,6 +27,7 @@ import {Layoutbar} from '../../components/LayoutBar';
 import './style.css'
 function About(props) {
     const classes = useStyles()
+    const [link,setlink] = useState([]);
     const [list, setlist] = useState([])
     const [price, setprice] = useState(0)
     const [count, setcount] = useState(1)
@@ -45,23 +47,22 @@ function About(props) {
         else{
             setprice(40 * parseInt(count))            
         }
-
+        setlink([{name:"Dashboard",path:"dashboard",icon:<DashboardIcon/>}])
     }, [count]);
     useEffect(() => {
-        // let value = encrypt(new URLSearchParams(props.location.search).get("param").toString())
-        // console.log(value)
         try{
             let val = JSON.parse(new URLSearchParams(props.location.search).get("param").toString())
             setdata(val);
         }
         catch(e){
-            props.location.href = "/NotFound"
+            console.log('no data')
         }
     }, [props.location])
     return (
         <div className={classes.root}>
+            {console.log(data)}
             <>
-                <Layoutbar isSidebar={true} isNotification={true} setopen={setopen} list={list}>
+                <Layoutbar isSidebar={true} topath={link} isNotification={true} setopenmenu={setopen} menu={list}>
                     <Container
                         className={classes.container}
                         disableGutters={true}
