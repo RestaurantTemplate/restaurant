@@ -6,22 +6,20 @@ import {
     Typography,
     IconButton,
     Badge,
-    Grid,
     Drawer,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
 } from '@material-ui/core';
+import {Link} from 'react-router-dom';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MenuIcon from '@material-ui/icons/Menu';
 import LocalGroceryStoreSharpIcon from '@material-ui/icons/LocalGroceryStoreSharp';
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import { useStyles } from '../css/css';
 export const Layoutbar = ({children,...props}) =>{
     const classes = useStyles();
-    const {isSidebar,isNotification,list,setopen} = props
+    const {isSidebar,isNotification,list,setopenmenu,topath} = props
     const [opensidebar, setopensidebar] = useState(false);
 
     const handleDrawerOpen = () => {
@@ -78,7 +76,7 @@ export const Layoutbar = ({children,...props}) =>{
                                 aria-label="show 4 new mails"
                                 color="inherit"
                             >
-                                <Badge badgeContent={list != null && list.length > 0 ? list.length : null } color="secondary" onClick={() => setopen(true)}>
+                                <Badge badgeContent={list != null && list.length > 0 ? list.length : null } color="secondary" onClick={() => setopenmenu(true)}>
                                     <LocalGroceryStoreSharpIcon />
                                 </Badge>
                             </IconButton>
@@ -95,7 +93,6 @@ export const Layoutbar = ({children,...props}) =>{
                 }
             </Toolbar>
         </AppBar>
-        {/* <Grid Container> */}
             <Drawer
                 className={classes.drawer}
                 variant="temporary"
@@ -109,12 +106,12 @@ export const Layoutbar = ({children,...props}) =>{
                 <div className={classes.drawerHeader} />
                 <div className={classes.drawerContainer} >
                     <List>
-                        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                        {topath.map((value, index) => (
+                        <ListItem button component={Link} key={index} to={value.path} >
+                            <ListItemIcon >
+                                {value.icon}
                             </ListItemIcon>
-                            <ListItemText primary={text} />
+                            <ListItemText primary={value.name} />
                         </ListItem>
                         ))}
                     </List>
@@ -123,7 +120,6 @@ export const Layoutbar = ({children,...props}) =>{
             <main >
                 {children}
             </main>
-        {/* </Grid> */}
         </>
     );
 }

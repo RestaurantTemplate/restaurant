@@ -12,10 +12,6 @@ export const useStyles = makeStyles((theme) => ({
         display: "flex"
     },
     appBar: {
-        // transition: theme.transitions.create(['margin', 'width'], {
-        //   easing: theme.transitions.easing.sharp,
-        //   duration: theme.transitions.duration.leavingScreen,
-        // }),
         backgroundColor:'black',
         zIndex: theme.zIndex.drawer + 1,
     },
@@ -35,7 +31,6 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         padding: theme.spacing(0, 1),
-        // necessary for content to be below app bar
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
     },
@@ -65,9 +60,6 @@ export const useStyles = makeStyles((theme) => ({
     },
     growXs: {
         flexGrow: 1,
-        // [theme.breakpoints.down('xs')]: {
-        //     flexGrow: 0,
-        // },
     },
     backgroundBlack: {
         backgroundColor:'black',
