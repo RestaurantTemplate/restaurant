@@ -18,7 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import LocalGroceryStoreSharpIcon from '@material-ui/icons/LocalGroceryStoreSharp';
 import { useStyles } from '../css/css';
 export const Layoutbar = ({children,...props}) =>{
-    const classes = useStyles({black:{backgroundColor:'black'}});
+    const classes = useStyles();
     const {isSidebar,isNotification,menu,setopenmenu,topath} = props
     const [opensidebar, setopensidebar] = useState(false);
 
@@ -31,68 +31,68 @@ export const Layoutbar = ({children,...props}) =>{
     };
     return(
         <>
-        <AppBar
-            className={clsx(classes.appBar)}
-            position="relative"
-            
-        >
-            <Toolbar variant="dense" align="center">
-                {
-                    isSidebar ?
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleDrawerOpen}
-                            className={clsx(classes.menuButton, opensidebar && classes.hide)}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        :<></>
-                }
+            <AppBar
+                className={classes.appBar}
+                position="relative"
+                
+            >
+                <Toolbar variant="dense" align="center" className={classes.backgroundBlack}>
+                    {
+                        isSidebar ?
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={handleDrawerOpen}
+                                className={clsx(classes.menuButton, opensidebar && classes.hide)}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            :<></>
+                    }
 
-                <div className={classes.grow} />
-                <Typography
-                    className={classes.paddingText}
-                    variant="h6"
-                    color="inherit"
-                    align="center"
-                >
-                    EZ
-                </Typography>
-                <Typography
-                    className={classes.backgroundAquamarine}
-                    variant="h6"
-                    color="inherit"
-                    align="center"
-                >
-                    restaurant
-                </Typography>
-                <div className={classes.grow} />
-                {
-                    isNotification ?
-                        <div className={classes.sectionDesktop}>
-                            <IconButton
-                                aria-label="show 4 new mails"
-                                color="inherit"
-                            >
-                                <Badge badgeContent={menu != null && menu.length > 0 ? menu.length : null } color="secondary" onClick={() => setopenmenu(true)}>
-                                    <LocalGroceryStoreSharpIcon />
-                                </Badge>
-                            </IconButton>
-                            <IconButton
-                                aria-label="show 17 new notifications"
-                                color="inherit"
-                            >
-                                <Badge badgeContent={17} color="secondary">
-                                    <NotificationsIcon />
-                                </Badge>
-                            </IconButton>
-                        </div>
-                        :<></>
-                }
-            </Toolbar>
-        </AppBar>
+                    <div className={classes.grow} />
+                    <Typography
+                        className={classes.paddingText}
+                        variant="h6"
+                        color="inherit"
+                        align="center"
+                    >
+                        EZ
+                    </Typography>
+                    <Typography
+                        className={classes.backgroundAquamarine}
+                        variant="h6"
+                        color="inherit"
+                        align="center"
+                    >
+                        restaurant
+                    </Typography>
+                    <div className={classes.grow} />
+                    {
+                        isNotification ?
+                            <div className={classes.sectionDesktop}>
+                                <IconButton
+                                    aria-label="show 4 new mails"
+                                    color="inherit"
+                                >
+                                    <Badge badgeContent={menu != null && menu.length > 0 ? menu.length : null } color="secondary" onClick={() => setopenmenu(true)}>
+                                        <LocalGroceryStoreSharpIcon />
+                                    </Badge>
+                                </IconButton>
+                                <IconButton
+                                    aria-label="show 17 new notifications"
+                                    color="inherit"
+                                >
+                                    <Badge badgeContent={17} color="secondary">
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
+                            </div>
+                            :<></>
+                    }
+                </Toolbar>
+            </AppBar>
             <Drawer
                 className={classes.drawer}
                 variant="temporary"
