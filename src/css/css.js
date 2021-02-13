@@ -12,7 +12,6 @@ export const useStyles = makeStyles((theme) => ({
         display: "flex"
     },
     appBar: {
-        backgroundColor:'black',
         zIndex: theme.zIndex.drawer + 1,
     },
     appBarShift: {
@@ -43,11 +42,6 @@ export const useStyles = makeStyles((theme) => ({
     _root: {
         display: 'flex',
         flexWrap: 'wrap',
-        '& > *': {
-          margin: theme.spacing(1),
-          width: '100rem',
-          height: '100rem',
-        },
     },
     menuButton: {
       marginRight: theme.spacing(2),
