@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React,{useState,useEffect} from 'react'
 import { TabContext,TabList,TabPanel } from '@material-ui/lab';
-import {AppBar,Tab,Container,Paper} from '@material-ui/core';
+import {AppBar,Tab,Container,Paper,Box } from '@material-ui/core';
 import {Menu} from './../components';
 import {useStyles} from './../../../css/css';
 import Kaphoa from './../../../Image/Kaphoa.jpg';
@@ -28,79 +28,80 @@ export const Tabmenu = (props) =>{
         setvalue(newValue)
     }
     return(
-        <div>
-            <br />
-            <TabContext value={value}>
-                <AppBar position="static">
-                    <TabList
-                        className={classes.backgroundGray}
-                        onChange={handleChange}
-                        variant={'fullWidth'}
-                        aria-label="simple tabs example"
-                    >
-                        <Tab label="จานหลัก" value="1" />
-                        <Tab label="ทานเล่น" value="2" />
-                        <Tab label="ของหวาน" value="3" />
-                        <Tab label="เครื่องดื่ม" value="4" />
-                    </TabList>
-                </AppBar>
-                <TabPanel value="1">
-                    <Container className={classes._root} maxWidth={'md'}>
-                        <Paper style={{padding:'5%'}} elevation={4} >
-                        {
-                            fooditems.map((item)=>(
-                                <>
-                                    <Menu menu={menu} setmenu={setmenu} fooditem={item}/>
-                                    <br/>
-                                </>
-                            ))
-                        }
-                        </Paper>
-                    </Container>
-                </TabPanel>
-                <TabPanel value="2">
-                    <Container className={classes._root} maxWidth={'md'}>
-                        <Paper style={{padding:'5%'}} elevation={4} >
-                        {
-                            snacks.map((item)=>(
-                                <>
-                                    <Menu menu={menu} setmenu={setmenu} fooditem={item}/>
-                                    <br/>
-                                </>
-                            ))
-                        }
-                        </Paper>
-                    </Container>                    
-                </TabPanel>
-                <TabPanel value="3">
-                    <Container className={classes._root} maxWidth={'md'}>
-                        <Paper style={{padding:'5%'}} elevation={4} >
-                        {
-                            dessert.map((item)=>(
-                                <>
-                                    <Menu menu={menu} setmenu={setmenu} fooditem={item}/>
-                                    <br/>
-                                </>
-                            ))
-                        }
-                        </Paper>
-                    </Container>  
-                </TabPanel>
-                <TabPanel value="4">
-                    <Container className={classes._root} maxWidth={'md'}>
-                        <Paper style={{padding:'5%'}} elevation={4} >
-                        {
-                            drink.map((item)=>(
-                                <>
-                                    <Menu menu={menu} setmenu={setmenu} fooditem={item}/>
-                                    <br/>
-                                </>
-                            ))
-                        }
-                        </Paper>
-                    </Container> 
-                </TabPanel>
-            </TabContext>
-        </div>
+        <Box display={{ xs: 'block', md: 'block' }}>
+            <Box component="div" >
+                <TabContext value={value}>
+                    <AppBar position="static">
+                        <TabList
+                            className={classes.backgroundGray}
+                            onChange={handleChange}
+                            variant={'fullWidth'}
+                            aria-label="simple tabs example"
+                        >
+                            <Tab label="จานหลัก" value="1" />
+                            <Tab label="ทานเล่น" value="2" />
+                            <Tab label="ของหวาน" value="3" />
+                            <Tab label="เครื่องดื่ม" value="4" />
+                        </TabList>
+                    </AppBar>
+                    <TabPanel value="1">
+                        <Container className={classes._root} maxWidth={'md'}>
+                            <Paper style={{padding:'5%'}} elevation={4} >
+                            {
+                                fooditems.map((item)=>(
+                                    <>
+                                        <Menu menu={menu} setmenu={setmenu} fooditem={item}/>
+                                        <br/>
+                                    </>
+                                ))
+                            }
+                            </Paper>
+                        </Container>
+                    </TabPanel>
+                    <TabPanel value="2">
+                        <Container className={classes._root} maxWidth={'md'}>
+                            <Paper style={{padding:'5%'}} elevation={4} >
+                            {
+                                snacks.map((item)=>(
+                                    <>
+                                        <Menu menu={menu} setmenu={setmenu} fooditem={item}/>
+                                        <br/>
+                                    </>
+                                ))
+                            }
+                            </Paper>
+                        </Container>                    
+                    </TabPanel>
+                    <TabPanel value="3">
+                        <Container className={classes._root} maxWidth={'md'}>
+                            <Paper style={{padding:'5%'}} elevation={4} >
+                            {
+                                dessert.map((item)=>(
+                                    <>
+                                        <Menu menu={menu} setmenu={setmenu} fooditem={item}/>
+                                        <br/>
+                                    </>
+                                ))
+                            }
+                            </Paper>
+                        </Container>  
+                    </TabPanel>
+                    <TabPanel value="4">
+                        <Container className={classes._root} maxWidth={'md'}>
+                            <Paper style={{padding:'5%'}} elevation={4} >
+                            {
+                                drink.map((item)=>(
+                                    <>
+                                        <Menu menu={menu} setmenu={setmenu} fooditem={item}/>
+                                        <br/>
+                                    </>
+                                ))
+                            }
+                            </Paper>
+                        </Container> 
+                    </TabPanel>
+                </TabContext>
+            </Box>
+        </Box>
     );
 }
