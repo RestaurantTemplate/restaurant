@@ -5,7 +5,8 @@ import {
     Grid,
     TextField,
     Fab,
-    Typography
+    Typography,
+    Box
 } from '@material-ui/core';
 const useStyleslocal = makeStyles((theme) => ({
     Font: {
@@ -59,7 +60,10 @@ export const Menu = (props) =>{
         <>
             <Grid container alignItems="center" style={{backgroundColor:'#e7e7e7'}} >
                 <Grid container xs={3} >
-                    <img src={fooditem.image} style={{width:"80%",heigt:"80%"}} alt="" />
+                    <Grid xs={1}/>
+                    <Grid xs={11} span={'1'}>
+                        <img src={fooditem.image} style={{width:"80%",heigt:"80%"}} alt="" />                        
+                    </Grid>
                 </Grid>
                 <Grid container xs={3}>
                     <Typography className={classesLocal.Font}><b>{fooditem.name}</b></Typography>
@@ -75,10 +79,12 @@ export const Menu = (props) =>{
                         <TextField InputLabelProps={{className:classesLocal.textNopadding}}  InputProps={{className: classesLocal.textStyle}} size="small" variant="standard" defaultValue={1} value={count} onChange={(e) => (/\d/).test(e.target.value) ? (setcount(e.target.value),console.log(e.target.value,(/\d/).test(e.target.value))) : (setcount(count),console.log(e.target.value)) } />                                                   
                     </Grid>
                 </Grid>
-                <Grid container justify="center" alignItems="center" xs={2}>
-                    <Fab  component="button" justify="center" alignItems="center" size={'small'}  color="primary" aria-label="add" onClick={() => setmenu([...menu,{name:fooditem.name,count:count,price:price}])} >
-                        <AddIcon />
-                    </Fab>
+                <Grid container justify="right" alignItems="right" xs={2}>
+                    <Box component='div'>
+                        <Fab  component="button" justify="center" alignItems="center" size={'small'}  color="primary" aria-label="add" onClick={() => setmenu([...menu,{name:fooditem.name,count:count,price:price}])} >
+                            <AddIcon />
+                        </Fab>
+                    </Box>
                 </Grid>
             </Grid>
         </>
