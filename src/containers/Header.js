@@ -5,7 +5,7 @@ import { Label } from '../components/Label'
 const useStyles = makeStyles({
     container: {
         width: '100%',
-        height: '300px',
+        height: '150px',
         background: ({ background = 'blue' }) => {
             let gradient = ''
             switch (background) {
