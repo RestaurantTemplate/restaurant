@@ -8,6 +8,7 @@ import { History } from './pages/History'
 import NotFound from './pages/NotFound'
 import Orders from './pages/Orders/index'
 import Queues from './pages/Queues/index'
+import Menus from './pages/Menu'
 
 const Routes = () => (
     <Switch>
@@ -17,6 +18,7 @@ const Routes = () => (
         <Route path="/history" component={History} />
         <Route path="/orders" component={Orders} />
         <Route path="/queues" component={Queues} />
+        <Route path="/menu" component={Menus} />
         <Route path="*" component={NotFound} />
     </Switch>
 )
