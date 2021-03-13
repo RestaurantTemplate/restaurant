@@ -1,15 +1,17 @@
 // src/index.js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { HashRouter } from 'react-router-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { HashRouter } from 'react-router-dom'
+import Routes from './routes'
+import Firebase, { FirebaseContext } from './firebase'
 
-import Routes from './routes';
-
-import './index.css';
+import './index.css'
 
 ReactDOM.render(
-  <HashRouter basename={'/'}>
-    <Routes/>
-  </HashRouter>,
-  document.getElementById('root')
-);
+    <FirebaseContext.Provider value={new Firebase()}>
+        <HashRouter basename={'/'}>
+            <Routes />
+        </HashRouter>
+    </FirebaseContext.Provider>,
+    document.getElementById('root')
+)

@@ -8,10 +8,12 @@ import { History } from './pages/History'
 import NotFound from './pages/NotFound'
 import Orders from './pages/Orders/index'
 import Queues from './pages/Queues/index'
+import Login from './pages/Login/index'
 
 const Routes = () => (
     <Switch>
         <Route exact path="/" component={App} />
+        <Route path="/login" component={Login} />
         <Route path="/customer" component={Customer} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/history" component={History} />
