@@ -29,64 +29,36 @@ class Firebase {
     this.db = app.firestore();
 
     this.auth.useDeviceLanguage();
-    this.googleProvider = new app.auth.GoogleAuthProvider();
   }
 
   getCurrentUser = () => this.auth.currentUser;
-
-  createUserWithEmailAndPassword = (email, password) =>
-    this.auth.createUserWithEmailAndPassword(email, password);
 
   signInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
 
   signOut = () => this.auth.signOut();
 
-  // how does it respond if there's no email matching in the system
-  passwordReset = (email) => this.auth.sendPasswordResetEmail(email);
+  // createBurger = (ingredients, name, price) =>
+  //   this.db.collection("menu").doc(name).set({
+  //     ingredients,
+  //     name,
+  //     price,
+  //   });
 
-  passwordUpdate = (password) => this.auth.currentUser.updatePassword(password);
+  // placeOrder = (order, uuid) => {
+  //   const d = app.firestore.Timestamp.fromDate(new Date()).seconds.toString();
+  //   return this.db
+  //     .collection("orders")
+  //     .doc(uuid)
+  //     .collection("order")
+  //     .doc(d)
+  //     .set(order);
+  // };
 
-  /* SIGN IN WITH AUTH PROVIDERS */
-  signInWithPopup = (authProvider) => {
-    let provider = "";
+  fetchOrders = () => this.db.collection("Restaurants").doc("ORfpUYXcivMoLs1ObM8R").collection("Orders").orderBy("created_at", "asc");
 
-    switch (authProvider) {
-      case "google":
-        provider = this.googleProvider;
-        break;
+  fetchQueues = () => this.db.collection("Restaurants").doc("ORfpUYXcivMoLs1ObM8R").collection("Queues").orderBy("created_at", "asc");
 
-      default:
-        provider = null;
-        break;
-    }
-
-    if (provider) {
-      return this.auth.signInWithPopup(provider);
-    }
-  };
-
-  createBurger = (ingredients, name, price) =>
-    this.db.collection("menu").doc(name).set({
-      ingredients,
-      name,
-      price,
-    });
-
-  fetchBurgers = () => this.db.collection("menu").get();
-
-  fetchOrders = (uuid) =>
-    this.db.collection("orders").doc(uuid).collection("order").get();
-
-  placeOrder = (order, uuid) => {
-    const d = app.firestore.Timestamp.fromDate(new Date()).seconds.toString();
-    return this.db
-      .collection("orders")
-      .doc(uuid)
-      .collection("order")
-      .doc(d)
-      .set(order);
-  };
 }
 
 export default Firebase;

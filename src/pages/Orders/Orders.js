@@ -1,8 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
-import { Container, Paper, Typography } from '@material-ui/core'
+import {
+    Container,
+    Paper,
+    Typography,
+    CircularProgress,
+} from '@material-ui/core'
 
+import { withFirebase } from '../../firebase'
 import Order from './components/Order/Order'
 
 const useStyles = makeStyles({
@@ -15,49 +21,42 @@ const useStyles = makeStyles({
     },
 })
 
-const ordersData = [
-    {
-        orderNumber: '00000001',
-        tableNumber: '1',
-        description:
-            'เมนูกับข้าวยอดนิยมอย่างผัดเปรี้ยวหวานกินได้ทั้งเด็กและผู้ใหญ่ ไปร้านข้าวแกงเจ้าไหนก็มีขาย ใครสนใจแนะนำเมนูผัดเปรี้ยวหวานหมู จานนี้ครบทั้งผักและผลไม้ ราดข้าวสวยร้อน ๆ อร่อยฟิน !',
-    },
-    {
-        orderNumber: '00000002',
-        tableNumber: '2',
-        description:
-            'เมนูกับข้าวยอดนิยมอย่างผัดเปรี้ยวหวานกินได้ทั้งเด็กและผู้ใหญ่ ไปร้านข้าวแกงเจ้าไหนก็มีขาย ใครสนใจแนะนำเมนูผัดเปรี้ยวหวานหมู จานนี้ครบทั้งผักและผลไม้ ราดข้าวสวยร้อน ๆ อร่อยฟิน !',
-    },
-    {
-        orderNumber: '00000003',
-        tableNumber: '3',
-        description:
-            'เมนูกับข้าวยอดนิยมอย่างผัดเปรี้ยวหวานกินได้ทั้งเด็กและผู้ใหญ่ ไปร้านข้าวแกงเจ้าไหนก็มีขาย ใครสนใจแนะนำเมนูผัดเปรี้ยวหวานหมู จานนี้ครบทั้งผักและผลไม้ ราดข้าวสวยร้อน ๆ อร่อยฟิน !',
-    },
-    {
-        orderNumber: '00000004',
-        tableNumber: '4',
-        description:
-            'เมนูกับข้าวยอดนิยมอย่างผัดเปรี้ยวหวานกินได้ทั้งเด็กและผู้ใหญ่ ไปร้านข้าวแกงเจ้าไหนก็มีขาย ใครสนใจแนะนำเมนูผัดเปรี้ยวหวานหมู จานนี้ครบทั้งผักและผลไม้ ราดข้าวสวยร้อน ๆ อร่อยฟิน !',
-    },
-    {
-        orderNumber: '00000005',
-        tableNumber: '5',
-        description:
-            'เมนูกับข้าวยอดนิยมอย่างผัดเปรี้ยวหวานกินได้ทั้งเด็กและผู้ใหญ่ ไปร้านข้าวแกงเจ้าไหนก็มีขาย ใครสนใจแนะนำเมนูผัดเปรี้ยวหวานหมู จานนี้ครบทั้งผักและผลไม้ ราดข้าวสวยร้อน ๆ อร่อยฟิน !',
-    },
-]
-
-export default function Orders() {
-    const [orders, setOrders] = useState(ordersData)
+const Orders = (props) => {
+    const [orders, setOrders] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     const classes = useStyles()
 
-    const addOrderHandler = () => {}
+    useEffect(() => {
+        const fetchOrders = () => {
+            setIsLoading(true)
+            props.firebase.fetchOrders().onSnapshot((snapshot) => {
+                let data = []
+                snapshot.forEach((doc) => {
+                    var source = doc.metadata.hasPendingWrites
+                        ? 'Local'
+                        : 'Server'
+                    console.log(source, ' data: ', doc.data())
+                    if (source === 'Server') {
+                        data.push({
+                            id: doc.id,
+                            ...doc.data(),
+                        })
+                    }
+                })
+                console.log('orders', data)
+                setIsLoading(false)
+                setOrders(data)
+            })
+        }
+        fetchOrders()
+    }, [props.firebase])
+
+    // const addOrderHandler = () => {}
 
     const removeOrderHandler = (orderNumber) => {
         const updatedOrders = orders.filter(
-            (order) => orderNumber !== order.orderNumber
+            (order) => orderNumber !== order.order_number
         )
         setOrders(updatedOrders)
         console.log('remove order')
@@ -65,19 +64,17 @@ export default function Orders() {
 
     let orderItems = orders.map((order) => (
         <Order
-            key={order.orderNumber}
-            tableNumber={order.tableNumber}
-            orderNumber={order.orderNumber}
-            description={order.description}
-            orderRemoved={() => removeOrderHandler(order.orderNumber)}
+            key={order.id}
+            tableNumber={order.table_number}
+            orderNumber={order.order_number}
+            description={order.desc}
+            orderRemoved={() => removeOrderHandler(order.order_number)}
         />
     ))
-    if (orders.length === 0) {
-        orderItems = (
-            <Typography variant="h6">
-                ไม่มีออเดอร์ในขณะนี้
-            </Typography>
-        )
+    if (orders.length === 0 && isLoading) {
+        orderItems = <CircularProgress />
+    } else if (orders.length === 0) {
+        orderItems = <Typography variant="h6">ไม่มีออเดอร์ในขณะนี้</Typography>
     }
 
     return (
@@ -91,3 +88,5 @@ export default function Orders() {
         </Container>
     )
 }
+
+export default withFirebase(Orders)
