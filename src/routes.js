@@ -14,6 +14,7 @@ import NotFound from './pages/NotFound'
 import Orders from './pages/Orders/index'
 import Queues from './pages/Queues/index'
 import Login from './pages/Login/index'
+import Menus from './pages/Menu'
 
 const Routes = () => {
     let isAuthenticated = true
