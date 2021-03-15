@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Container, TextField, Paper } from '@material-ui/core'
+import { Button, Container, TextField, Paper ,FormControl } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { withFirebase } from '../../firebase'
 
@@ -36,45 +36,46 @@ const Login = (props) => {
     }
 
     return (
-        <Container>
+        <Container className={classes.paper}>
             <Paper elevation={5} className={classes.paper}>
-                <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
-                    <div>
-                        <TextField
-                            variant="outlined"
-                            fullWidth
-                            label="Email"
-                            type="email"
-                            placeholder="Email"
-                            onChange={(e) =>
-                                setFormValues({
-                                    ...formValues,
-                                    email: e.target.value,
-                                })
-                            }
-                            value={formValues.email}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            variant="outlined"
-                            fullWidth
-                            label="Password"
-                            type="password"
-                            placeholder="Password"
-                            onChange={(e) =>
-                                setFormValues({
-                                    ...formValues,
-                                    password: e.target.value,
-                                })
-                            }
-                            value={formValues.password}
-                        />
-                    </div>
-                    <Button variant="contained" type="submit">
+                <Container maxWidth={'xs'} className={classes.paper}>
+                    <TextField
+                        variant="outlined"
+                        fullWidth
+                        label="Email"
+                        type="email"
+                        placeholder="Email"
+                        onChange={(e) =>
+                            setFormValues({
+                                ...formValues,
+                                email: e.target.value,
+                            })
+                        }
+                        value={formValues.email}
+                    />
+                </Container>
+                <Container maxWidth={'xs'} className={classes.paper}>
+                    <TextField
+                        variant="outlined"
+                        fullWidth
+                        label="Password"
+                        type="password"
+                        placeholder="Password"
+                        onChange={(e) =>
+                            setFormValues({
+                                ...formValues,
+                                password: e.target.value,
+                            })
+                        }
+                        value={formValues.password}
+                    />
+                </Container>
+                <Container maxWidth={'xs'} >
+                    <Button fullWidth variant="containedPrimary" size={'medium'}   type="submit" onClick={handleSubmit}>
                         Login
-                    </Button>
-                </form>
+                    </Button>                    
+                </Container>
+
             </Paper>
         </Container>
     )

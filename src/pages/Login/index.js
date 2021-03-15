@@ -1,12 +1,13 @@
 import React from 'react'
 
-import { Header } from '../../containers/index'
+import { HeaderLogin,HeaderLoginChildren } from '../../containers/index'
 import Login from './Login'
 
 export default function Layout() {
     return (
         <React.Fragment>
-            <Header background='red'/>
+            <HeaderLogin background='gray'/>
+            <HeaderLoginChildren background='blueGradient'/>
             <Login />
         </React.Fragment>
     )

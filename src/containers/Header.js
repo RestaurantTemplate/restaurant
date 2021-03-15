@@ -1,7 +1,7 @@
-import { Container, makeStyles } from '@material-ui/core'
+import { Container , makeStyles , IconButton} from '@material-ui/core'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import { Label } from '../components/Label'
-
+import AccountBoxOutlinedIcon from '@material-ui/icons/AccountBoxOutlined';
 const useStyles = makeStyles({
     container: {
         width: '100%',
@@ -16,6 +16,14 @@ const useStyles = makeStyles({
                 case 'green':
                     gradient =
                         'linear-gradient(rgba(63, 255, 93, 0.76), rgba(255, 186, 186, 0))'
+                    break
+                case 'gray':
+                    gradient =
+                        '#69697b'
+                    break
+                case 'blueGradient':
+                    gradient =
+                        'linear-gradient(180deg, rgba(217,220,255,1) 0%, rgba(255,255,255,0.7626400902157738) 100%)'
                     break
                 default:
                     gradient =
@@ -46,6 +54,10 @@ const useStyles = makeStyles({
         alignItems: 'center',
         marginTop: '9px',
     },
+    largeIcon: {
+        width: 260,
+        height: 260,
+    },
 })
 
 export const Header = (props) => {
@@ -70,6 +82,46 @@ export const Header = (props) => {
             <Container className={classes.location}>
                 <LocationOnIcon color="disabled" />
                 <Label variant="subtitle2">ที่อยู่ร้าน</Label>
+            </Container>
+        </Container>
+    )
+}
+export const HeaderLogin = (props) => {
+    const { title = 'ลงชื่อเข้าใช้' } = props
+    const classes = useStyles(props)
+
+    return (
+        <Container
+            className={classes.container}
+            disableGutters={true}
+            maxWidth={false}
+        >
+            <Container
+                align="center"
+                maxWidth={false}
+                className={classes.restaurantName}
+            >
+                <Label variant="h4" align="center" className={classes.title}>
+                    {title}
+                </Label>
+            </Container>
+        </Container>
+    )
+}
+export const HeaderLoginChildren = (props) => {
+    const classes = useStyles(props)
+
+    return (
+        <Container
+            className={classes.container}
+            disableGutters={true}
+            maxWidth={false}
+        >
+            <Container
+                align="center"
+                maxWidth={false}
+            >
+                <AccountBoxOutlinedIcon  style={{ fontSize: 100 }}/>
             </Container>
         </Container>
     )
