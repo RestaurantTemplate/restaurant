@@ -16,7 +16,7 @@ import Queues from './pages/Queues/index'
 import Login from './pages/Login/index'
 
 const Routes = () => {
-    let isAuthenticated = true
+    let isAuthenticated = false
 
     let routes = (
         <Switch>
@@ -33,6 +33,7 @@ const Routes = () => {
                 <Route path="/history" component={History} />
                 <Route path="/orders" component={Orders} />
                 <Route path="/queues" component={Queues} />
+                <Route path="/menu" component={Menus} />
                 <Redirect to="/dashboard" />
             </Switch>
         )
