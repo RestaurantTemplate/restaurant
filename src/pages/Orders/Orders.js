@@ -8,6 +8,8 @@ import {
     CircularProgress,
 } from '@material-ui/core'
 
+import firebase from '../../firebase/config'
+
 import { withFirebase } from '../../firebase'
 import Order from './components/Order/Order'
 
@@ -27,36 +29,34 @@ const Orders = (props) => {
 
     const classes = useStyles()
 
-    useEffect(() => {
-        const fetchOrders = () => {
-            setIsLoading(true)
-            props.firebase.fetchOrders().onSnapshot((snapshot) => {
-                let data = []
-                snapshot.forEach((doc) => {
-                    var source = doc.metadata.hasPendingWrites
-                        ? 'Local'
-                        : 'Server'
-                    console.log(source, ' data: ', doc.data())
-                    if (source === 'Server') {
-                        data.push({
-                            id: doc.id,
-                            ...doc.data(),
-                        })
-                    }
-                })
-                console.log('orders', data)
-                setIsLoading(false)
-                setOrders(data)
+    const fetchOrders = () => {
+        setIsLoading(true)
+        firebase.getOrders().onSnapshot((snapshot) => {
+            let data = []
+            snapshot.forEach((doc) => {
+                var source = doc.metadata.hasPendingWrites ? 'Local' : 'Server'
+                console.log(source, ' data: ', doc.data())
+                if (source === 'Server') {
+                    data.push({
+                        id: doc.id,
+                        data: doc.data(),
+                    })
+                }
             })
-        }
-        fetchOrders()
-    }, [props.firebase])
+            setIsLoading(false)
+            setOrders(data)
+            console.log('orders', data)
+        })
+    }
 
-    // const addOrderHandler = () => {}
+    useEffect(() => {
+        fetchOrders()
+    }, [])
+
 
     const removeOrderHandler = (orderNumber) => {
         const updatedOrders = orders.filter(
-            (order) => orderNumber !== order.order_number
+            (order) => orderNumber !== order.data.order_number
         )
         setOrders(updatedOrders)
         console.log('remove order')
@@ -65,10 +65,10 @@ const Orders = (props) => {
     let orderItems = orders.map((order) => (
         <Order
             key={order.id}
-            tableNumber={order.table_number}
-            orderNumber={order.order_number}
-            description={order.desc}
-            orderRemoved={() => removeOrderHandler(order.order_number)}
+            tableNumber={order.data.table_number}
+            orderNumber={order.data.order_number}
+            description={order.data.desc}
+            orderRemoved={() => removeOrderHandler(order.data.order_number)}
         />
     ))
     if (orders.length === 0 && isLoading) {
