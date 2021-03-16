@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
+import firebase from '../../firebase/config'
+import { Auth } from '../../context/authContext'
 import { Button, Container, TextField, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { withFirebase } from '../../firebase'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,30 +17,44 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const Login = (props) => {
+const Login = () => {
     const classes = useStyles()
 
     const [formValues, setFormValues] = useState({ email: '', password: '' })
-    const [errMessage, setErrMessage] = useState('')
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const [routeRedirect, setRouteRedirect] = useState(false)
 
+    const { state, dispatch } = React.useContext(Auth)
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         const { email, password } = formValues
-        props.firebase
-            .signInWithEmailAndPassword(email, password)
-            .then(() => {
-                console.log("email:" + email)
-                console.log("password:" + password)
-                setFormValues({ email: '', password: '' })
-                // props.history.push('/')
+        let response = await firebase.login(email, password)
+        if (response.hasOwnProperty('message')) {
+            console.log(response.message)
+        } else {
+            console.log("user",response.user);
+            setRouteRedirect(true)
+            return dispatch({
+                type: 'LOGIN',
+                payload: response.user,
             })
-            .catch((err) => setErrMessage(err.message))
+        }
+    }
+
+    const redirect = routeRedirect
+    if (redirect) {
+        return <Redirect to="/dashboard" />
     }
 
     return (
         <Container>
             <Paper elevation={5} className={classes.paper}>
-                <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
+                <form
+                    onSubmit={handleSubmit}
+                    className={classes.root}
+                    noValidate
+                    autoComplete="off"
+                >
                     <div>
                         <TextField
                             variant="outlined"
@@ -80,4 +96,4 @@ const Login = (props) => {
     )
 }
 
-export default withFirebase(Login)
+export default Login
