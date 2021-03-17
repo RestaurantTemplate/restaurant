@@ -47,7 +47,7 @@ const Login = () => {
     }
 
     return (
-        <Container>
+        <Container className={classes.paper}>
             <Paper elevation={5} className={classes.paper}>
                 <form
                     onSubmit={handleSubmit}
@@ -89,7 +89,7 @@ const Login = () => {
                     </div>
                     <Button variant="contained" type="submit">
                         Login
-                    </Button>
+                    </Button>                    
                 </form>
             </Paper>
         </Container>
