@@ -37,8 +37,8 @@ export default function Order(props) {
                 <Grid item xs={5} sm={3} md={2}>
                     <Typography>โต๊ะที่ {props.tableNumber}</Typography>
                     <Typography>ออเดอร์ที่ {props.orderNumber}</Typography>
-                    <IconButton  className={classes.accept}>
-                        <CheckCircleOutlineIcon/>
+                    <IconButton  className={classes.accept} onClick={props.queueAdded}>
+                        <CheckCircleOutlineIcon />
                     </IconButton>
                     <IconButton  className={classes.cancel} onClick={props.orderRemoved}>
                         <CancelOutlinedIcon/>

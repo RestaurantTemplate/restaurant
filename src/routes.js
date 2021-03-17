@@ -22,7 +22,7 @@ const Routes = (props) => {
             <Route path="/history" component={History} />
             <Route path="/orders" component={Orders} />
             <Route path="/queues" component={Queues} />
-            <Redirect to="/dashboard" />
+            <Redirect to="/login" />
         </Switch>
     )
 

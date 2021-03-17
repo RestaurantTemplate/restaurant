@@ -8,7 +8,7 @@ import {
     CircularProgress,
 } from '@material-ui/core'
 
-import { withFirebase } from '../../firebase'
+import firebase from '../../firebase/config'
 import Queue from './components/Queue/Queue'
 
 const useStyles = makeStyles({
@@ -27,48 +27,52 @@ const Queues = (props) => {
 
     const classes = useStyles()
 
-    useEffect(() => {
-        const fetchQueues = () => {
-            setIsLoading(true)
-            props.firebase.fetchQueues().onSnapshot((snapshot) => {
-                let data = []
-                snapshot.forEach((doc) => {
-                    var source = doc.metadata.hasPendingWrites
-                        ? 'Local'
-                        : 'Server'
-                    console.log(source, ' data: ', doc.data())
-                    if (source === 'Server') {
-                        data.push({
-                            id: doc.id,
-                            ...doc.data(),
-                        })
-                    }
-                })
-                console.log('orders', data)
-                setIsLoading(false)
-                setQueues(data)
+    const fetchQueues = () => {
+        setIsLoading(true)
+        firebase.getQueues().onSnapshot((snapshot) => {
+            let data = []
+            snapshot.forEach((doc) => {
+                var source = doc.metadata.hasPendingWrites ? 'Local' : 'Server'
+                // console.log(source, ' data: ', doc.data())
+                if (source === 'Server') {
+                    data.push({
+                        id: doc.id,
+                        ...doc.data(),
+                    })
+                }
             })
-        }
-        fetchQueues()
-    }, [props.firebase])
-
-    // const addOrderHandler = () => {}
-
-    const removeOrderHandler = (queueNumber) => {
-        const updatedOrders = queues.filter(
-            (order) => queueNumber !== order.order_number
-        )
-        setQueues(updatedOrders)
-        console.log('remove order')
+            setIsLoading(false)
+            setQueues(data)
+        })
     }
 
-    let queueItems = queues.map((queue) => (
+    useEffect(() => {
+        fetchQueues()
+    }, [])
+
+    const removeQueueHandler = (index) => {
+        // console.log('index', index)
+        const queueId = queues[index].id
+        firebase.removeQueue(queueId).then((response) => {
+            console.log("remove queue successful!!!")
+            // console.log('response', response)
+            const oldQueues = [...queues];
+            oldQueues.splice(index, 1);
+            setQueues(oldQueues);
+            console.log('remove order', index)
+        }).catch(() => {
+            console.log("remove order failed!!!")
+        })
+       
+    }
+
+    let queueItems = queues.map((queue, index) => (
         <Queue
             key={queue.id}
             tableNumber={queue.table_number}
             orderNumber={queue.order_number}
             description={queue.desc}
-            queueRemoved={() => removeOrderHandler(queue.order_number)}
+            queueRemoved={() => removeQueueHandler(index)}
         />
     ))
     if (queues.length === 0 && isLoading) {
@@ -89,4 +93,4 @@ const Queues = (props) => {
     )
 }
 
-export default withFirebase(Queues)
+export default Queues

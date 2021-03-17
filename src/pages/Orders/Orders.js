@@ -10,7 +10,6 @@ import {
 
 import firebase from '../../firebase/config'
 
-import { withFirebase } from '../../firebase'
 import Order from './components/Order/Order'
 
 const useStyles = makeStyles({
@@ -31,15 +30,16 @@ const Orders = (props) => {
 
     const fetchOrders = () => {
         setIsLoading(true)
+        // firebase.addOrders().then()
         firebase.getOrders().onSnapshot((snapshot) => {
             let data = []
             snapshot.forEach((doc) => {
                 var source = doc.metadata.hasPendingWrites ? 'Local' : 'Server'
-                console.log(source, ' data: ', doc.data())
+                // console.log(source, ' data: ', doc.data())
                 if (source === 'Server') {
                     data.push({
                         id: doc.id,
-                        data: doc.data(),
+                        ...doc.data(),
                     })
                 }
             })
@@ -53,22 +53,34 @@ const Orders = (props) => {
         fetchOrders()
     }, [])
 
-
-    const removeOrderHandler = (orderNumber) => {
-        const updatedOrders = orders.filter(
-            (order) => orderNumber !== order.data.order_number
-        )
-        setOrders(updatedOrders)
-        console.log('remove order')
+    const addQueueHandler = (index) => {
+        console.log("index", index)
+        firebase.addQueues(orders[index]).then((response) => console.log(response))
     }
 
-    let orderItems = orders.map((order) => (
+    const removeOrderHandler = (index) => {
+        const orderId = orders[index].id
+        firebase.removeOrders(orderId).then((response) => {
+            console.log("remove order successful!!!")
+            console.log('response', response)
+            const oldOrders = [...orders];
+            oldOrders.splice(index, 1);
+            setOrders(oldOrders);
+            console.log('remove order', index)
+        }).catch(() => {
+            console.log("remove order failed!!!")
+        })
+       
+    }
+
+    let orderItems = orders.map((order, index) => (
         <Order
             key={order.id}
-            tableNumber={order.data.table_number}
-            orderNumber={order.data.order_number}
-            description={order.data.desc}
-            orderRemoved={() => removeOrderHandler(order.data.order_number)}
+            tableNumber={order.table_number}
+            orderNumber={order.order_number}
+            description={order.desc}
+            queueAdded={() => addQueueHandler(index)}
+            orderRemoved={() => removeOrderHandler(index)}
         />
     ))
     if (orders.length === 0 && isLoading) {
@@ -89,4 +101,4 @@ const Orders = (props) => {
     )
 }
 
-export default withFirebase(Orders)
+export default Orders

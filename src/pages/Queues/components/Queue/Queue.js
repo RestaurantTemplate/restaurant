@@ -39,7 +39,7 @@ export default function Queue(props) {
                     <IconButton>
                         <NotificationsActiveIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={props.queueRemoved}>
                         <CheckCircleOutlineIcon />
                     </IconButton>
                 </Grid>

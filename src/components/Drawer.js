@@ -54,6 +54,56 @@ function TemporaryDrawer(props) {
         })
     }
 
+    let menu = null
+    const type = "manager"
+    if (type) {
+        menu = (
+            <List>
+                <ListItem button onClick={() => props.history.push("/dashboard")}>
+                    <ListItemIcon>
+                        <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="หน้าหลัก" />
+                </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <DescriptionIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="บันทึกการขาย" />
+                </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <InboxIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="การจัดการ" />
+                </ListItem>
+            </List>
+        )
+    } else if (true) {
+        menu = (
+            <List>
+                <ListItem button>
+                    <ListItemIcon>
+                        <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="ออเดอร์" />
+                </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <DescriptionIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="คิว" />
+                </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <InboxIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="เช็คบิล" />
+                </ListItem>
+            </List>
+        )
+    }
+
     const list = () => (
         <div
             className={clsx(classes.list)}
@@ -73,28 +123,8 @@ function TemporaryDrawer(props) {
                     }
                 />
             </ListItem>
-
             <Divider />
-            <List>
-                <ListItem button>
-                    <ListItemIcon>
-                        <HomeIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="หน้าหลัก" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <DescriptionIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="บันทึกการขาย" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <InboxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="การจัดการ" />
-                </ListItem>
-            </List>
+            {menu}
             <Divider />
             <ListItem button onClick={logout}>
                 <ListItemIcon>

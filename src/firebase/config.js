@@ -1,3 +1,7 @@
+import React  from 'react';
+import Moment from 'react-moment';
+import moment from 'moment';
+
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -49,7 +53,46 @@ class Firebase{
 
     getOrders = () => firebase.firestore().collection("Restaurants").doc("ORfpUYXcivMoLs1ObM8R").collection("Orders").orderBy("created_at", "asc")
     
-    getQueues = () => this.db.collection("Restaurants").doc("ORfpUYXcivMoLs1ObM8R").collection("Queues").orderBy("created_at", "asc");
+
+    addOrders = (order) => { 
+        const firestoreOrder = firebase.firestore().collection("Restaurants").doc("ORfpUYXcivMoLs1ObM8R").collection("Orders")
+       
+    //    console.log('id', firestoreOrder.doc().id)
+       return firestoreOrder.add(order)
+    }
+
+    removeOrders = (id) => { 
+        const firestoreOrder = firebase.firestore().collection("Restaurants").doc("ORfpUYXcivMoLs1ObM8R").collection("Orders").doc(id).delete()
+       return firestoreOrder
+    }
+    
+
+    addQueues = (order) => { 
+        let queue = {
+            order_id: order.id,
+            order_number: order.order_number,
+            table_number: order.table_number,
+            desc: order.desc,
+            created_at: moment(new Date).format('DD/MM/YY HH:mm:ss'), 
+            updated_at:moment(new Date).format('DD/MM/YY HH:mm:ss')
+        }
+        const firestoreQueues = firebase.firestore().collection("Restaurants").doc("ORfpUYXcivMoLs1ObM8R").collection("Queues")
+       
+    //    console.log('id', firestoreOrder.doc().id)
+       return firestoreQueues.add(queue)
+    }
+    
+    getQueues = () => firebase.firestore().collection("Restaurants").doc("ORfpUYXcivMoLs1ObM8R").collection("Queues").orderBy("created_at", "asc");
+
+    removeQueue = (id) => { 
+        const firestoreOrder = firebase.firestore().collection("Restaurants").doc("ORfpUYXcivMoLs1ObM8R").collection("Queues").doc(id).delete()
+       return firestoreOrder
+    }
+
+
+    getNotifications = () => firebase.firestore().collection("Restaurants").doc("ORfpUYXcivMoLs1ObM8R").collection("Notifications").orderBy("created_at", "desc");
+
+
 
 }
 
