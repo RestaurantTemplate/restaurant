@@ -73,8 +73,8 @@ class Firebase{
             order_number: order.order_number,
             table_number: order.table_number,
             desc: order.desc,
-            created_at: moment(new Date).format('DD/MM/YY HH:mm:ss'), 
-            updated_at:moment(new Date).format('DD/MM/YY HH:mm:ss')
+            created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'), 
+            updated_at:moment(new Date()).format('DD/MM/YY HH:mm:ss')
         }
         const firestoreQueues = firebase.firestore().collection("Restaurants").doc("ORfpUYXcivMoLs1ObM8R").collection("Queues")
        
@@ -89,8 +89,9 @@ class Firebase{
        return firestoreOrder
     }
 
-
     getNotifications = () => firebase.firestore().collection("Restaurants").doc("ORfpUYXcivMoLs1ObM8R").collection("Notifications").orderBy("created_at", "desc");
+
+    getUserInfo = (id) => firebase.firestore().collection("Users").doc(id).get()
 
 
 

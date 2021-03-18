@@ -9,6 +9,8 @@ import Notification from './Notification'
 import Cart from './Cart'
 import AppLogo from './AppLogo'
 
+import { Auth } from '../context/authContext'
+
 const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
@@ -79,6 +81,19 @@ const useStyles = makeStyles((theme) => ({
 function PrimarySearchAppBar(props) {
     const classes = useStyles()
 
+    const { state, dispatch } = React.useContext(Auth)
+
+    let menuItem = null
+
+    if (state.user.type === 'customer') {
+        menuItem = (
+            <React.Fragment>
+                <Cart />
+                <Notification />
+            </React.Fragment>
+        )
+    }
+
     return (
         <div className={classes.grow}>
             <AppBar position="static">
@@ -97,12 +112,9 @@ function PrimarySearchAppBar(props) {
                         <MenuIcon />
                     </IconButton>
                     <div className={classes.grow} />
-                    <AppLogo/>
+                    <AppLogo />
                     <div className={classes.grow} />
-                    <div className={classes.sectionDesktop}>
-                        <Cart />
-                        <Notification />
-                    </div>
+                    <div className={classes.sectionDesktop}>{menuItem}</div>
                 </Toolbar>
             </AppBar>
         </div>

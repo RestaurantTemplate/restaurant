@@ -5,6 +5,9 @@ export const firebaseAuth = (state, action) => {
 
         case "LOGIN":
             return {...state, user: action.payload}
+
+        case "TRY TO LOGIN":
+            return {...state, user: action.payload}
             
         case "LOGOUT": 
             return {...state, user: action.payload}    

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
-import Button from '@material-ui/core/Button'
 import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
@@ -11,12 +10,11 @@ import ListItemText from '@material-ui/core/ListItemText'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
 import HomeIcon from '@material-ui/icons/Home'
 import DescriptionIcon from '@material-ui/icons/Description'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import FaceIcon from '@material-ui/icons/Face'
 
-import { Link, withRouter } from 'react-router-dom'
-import firebase from '../firebase/config'
+import { withRouter } from 'react-router-dom'
 import { Auth } from '../context/authContext'
+import Logout from './Logout'
 
 const useStyles = makeStyles({
     list: {
@@ -30,33 +28,10 @@ const useStyles = makeStyles({
 function TemporaryDrawer(props) {
     const classes = useStyles()
 
-    const [userState, setUserState] = useState(null)
-    const [userEmail, setUserEmail] = useState('')
-
     const { state, dispatch } = React.useContext(Auth)
 
-    useEffect(() => {
-        firebase.getUserState().then((user) => {
-            if (user) {
-                setUserState(user)
-                setUserEmail(user.email)
-            }
-        })
-    })
-
-    const logout = () => {
-        firebase.logout()
-        setUserState(null)
-        props.history.replace('/login')
-        return dispatch({
-            type: 'LOGOUT',
-            payload: {},
-        })
-    }
-
     let menu = null
-    const type = "manager"
-    if (type) {
+    if (state.user.type === "manager") {
         menu = (
             <List>
                 <ListItem button onClick={() => props.history.push("/dashboard")}>
@@ -79,16 +54,16 @@ function TemporaryDrawer(props) {
                 </ListItem>
             </List>
         )
-    } else if (true) {
+    } else if (state.user.type === "staff") {
         menu = (
             <List>
-                <ListItem button>
+                <ListItem button onClick={() => props.history.push("/orders")}>
                     <ListItemIcon>
                         <HomeIcon />
                     </ListItemIcon>
                     <ListItemText primary="ออเดอร์" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={() => props.history.push("/queues")}>
                     <ListItemIcon>
                         <DescriptionIcon />
                     </ListItemIcon>
@@ -116,22 +91,13 @@ function TemporaryDrawer(props) {
                     <FaceIcon />
                 </ListItemIcon>
                 <ListItemText
-                    primary={
-                        userState != null || state.user.hasOwnProperty('user')
-                            ? userEmail
-                            : ''
-                    }
+                    primary={state.user.email}
                 />
             </ListItem>
             <Divider />
             {menu}
             <Divider />
-            <ListItem button onClick={logout}>
-                <ListItemIcon>
-                    <ExitToAppIcon />
-                </ListItemIcon>
-                <ListItemText primary="ออกจากระบบ" />
-            </ListItem>
+            <Logout/>
         </div>
     )
 
