@@ -1,39 +1,56 @@
-import { Container , makeStyles , IconButton} from '@material-ui/core'
+import React from 'react'
+
+import { Container, makeStyles, IconButton } from '@material-ui/core'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import { Label } from '../components/Label'
-import AccountBoxOutlinedIcon from '@material-ui/icons/AccountBoxOutlined';
+import AccountBoxOutlinedIcon from '@material-ui/icons/AccountBoxOutlined'
+
+import { Auth } from '../context/authContext'
+
 const useStyles = makeStyles({
     container: {
         width: '100%',
-        height: '150px',
-        background: ({ background = 'blue' }) => {
-            let gradient = ''
-            switch (background) {
-                case 'red':
-                    gradient =
-                        'linear-gradient(rgba(255, 129, 129, 0.76), rgba(255, 186, 186, 0))'
-                    break
-                case 'green':
-                    gradient =
-                        'linear-gradient(rgba(63, 255, 93, 0.76), rgba(255, 186, 186, 0))'
-                    break
-                case 'gray':
-                    gradient =
-                        '#69697b'
-                    break
-                case 'blueGradient':
-                    gradient =
-                        'linear-gradient(180deg, rgba(217,220,255,1) 0%, rgba(255,255,255,0.7626400902157738) 100%)'
-                    break
-                default:
-                    gradient =
-                        'linear-gradient(rgba(186,226,255,0.76), rgba(186,226,255,0))'
-                    break
+        height: '250px',
+        background: (props) => {
+            if (props.type === 'manager') {
+                return 'linear-gradient(rgba(186,226,255,0.76), rgba(186,226,255,0))'
+            } else if (props.type === 'staff') {
+                return 'linear-gradient(rgba(255, 129, 129, 0.76), rgba(255, 186, 186, 0))'
+            } else if (props.type === 'customer') {
+                return 'linear-gradient(rgba(63, 255, 93, 0.76), rgba(255, 186, 186, 0))'
             }
-
-            return gradient
+            else {
+                return 'linear-gradient(180deg, rgba(217,220,255,1) 0%, rgba(255,255,255,0.7626400902157738) 100%)'
+            }
         },
-        paddingTop: '20px',
+        // background: ({ background = 'blue' }) => {
+        //     let gradient = ''
+        //     switch (background) {
+        //         case 'red':
+        //             gradient =
+        //                 'linear-gradient(rgba(255, 129, 129, 0.76), rgba(255, 186, 186, 0))'
+        //             break
+        //         case 'green':
+        //             gradient =
+        //                 'linear-gradient(rgba(63, 255, 93, 0.76), rgba(255, 186, 186, 0))'
+        //             break
+        //         case 'gray':
+        //             gradient =
+        //                 '#69697b'
+        //             break
+        //         case 'blueGradient':
+        //             gradient =
+        //                 'linear-gradient(180deg, rgba(217,220,255,1) 0%, rgba(255,255,255,0.7626400902157738) 100%)'
+        //             break
+        //         default:
+        //             gradient =
+        //                 'linear-gradient(rgba(186,226,255,0.76), rgba(186,226,255,0))'
+        //             break
+        //     }
+
+        //     return gradient
+        // },
+        paddingTop: '100px',
     },
     restaurantName: {
         display: 'flex',
@@ -62,7 +79,10 @@ const useStyles = makeStyles({
 
 export const Header = (props) => {
     const { title = 'ชื่อร้านอาหาร' } = props
-    const classes = useStyles(props)
+
+    const { state, dispatch } = React.useContext(Auth)
+
+    const classes = useStyles(state.user)
 
     return (
         <Container
@@ -117,11 +137,8 @@ export const HeaderLoginChildren = (props) => {
             disableGutters={true}
             maxWidth={false}
         >
-            <Container
-                align="center"
-                maxWidth={false}
-            >
-                <AccountBoxOutlinedIcon  style={{ fontSize: 100 }}/>
+            <Container align="center" maxWidth={false}>
+                <AccountBoxOutlinedIcon style={{ fontSize: 100 }} />
             </Container>
         </Container>
     )

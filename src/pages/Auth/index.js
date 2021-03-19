@@ -7,7 +7,7 @@ export default function Layout() {
     return (
         <React.Fragment>
             <HeaderLogin background='gray'/>
-            <HeaderLoginChildren background='blueGradient'/>
+            {/* <HeaderLoginChildren background='blueGradient'/> */}
             <Login />
         </React.Fragment>
     )
