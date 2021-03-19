@@ -83,9 +83,22 @@ function PrimarySearchAppBar(props) {
 
     const { state, dispatch } = React.useContext(Auth)
 
+    let hamburgerButton = (
+        <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="open drawer"
+            onClick={props.toggleDrawer}
+        >
+            <MenuIcon />
+        </IconButton>
+    )
+
     let menuItem = null
 
     if (state.user.type === 'customer') {
+        hamburgerButton = null
         menuItem = (
             <React.Fragment>
                 <Cart />
@@ -102,15 +115,7 @@ function PrimarySearchAppBar(props) {
                     align="center"
                     className={classes.backgroundBlack}
                 >
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={props.toggleDrawer}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+                    {hamburgerButton}
                     <div className={classes.grow} />
                     <AppLogo />
                     <div className={classes.grow} />
