@@ -21,7 +21,7 @@ function Logout(props) {
         props.history.replace('/login')
         return dispatch({
             type: 'LOGOUT',
-            payload: {},
+            payload: null,
         })
     }
 

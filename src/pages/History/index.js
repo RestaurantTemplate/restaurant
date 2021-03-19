@@ -1,12 +1,11 @@
-import { Container } from '@material-ui/core'
-import { Header } from '../../containers'
 import { Detail } from './containers'
+
+import BaseLayout from '../../components/BaseLayout'
 
 export const History = () => {
     return (
-        <Container>
-            <Header />
+        <BaseLayout>
             <Detail />
-        </Container>
+        </BaseLayout>
     )
 }

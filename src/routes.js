@@ -10,43 +10,62 @@ import Queues from './pages/Queues/index'
 import Menu from './pages/Menu/index'
 // import Login from './pages/Login/index'
 import Login from './pages/Auth/index'
-import PrivateRoute from "./PrivateRoute";
+import PrivateRoute from './PrivateRoute'
+
+import { Auth } from './context/authContext'
 
 const Routes = (props) => {
-    console.log("props",props)
-    let routes = (
-        <Switch>
-            <Route path="/login" component={Login} exact />
-            <Route path="/customer" component={Customer} />
-            {/* <PrivateRoute exact path="/dashboard" component={Dashboard}/> */}
-            <Route path="/dashboard" component={Dashboard} exact />
-            <Route path="/history" component={History} />
-            <Route path="/orders" component={Orders} />
-            <Route path="/queues" component={Queues} />
-            <Route path="/Menu" component={Menu} />
-            <Redirect to="/login" />
-        </Switch>
-    )
+    const { state, dispatch } = React.useContext(Auth)
 
     // let routes = (
     //     <Switch>
     //         <Route path="/login" component={Login} exact />
+    //         <Route path="/customer" component={Customer} />
+    //         {/* <PrivateRoute exact path="/dashboard" component={Dashboard}/> */}
+    //         <Route path="/dashboard" component={Dashboard} exact />
+    //         <Route path="/history" component={History} />
+    //         <Route path="/orders" component={Orders} />
+    //         <Route path="/queues" component={Queues} />
+    //         <Route path="/Menu" component={Menu} />
     //         <Redirect to="/login" />
     //     </Switch>
     // )
 
-    // if (isAuthenticated) {
-    //     routes = (
-    //         <Switch>
-    //             <Route path="/customer" component={Customer} />
-    //             <Route path="/dashboard" component={Dashboard} exact />
-    //             <Route path="/history" component={History} />
-    //             <Route path="/orders" component={Orders} />
-    //             <Route path="/queues" component={Queues} />
-    //             <Redirect to="/dashboard" />
-    //         </Switch>
-    //     )
-    // }
+    let routes = (
+        <Switch>
+            <Route path="/login" component={Login} exact />
+            <Redirect to="/login" />
+        </Switch>
+    )
+
+    if (state.user) {
+        console.log('[Route] user', state.user)
+        if (state.user.type === 'manager') {
+            routes = (
+                <Switch>
+                    <Route path="/dashboard" component={Dashboard} exact />
+                    <Route path="/history" component={History} />
+                    <Route path="/Menu" component={Menu} />
+                    <Redirect to="/dashboard" />
+                </Switch>
+            )
+        } else if (state.user.type === 'staff') {
+            routes = (
+                <Switch>
+                    <Route path="/orders" component={Orders} />
+                    <Route path="/queues" component={Queues} />
+                    <Redirect to="/orders" />
+                </Switch>
+            )
+        } else if (state.user.type === 'customer') {
+            routes = (
+                <Switch>
+                    <Route path="/customer" component={Customer} />
+                    <Redirect to="/customer" />
+                </Switch>
+            )
+        }
+    }
 
     return routes
 }

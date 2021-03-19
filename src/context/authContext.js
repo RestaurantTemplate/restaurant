@@ -5,7 +5,7 @@ import { firebaseAuth } from "../reducers/authReducer";
 
 export const Auth = React.createContext();
 let initialState = {
-    user: {}
+    user: null
 }
 
 export const AuthProvider = (props) => {
