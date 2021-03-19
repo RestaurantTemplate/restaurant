@@ -20,7 +20,7 @@ export const AuthProvider = (props) => {
         initialState.user = user
     }
     else {
-        console.log('user [Local Storage]' , JSON.parse(user))
+        console.log('No user [Local Storage]' , JSON.parse(user))
     }
 
     return <Auth.Provider value={value}>

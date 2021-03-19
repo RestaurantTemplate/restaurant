@@ -69,6 +69,9 @@ const Login = () => {
                     console.log('Not found user!')
                     setIsLoading(false)
                 }
+            }).catch(function(error) {
+                console.log("[Login] error: ", error.message)
+                setIsLoading(false)
             })
         }
     }

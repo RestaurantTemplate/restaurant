@@ -52,7 +52,7 @@ const Routes = (props) => {
         } else if (state.user.type === 'staff') {
             routes = (
                 <Switch>
-                    <Route path="/orders" component={Orders} />
+                    <Route path="/orders" component={Orders} exact/>
                     <Route path="/queues" component={Queues} />
                     <Redirect to="/orders" />
                 </Switch>
