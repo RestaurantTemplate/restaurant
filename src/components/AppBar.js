@@ -4,9 +4,10 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
+import Badge from '@material-ui/core/Badge'
+import LocalGroceryStoreSharpIcon from '@material-ui/icons/LocalGroceryStoreSharp'
 
 import Notification from './Notification'
-import Cart from './Cart'
 import AppLogo from './AppLogo'
 
 import { Auth } from '../context/authContext'
@@ -81,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
 function PrimarySearchAppBar(props) {
     const classes = useStyles()
 
+    const { menu, setopenmenu } = props
     const { state, dispatch } = React.useContext(Auth)
 
     let hamburgerButton = (
@@ -101,7 +103,15 @@ function PrimarySearchAppBar(props) {
         hamburgerButton = null
         menuItem = (
             <React.Fragment>
-                <Cart />
+                <IconButton
+                    aria-label="show 4 new mails"
+                    color="inherit"
+                    onClick={() => setopenmenu(true)}
+                >
+                    <Badge badgeContent={menu != null && menu.length > 0 ? menu.length : null }  color="secondary">
+                        <LocalGroceryStoreSharpIcon />
+                    </Badge>
+                </IconButton>
                 <Notification />
             </React.Fragment>
         )

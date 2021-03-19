@@ -14,7 +14,7 @@ export default function Layout(props) {
 
     return (
         <React.Fragment>
-            <AppBar toggleDrawer={toggleDrawer}/>
+            <AppBar toggleDrawer={toggleDrawer} setopenmenu={props.setopenmenu} menu={props.menu}/>
             <Drawer state={state} toggleDrawer={toggleDrawer}/>
             <Header/>
             {props.children}
