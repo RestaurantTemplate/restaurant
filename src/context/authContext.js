@@ -1,6 +1,7 @@
 import React from "react";
 //firebaseauth reducer
 import { firebaseAuth } from "../reducers/authReducer";
+import firebase from '../firebase/config'
 
 
 export const Auth = React.createContext();
@@ -16,11 +17,11 @@ export const AuthProvider = (props) => {
     const user = JSON.parse(localStorage.getItem('user'))
 
     if (user) {
-        console.log('user [Local Storage]' , user)
+        console.log('[Local Storage] user :' , user)
         initialState.user = user
     }
     else {
-        console.log('No user [Local Storage]' , JSON.parse(user))
+        console.log('[Local Storage] No user' , JSON.parse(user))
     }
 
     return <Auth.Provider value={value}>

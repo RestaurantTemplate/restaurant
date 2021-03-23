@@ -10,7 +10,7 @@ import {
 
 import firebase from '../../firebase/config'
 
-import Order from './components/Order'
+import Table from './components/Table'
 import BaseLayout from '../../components/BaseLayout'
 
 const useStyles = makeStyles({
@@ -24,15 +24,15 @@ const useStyles = makeStyles({
 })
 
 const Orders = (props) => {
-    const [orders, setOrders] = useState([])
+    const [tables, setTables] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
     const classes = useStyles()
 
-    const fetchOrders = () => {
+    const fetchTables = () => {
         setIsLoading(true)
         // firebase.addOrders().then()
-        firebase.getOrders().onSnapshot(
+        firebase.getTable().onSnapshot(
             (snapshot) => {
                 let data = []
                 snapshot.forEach((doc) => {
@@ -48,58 +48,34 @@ const Orders = (props) => {
                     }
                 })
                 setIsLoading(false)
-                setOrders(data)
-                console.log('orders', data)
+                setTables(data)
+                console.log('tables', data)
             },
             function (error) {
-                console.log('Orders Error:', error.message)
+                console.log('Tables Error:', error.message)
                 setIsLoading(false)
             }
         )
     }
 
     useEffect(() => {
-        fetchOrders()
+        fetchTables()
     }, [])
 
-    const addQueueHandler = (index) => {
-        console.log('index', index)
-        firebase
-            .addQueues(orders[index])
-            .then((response) => console.log(response))
-    }
 
-    const removeOrderHandler = (index) => {
-        const orderId = orders[index].id
-        firebase
-            .removeOrders(orderId)
-            .then((response) => {
-                console.log('remove order successful!!!')
-                console.log('response', response)
-                const oldOrders = [...orders]
-                oldOrders.splice(index, 1)
-                setOrders(oldOrders)
-                console.log('remove order', index)
-            })
-            .catch(() => {
-                console.log('remove order failed!!!')
-            })
-    }
 
-    let orderItems = orders.map((order, index) => (
-        <Order
-            key={order.id}
-            tableNumber={order.table_number}
-            orderNumber={order.order_number}
-            description={order.desc}
-            queueAdded={() => addQueueHandler(index)}
-            orderRemoved={() => removeOrderHandler(index)}
+    let tableItems = tables.map((table, index) => (
+        <Table
+            key={table.id}
+            tableNumber={table.table_number}
+            name={table.name}
+            description={table.desc}
         />
     ))
-    if (orders.length === 0 && isLoading) {
-        orderItems = <CircularProgress />
-    } else if (orders.length === 0) {
-        orderItems = <Typography variant="h6">ไม่มีออเดอร์ในขณะนี้</Typography>
+    if (tables.length === 0 && isLoading) {
+        tableItems = <CircularProgress />
+    } else if (tables.length === 0) {
+        tableItems = <Typography variant="h6">ไม่มีออเดอร์ในขณะนี้</Typography>
     }
 
     return (
@@ -107,9 +83,9 @@ const Orders = (props) => {
             <Container>
                 <Paper elevation={5} className={classes.paper}>
                     <Typography variant="h4" className={classes.textOrder}>
-                        ออเดอร์
+                        เช็คบิล
                     </Typography>
-                    {orderItems}
+                    {tableItems}
                 </Paper>
             </Container>
         </BaseLayout>
