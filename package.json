@@ -2,7 +2,6 @@
   "name": "restaurant",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://RestaurantTemplate.github.io/restaurant/",
   "dependencies": {
     "@date-io/date-fns": "1.x",
     "@devexpress/dx-react-chart": "^2.7.4",

@@ -43,6 +43,11 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexWrap: 'wrap',
     },
+    _root_paper: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        width:'100%'
+    },
     menuButton: {
       marginRight: theme.spacing(2),
     },

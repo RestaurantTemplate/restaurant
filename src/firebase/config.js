@@ -93,6 +93,19 @@ class Firebase{
 
     getUserInfo = (id) => firebase.firestore().collection("Users").doc(id).get()
 
+    addBranchStore(branchstore_user){ 
+        const firestoreBranchStore = firebase.firestore().collection('Restaurants').doc()
+        console.log('firebase',firestoreBranchStore);
+        firestoreBranchStore.add({
+            name: branchstore_user.name
+        })
+        .then(function(docRef) {
+            console.log("Tutorial created with ID: ", docRef.id);
+        })
+        .catch(function(error) {
+            console.error("Error adding Tutorial: ", error);
+        })
+    }
 
 
 }
