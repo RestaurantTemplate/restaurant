@@ -9,7 +9,8 @@ import {
 } from '@material-ui/core'
 
 import firebase from '../../firebase/config'
-import Queue from './components/Queue/Queue'
+import Queue from './components/Queue'
+import BaseLayout from '../../components/BaseLayout'
 
 const useStyles = makeStyles({
     paper: {
@@ -53,17 +54,19 @@ const Queues = (props) => {
     const removeQueueHandler = (index) => {
         // console.log('index', index)
         const queueId = queues[index].id
-        firebase.removeQueue(queueId).then((response) => {
-            console.log("remove queue successful!!!")
-            // console.log('response', response)
-            const oldQueues = [...queues];
-            oldQueues.splice(index, 1);
-            setQueues(oldQueues);
-            console.log('remove order', index)
-        }).catch(() => {
-            console.log("remove order failed!!!")
-        })
-       
+        firebase
+            .removeQueue(queueId)
+            .then((response) => {
+                console.log('remove queue successful!!!')
+                // console.log('response', response)
+                const oldQueues = [...queues]
+                oldQueues.splice(index, 1)
+                setQueues(oldQueues)
+                console.log('remove order', index)
+            })
+            .catch(() => {
+                console.log('remove order failed!!!')
+            })
     }
 
     let queueItems = queues.map((queue, index) => (
@@ -82,14 +85,16 @@ const Queues = (props) => {
     }
 
     return (
-        <Container>
-            <Paper elevation={5} className={classes.paper}>
-                <Typography variant="h4" className={classes.textOrder}>
-                    คิว
-                </Typography>
-                {queueItems}
-            </Paper>
-        </Container>
+        <BaseLayout>
+            <Container>
+                <Paper elevation={5} className={classes.paper}>
+                    <Typography variant="h4" className={classes.textOrder}>
+                        คิว
+                    </Typography>
+                    {queueItems}
+                </Paper>
+            </Container>
+        </BaseLayout>
     )
 }
 

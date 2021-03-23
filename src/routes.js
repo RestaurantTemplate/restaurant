@@ -6,12 +6,12 @@ import Customer from './pages/Customer'
 import BranchStore from './pages/BranchStore'
 import { Dashboard } from './pages/Dashboard'
 import { History } from './pages/History'
-import Orders from './pages/Orders/index'
-import Queues from './pages/Queues/index'
+import Billing from './pages/Billing/Billing'
+import Orders from './pages/Orders/Orders'
+import Queues from './pages/Queues/Queues'
 import Menu from './pages/Menu/index'
 // import Login from './pages/Login/index'
-import Login from './pages/Auth/index'
-import PrivateRoute from './PrivateRoute'
+import Login from './pages/Auth/Login'
 
 import { Auth } from './context/authContext'
 
@@ -35,12 +35,12 @@ const Routes = (props) => {
     let routes = (
         <Switch>
             <Route path="/login" component={Login} exact />
+            <Route path="/login/:token" component={Login} />
             <Redirect to="/login" />
         </Switch>
     )
 
     if (state.user) {
-        console.log('[Route] user', state.user)
         if (state.user.type === 'manager') {
             routes = (
                 <Switch>
@@ -56,6 +56,7 @@ const Routes = (props) => {
                 <Switch>
                     <Route path="/orders" component={Orders} exact/>
                     <Route path="/queues" component={Queues} />
+                    <Route path="/billing" component={Billing} exact/>
                     <Redirect to="/orders" />
                 </Switch>
             )

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+import { withRouter } from 'react-router-dom'
+
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
@@ -13,6 +15,8 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 
 import firebase from '../firebase/config'
+import { Auth } from '../context/authContext'
+
 
 const useStyles = makeStyles((theme) => ({
     typography: {
@@ -35,15 +39,28 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function Notification() {
+function Notification(props) {
     const classes = useStyles()
     const [notifications, setNotifications] = useState([])
 
     const [state, setState] = React.useState(false)
 
+    const { _, dispatch } = React.useContext(Auth)
+
     useEffect(() => {
         fetchNotifications()
     }, [])
+
+    const logout = () => {
+        console.log('props',props)
+        firebase.logout()
+        localStorage.clear()
+        props.history.replace('/login')
+        return dispatch({
+            type: 'LOGOUT',
+            payload: null,
+        })
+    }
 
     const fetchNotifications = () => {
         // setIsLoading(true)
@@ -67,6 +84,7 @@ export default function Notification() {
             },
             function (error) {
                 console.log('Notifications Error: ', error.message)
+                // logout()
             }
         )
     }
@@ -153,3 +171,5 @@ export default function Notification() {
         </React.Fragment>
     )
 }
+
+export default withRouter(Notification)
