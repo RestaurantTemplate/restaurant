@@ -26,10 +26,10 @@ function BranchStore(props) {
         <div className={classes.root}>
             <>
                 {console.log(data)}
-                {/* <Layoutbar isSidebar={true} topath={link}  menu={list}> */}
+                <Layoutbar isSidebar={true} topath={link}  menu={list}>
                     <Header />
                     <Tabmenu menu={list} setmenu={setlist} />
-                {/* </Layoutbar> */}
+                </Layoutbar>
             </>
 
         </div>

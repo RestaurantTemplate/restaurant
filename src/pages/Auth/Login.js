@@ -68,6 +68,7 @@ const Login = (props) => {
                 firebase
                     .addCustomer(customer)
                     .then((response) => {
+                        console.log(response)
                         const customerInfo = {
                             uid: user.uid,
                             type: 'customer',

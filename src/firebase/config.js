@@ -31,12 +31,12 @@ class Firebase {
         this.db = firebase.firestore()
         this.storage = firebase.storage()
     }
-
     // generateToken
     async generateToken(uid) {
         const token = await admin.auth().createCustomToken(uid)
         return token
     }
+
 
     // loginWithToken
     async loginWithToken(token) {
@@ -142,19 +142,6 @@ class Firebase {
         return firestoreOrder
     }
 
-    addBranchStore(branchstore_user){ 
-        const firestoreBranchStore = firebase.firestore().collection('Restaurants').doc()
-        console.log('firebase',firestoreBranchStore);
-        firestoreBranchStore.add({
-            name: branchstore_user.name
-        })
-        .then(function(docRef) {
-            console.log("Tutorial created with ID: ", docRef.id);
-        })
-        .catch(function(error) {
-            console.error("Error adding Tutorial: ", error);
-        })
-    }
 
     getNotifications = () =>
         firebase

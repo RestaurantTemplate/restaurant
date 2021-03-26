@@ -1,14 +1,12 @@
 import firebase from './config';
-export function addBranchStore(branchstore_user,branchstore){ 
-    const firestoreBranchStore = firebase.firestore().collection('Users').doc(branchstore)
-    console.log('firebase',firestoreBranchStore);
-    firestoreBranchStore.add({
-        name: branchstore_user.name
-    })
-    .then(function(docRef) {
-        console.log("Tutorial created with ID: ", docRef.id);
-    })
-    .catch(function(error) {
-        console.error("Error adding Tutorial: ", error);
-    })
+
+import moment from 'moment'
+export  async function  addBranchStore(branchstore_user,id){ 
+    let branchStore = {
+        name: branchstore_user.name,
+        created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+        updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+        owner_id:id
+    }
+    return await firebase.db.collection('Restaurants').add(branchStore)
 }
