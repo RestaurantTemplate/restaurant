@@ -179,7 +179,7 @@ class Firebase {
             .collection('Restaurants')
             .doc('ORfpUYXcivMoLs1ObM8R')
             .collection('Customers')
-            .doc('some-uid')
+            .doc(id)
             .collection('Orders')
             .orderBy('created_at', 'desc')
             .get()

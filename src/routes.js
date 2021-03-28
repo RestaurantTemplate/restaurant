@@ -42,7 +42,7 @@ const Routes = (props) => {
                     <Route path="/orders" component={Orders} exact/>
                     <Route path="/queues" component={Queues} />
                     <Route path="/billing" component={Billing} exact/>
-                    <Route path="/order_summary" component={OrderSummary} exact/>
+                    <Route path="/billing/order_summary/:table_number/:id" component={OrderSummary} exact/>
                     <Redirect to="/orders" />
                 </Switch>
             )

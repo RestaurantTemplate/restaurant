@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
+import { withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Container,
@@ -12,7 +13,6 @@ import firebase from '../../firebase/config'
 
 import Table from './components/Table'
 import BaseLayout from '../../components/BaseLayout'
-import Modal from './components/Modal'
 
 const useStyles = makeStyles({
     paper: {
@@ -24,23 +24,11 @@ const useStyles = makeStyles({
     },
 })
 
-const Billing = () => {
+const Billing = (props) => {
     const classes = useStyles()
 
     const [tables, setTables] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    
-    // Modal
-    const [open, setOpen] = React.useState(false);
-
-    const handleOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleClose = () => {
-      setOpen(false);
-    };
-    // Modal
 
     const fetchTables = () => {
         setIsLoading(true)
@@ -75,7 +63,9 @@ const Billing = () => {
         fetchTables()
     }, [])
 
-
+    const orderSummaryHandle = (table_number, id) => {
+        props.history.push('/billing/order_summary/' + table_number + '/' + id)
+    }
 
     let tableItems = tables.map((table, index) => (
         <Table
@@ -83,8 +73,10 @@ const Billing = () => {
             tableNumber={table.table_number}
             description={table.desc}
             customerId={table.customer_id}
-            handleOpen={handleOpen}
-        >{table.name}</Table>
+            handle={orderSummaryHandle}
+        >
+            {table.name}
+        </Table>
     ))
     if (tables.length === 0 && isLoading) {
         tableItems = <CircularProgress />
@@ -102,9 +94,8 @@ const Billing = () => {
                     {tableItems}
                 </Paper>
             </Container>
-            <Modal open={open} handleClose={handleClose}/>
         </BaseLayout>
     )
 }
 
-export default Billing
+export default withRouter(Billing)
