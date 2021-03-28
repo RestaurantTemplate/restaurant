@@ -11,26 +11,13 @@ import Queues from './pages/Queues/Queues'
 import Menu from './pages/Menu/index'
 // import Login from './pages/Login/index'
 import Login from './pages/Auth/Login'
+import OrderSummary from './pages/Billing/components/OrderSummary'
 
 import { Auth } from './context/authContext'
 
 const Routes = (props) => {
-    const { state, dispatch } = React.useContext(Auth)
-
-    // let routes = (
-    //     <Switch>
-    //         <Route path="/login" component={Login} exact />
-    //         <Route path="/customer" component={Customer} />
-    //         {/* <PrivateRoute exact path="/dashboard" component={Dashboard}/> */}
-    //         <Route path="/dashboard" component={Dashboard} exact />
-    //         <Route path="/history" component={History} />
-    //         <Route path="/orders" component={Orders} />
-    //         <Route path="/queues" component={Queues} />
-    //         <Route path="/Menu" component={Menu} />
-    //         <Redirect to="/login" />
-    //     </Switch>
-    // )
-
+    const { state } = React.useContext(Auth)
+    
     let routes = (
         <Switch>
             <Route path="/login" component={Login} exact />
@@ -55,6 +42,7 @@ const Routes = (props) => {
                     <Route path="/orders" component={Orders} exact/>
                     <Route path="/queues" component={Queues} />
                     <Route path="/billing" component={Billing} exact/>
+                    <Route path="/order_summary" component={OrderSummary} exact/>
                     <Redirect to="/orders" />
                 </Switch>
             )

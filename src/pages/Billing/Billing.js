@@ -12,6 +12,7 @@ import firebase from '../../firebase/config'
 
 import Table from './components/Table'
 import BaseLayout from '../../components/BaseLayout'
+import Modal from './components/Modal'
 
 const useStyles = makeStyles({
     paper: {
@@ -23,11 +24,23 @@ const useStyles = makeStyles({
     },
 })
 
-const Orders = (props) => {
+const Billing = () => {
+    const classes = useStyles()
+
     const [tables, setTables] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    
+    // Modal
+    const [open, setOpen] = React.useState(false);
 
-    const classes = useStyles()
+    const handleOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+    // Modal
 
     const fetchTables = () => {
         setIsLoading(true)
@@ -68,14 +81,15 @@ const Orders = (props) => {
         <Table
             key={table.id}
             tableNumber={table.table_number}
-            name={table.name}
             description={table.desc}
-        />
+            customerId={table.customer_id}
+            handleOpen={handleOpen}
+        >{table.name}</Table>
     ))
     if (tables.length === 0 && isLoading) {
         tableItems = <CircularProgress />
     } else if (tables.length === 0) {
-        tableItems = <Typography variant="h6">ไม่มีออเดอร์ในขณะนี้</Typography>
+        tableItems = <Typography variant="h6">No Tables</Typography>
     }
 
     return (
@@ -88,8 +102,9 @@ const Orders = (props) => {
                     {tableItems}
                 </Paper>
             </Container>
+            <Modal open={open} handleClose={handleClose}/>
         </BaseLayout>
     )
 }
 
-export default Orders
+export default Billing
