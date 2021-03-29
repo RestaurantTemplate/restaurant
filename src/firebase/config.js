@@ -173,6 +173,17 @@ class Firebase {
             .doc('ORfpUYXcivMoLs1ObM8R')
             .collection('Tables')
             .orderBy('table_number', 'asc')
+
+    getOrderSummary = (id) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Customers')
+            .doc(id)
+            .collection('Orders')
+            .orderBy('created_at', 'desc')
+            .get()
 }
 
 export default new Firebase()

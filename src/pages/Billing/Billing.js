@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
+import { withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Container,
@@ -23,11 +24,11 @@ const useStyles = makeStyles({
     },
 })
 
-const Orders = (props) => {
+const Billing = (props) => {
+    const classes = useStyles()
+
     const [tables, setTables] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-
-    const classes = useStyles()
 
     const fetchTables = () => {
         setIsLoading(true)
@@ -62,20 +63,25 @@ const Orders = (props) => {
         fetchTables()
     }, [])
 
-
+    const orderSummaryHandle = (table_number, id) => {
+        props.history.push('/billing/order_summary/' + table_number + '/' + id)
+    }
 
     let tableItems = tables.map((table, index) => (
         <Table
             key={table.id}
             tableNumber={table.table_number}
-            name={table.name}
             description={table.desc}
-        />
+            customerId={table.customer_id}
+            handle={orderSummaryHandle}
+        >
+            {table.name}
+        </Table>
     ))
     if (tables.length === 0 && isLoading) {
         tableItems = <CircularProgress />
     } else if (tables.length === 0) {
-        tableItems = <Typography variant="h6">ไม่มีออเดอร์ในขณะนี้</Typography>
+        tableItems = <Typography variant="h6">No Tables</Typography>
     }
 
     return (
@@ -92,4 +98,4 @@ const Orders = (props) => {
     )
 }
 
-export default Orders
+export default withRouter(Billing)
