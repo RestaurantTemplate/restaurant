@@ -3,7 +3,8 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import { useStyles } from '../../css/css';
 import {Layoutbar} from '../../components/LayoutBar';
 import {Header} from '../../containers'
-import {Tabmenu,Dialoglist} from './containers';
+import {Tabmenu} from './containers';
+import BaseLayout from './../../components/BaseLayout'
 import './style.css'
 function BranchStore(props) {
     const classes = useStyles()
@@ -26,10 +27,9 @@ function BranchStore(props) {
         <div className={classes.root}>
             <>
                 {console.log(data)}
-                <Layoutbar isSidebar={true} topath={link}  menu={list}>
-                    <Header />
+                <BaseLayout >
                     <Tabmenu menu={list} setmenu={setlist} />
-                </Layoutbar>
+                </BaseLayout>
             </>
 
         </div>

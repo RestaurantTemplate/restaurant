@@ -3,7 +3,7 @@ import {DialogValue,Tablelist} from '../components';
 import {addBranchStore} from '../../../firebase/branchstoreFirebase';
 import {Auth} from './../../../context/authContext';
 export const Dialoglist = (props) =>{
-    const {open,setopen,list,setlist} = props;
+    const {open = false,setopen,setalert} = props;
     const {state} = useContext(Auth);
     const initialState = {
         name:'',
@@ -15,13 +15,13 @@ export const Dialoglist = (props) =>{
     const onAddlist = () =>{
         addBranchStore(item,state.user.uid).then(function(docRef) {
             console.log("Tutorial created with ID: ", docRef.id);
-            // alert('เพิ่มสาขาสำเร็จ')
+            setalert(prevState =>({...prevState,open:true,text:'เพิ่มสาขาสำเร็จ',colorNotify:'success'}));
             setopen(false)
             setitem(initialState)
         })
         .catch(function(error) {
             console.error("Error adding Tutorial: ", error);
-            alert('เพิ่มสาขาไม่สำเร็จ')
+            setalert(prevState =>({...prevState,open:true,text:'เพิ่มสาขาไม่สำเร็จ',colorNotify:'error'}));
         });;
     }
     return(

@@ -52,6 +52,12 @@ function TemporaryDrawer(props) {
                     </ListItemIcon>
                     <ListItemText primary="การจัดการ" />
                 </ListItem>
+                <ListItem button  onClick={() => props.history.push("/branchstore")}>
+                    <ListItemIcon>
+                        <InboxIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="สาขาของร้าน" />
+                </ListItem>
             </List>
         )
     } else if (state.user.type === "staff") {

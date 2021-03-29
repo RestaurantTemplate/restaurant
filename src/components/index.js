@@ -1,4 +1,4 @@
 import { Label } from './Label'
 import { DatePicker } from './DatePicker'
-
-export { Label, DatePicker }
+import {AlertDialog} from './Alert'
+export { Label, DatePicker,AlertDialog }
