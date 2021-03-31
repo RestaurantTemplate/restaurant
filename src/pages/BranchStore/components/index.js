@@ -1,5 +1,5 @@
 import {DialogValue} from './dialog';
-import {Menu} from './menu';
+import {AddBranchStore} from './menu';
 import {Tablelist} from './table';
 
-export {DialogValue,Menu,Tablelist}
+export {DialogValue,AddBranchStore,Tablelist}

@@ -1,18 +1,19 @@
 import React from 'react'
 import {Snackbar} from '@material-ui/core'
-import {Alert} from '@material-ui/lab';
+import MuiAlert from '@material-ui/lab/Alert';
 export const AlertDialog = (props) =>{
     const {onClose,alert} = props
     const {open=false,text = '',colorNotify=''} = alert;
     return(
         <Snackbar
             anchorOrigin={{ vertical: 'top',horizontal: 'center'}}
+            autoHideDuration={2000} 
             open={open}
             onClose={onClose}          
         >
-            <Alert onClose={onClose} severity={colorNotify}>
+            <MuiAlert elevation={6} variant="filled" onClose={onClose} severity={colorNotify}>
                 {text}
-            </Alert>
+            </MuiAlert>
         </Snackbar>
     );
 }
