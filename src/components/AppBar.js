@@ -11,6 +11,7 @@ import Notification from './Notification'
 import AppLogo from './AppLogo'
 
 import { Auth } from '../context/authContext'
+import { useCartContext } from '../context/cartContext'
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -82,8 +83,10 @@ const useStyles = makeStyles((theme) => ({
 function PrimarySearchAppBar(props) {
     const classes = useStyles()
 
-    const { menu, setopenmenu } = props
-    const { state, dispatch } = React.useContext(Auth)
+    const { setopenmenu } = props
+    const { state } = React.useContext(Auth)
+
+    const { cart } = useCartContext()
 
     let hamburgerButton = (
         <IconButton
@@ -108,7 +111,12 @@ function PrimarySearchAppBar(props) {
                     color="inherit"
                     onClick={() => setopenmenu(true)}
                 >
-                    <Badge badgeContent={menu != null && menu.length > 0 ? menu.length : null }  color="secondary">
+                    <Badge
+                        badgeContent={
+                            cart.items.length > 0 ? cart.items.length : null
+                        }
+                        color="secondary"
+                    >
                         <LocalGroceryStoreSharpIcon />
                     </Badge>
                 </IconButton>

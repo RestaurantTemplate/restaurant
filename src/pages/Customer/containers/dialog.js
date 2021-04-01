@@ -1,27 +1,30 @@
-import React,{useState,} from 'react';
-import {DialogValue,Tablelist} from './../components';
-export const Dialoglist = (props) =>{
-    const {open,setopen,list,setlist} = props;
-    const [head] = useState([{align:'left',label:'ชื่ออาหาร'},{align:'right',label:'จำนวน'},{align:'right',label:'ราคา'}])
-    const onClose = () =>{
+import React from 'react'
+
+import { DialogValue, Tablelist } from './../components'
+
+import { useCartContext } from '../../../context/cartContext'
+
+export const Dialoglist = (props) => {
+    const { open, setopen } = props
+    const { cart } = useCartContext()
+
+    const onClose = () => {
         setopen(false)
     }
     const onAddlist = () => {
-        if(list.length > 0){
-            alert("สั่งอาหารเรียบนร้อยแล้ว")
-            setlist([]);
-            setopen(false);            
+        if (cart.items.length > 0) {
+            alert('สั่งอาหารเรียบนร้อยแล้ว')
+            // TO DO
+            // Oreder
+            setopen(false)
+        } else {
+            alert('กรุณาเลือกอาหาร')
+            setopen(false)
         }
-        else{
-            alert("กรุณาเลือกอาหาร")
-            setlist([]);
-            setopen(false);   
-        }
-
-    };
-    return(
+    }
+    return (
         <DialogValue onClose={onClose} onAddlist={onAddlist} open={open}>
-            <Tablelist head={head} value={list}/>
+            <Tablelist />
         </DialogValue>
-    );
+    )
 }

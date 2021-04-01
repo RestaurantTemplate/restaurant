@@ -1,35 +1,93 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React,{useState,useEffect} from 'react'
-import { TabContext,TabList,TabPanel } from '@material-ui/lab';
-import {AppBar,Tab,Container,Paper,Box } from '@material-ui/core';
-import {Menu} from './../components';
-import {useStyles} from './../../../css/css';
-import Kaphoa from './../../../Image/Kaphoa.jpg';
-import Padpedmupha from './../../../Image/padpedmupha.jpg';
-import FrenchFries from './../../../Image/FrenchFries.jpg';
-import Pop from './../../../Image/Pop.png';
-import BingSu from './../../../Image/BingSu.jpg';
-import Coke from './../../../Image/Coke.png';
-export const Tabmenu = (props) =>{
-    const {menu,setmenu} = props
-    const classes = useStyles();
-    const [fooditems,setfooditems] = useState([]);
-    const [snacks,setsnacks] = useState([]);
-    const [dessert,setdessert] = useState([]);
-    const [drink,setdrink] = useState([]);
-    const [value, setvalue] = useState('1');
+import React, { useState, useEffect } from 'react'
+import { TabContext, TabList, TabPanel } from '@material-ui/lab'
+import {
+    AppBar,
+    Tab,
+    Container,
+    Paper,
+    Box,
+    ListItemSecondaryAction,
+} from '@material-ui/core'
+import { Menu } from './../components'
+import { useStyles } from './../../../css/css'
+
+import firebase from '../../../firebase/config'
+
+export const Tabmenu = (props) => {
+    const classes = useStyles()
+    const [mainDishes, setMainDishes] = useState([])
+    const [appetizers, setAppetizers] = useState([])
+    const [desserts, setDesserts] = useState([])
+    const [drinks, setDrinks] = useState([])
+    const [value, setvalue] = useState('1')
+
+    const fetchMainDishes = () => {
+        firebase.getMainDishes().then(function (querySnapshot) {
+            let data = []
+            querySnapshot.forEach(function (doc) {
+                data.push({
+                    id: doc.id,
+                    ...doc.data(),
+                })
+            })
+            setMainDishes(data)
+        })
+    }
+
+    const fetchDesserts = () => {
+        firebase.getDesserts().then(function (querySnapshot) {
+            let data = []
+            querySnapshot.forEach(function (doc) {
+                data.push({
+                    id: doc.id,
+                    ...doc.data(),
+                })
+            })
+            setDesserts(data)
+        })
+    }
+
+    const fetchDrinks = () => {
+        firebase.getDrinks().then(function (querySnapshot) {
+            let data = []
+            querySnapshot.forEach(function (doc) {
+                data.push({
+                    id: doc.id,
+                    ...doc.data(),
+                })
+            })
+            setDrinks(data)
+        })
+    }
+
+    const fetchAppetizers = () => {
+        firebase.getAppetizers().then(function (querySnapshot) {
+            let data = []
+            querySnapshot.forEach(function (doc) {
+                data.push({
+                    id: doc.id,
+                    ...doc.data(),
+                })
+            })
+            setAppetizers(data)
+        })
+    }
+
     useEffect(() => {
-        setfooditems([{image:Kaphoa,name:"ข้าวกระเพราหมูสับไข่ดาว",desc:"ข้าวกระเพราหมูสับอร่อยมาก",price:40},{image:Padpedmupha,name:"ข้าวราดผัดเผ็ดหมูป่า",desc:"หมูป่ากรึบๆ พร้อมข้าวสวยร้อนๆ",price:50}])
-        setsnacks([{image:FrenchFries,name:"เฟรนซ์ฟรายส์",desc:"เลือกได้หลายรสชาติ",price:20},{image:Pop,name:"ไก่ป๊อป",desc:"เลือกได้หลายรสชาติ",price:30}])
-        setdessert([{image:BingSu,name:"บิงซู",desc:"อร่อยหวาน ชื่นใจ",price:45}])
-        setdrink([{image:Coke,name:"โค้ก",desc:"มีสองแบบทั้ง มีน้ำตาลและไม่มีน้ำตาล",price:15}])
+        fetchMainDishes()
+        fetchDesserts()
+        fetchDrinks()
+        fetchAppetizers()
     }, [])
-    const handleChange = (e,newValue) => {
+
+    const handleChange = (e, newValue) => {
         setvalue(newValue)
     }
-    return(
+
+    return (
         <Box display={{ xs: 'block', md: 'block' }}>
-            <Box component="div" >
+            <Box component="div">
                 <TabContext value={value}>
                     <AppBar position="static">
                         <TabList
@@ -46,62 +104,54 @@ export const Tabmenu = (props) =>{
                     </AppBar>
                     <TabPanel value="1">
                         <Container className={classes._root} maxWidth={'md'}>
-                            <Paper style={{padding:'5%'}} elevation={4} >
-                            {
-                                fooditems.map((item)=>(
-                                    <>
-                                        <Menu menu={menu} setmenu={setmenu} fooditem={item}/>
-                                        <br/>
-                                    </>
-                                ))
-                            }
+                            <Paper style={{ padding: '5%' }} elevation={4}>
+                                {mainDishes.map((item, index) => (
+                                    <React.Fragment key={index}>
+                                        <Menu id={item.id} fooditem={item} />
+                                        <br />
+                                    </React.Fragment>
+                                ))}
                             </Paper>
                         </Container>
                     </TabPanel>
                     <TabPanel value="2">
                         <Container className={classes._root} maxWidth={'md'}>
-                            <Paper style={{padding:'5%'}} elevation={4} >
-                            {
-                                snacks.map((item)=>(
-                                    <>
-                                        <Menu menu={menu} setmenu={setmenu} fooditem={item}/>
-                                        <br/>
-                                    </>
-                                ))
-                            }
+                            <Paper style={{ padding: '5%' }} elevation={4}>
+                                {appetizers.map((item, index) => (
+                                    <React.Fragment key={index}>
+                                        <Menu id={item.id} fooditem={item} />
+                                        <br />
+                                    </React.Fragment>
+                                ))}
                             </Paper>
-                        </Container>                    
+                        </Container>
                     </TabPanel>
                     <TabPanel value="3">
                         <Container className={classes._root} maxWidth={'md'}>
-                            <Paper style={{padding:'5%'}} elevation={4} >
-                            {
-                                dessert.map((item)=>(
-                                    <>
-                                        <Menu menu={menu} setmenu={setmenu} fooditem={item}/>
-                                        <br/>
-                                    </>
-                                ))
-                            }
+                            <Paper style={{ padding: '5%' }} elevation={4}>
+                                {desserts.map((item, index) => (
+                                    <React.Fragment key={index}>
+                                        <Menu id={item.id} fooditem={item} />
+                                        <br />
+                                    </React.Fragment>
+                                ))}
                             </Paper>
-                        </Container>  
+                        </Container>
                     </TabPanel>
                     <TabPanel value="4">
                         <Container className={classes._root} maxWidth={'md'}>
-                            <Paper style={{padding:'5%'}} elevation={4} >
-                            {
-                                drink.map((item)=>(
-                                    <>
-                                        <Menu menu={menu} setmenu={setmenu} fooditem={item}/>
-                                        <br/>
-                                    </>
-                                ))
-                            }
+                            <Paper style={{ padding: '5%' }} elevation={4}>
+                                {drinks.map((item, index) => (
+                                    <React.Fragment key={index}>
+                                        <Menu id={item.id} fooditem={item} />
+                                        <br />
+                                    </React.Fragment>
+                                ))}
                             </Paper>
-                        </Container> 
+                        </Container>
                     </TabPanel>
                 </TabContext>
             </Box>
         </Box>
-    );
+    )
 }

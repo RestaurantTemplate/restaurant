@@ -6,7 +6,7 @@ import Drawer from './Drawer'
 import { Header } from '../containers/Header'
 
 export default function Layout(props) {
-    const [state, setState] = React.useState(false)
+    const [state, setState] = useState(false)
 
     const toggleDrawer = () => {
         setState(!state)
@@ -14,7 +14,7 @@ export default function Layout(props) {
 
     return (
         <React.Fragment>
-            <AppBar toggleDrawer={toggleDrawer} setopenmenu={props.setopenmenu} menu={props.menu}/>
+            <AppBar toggleDrawer={toggleDrawer} setopenmenu={props.setopenmenu}/>
             <Drawer state={state} toggleDrawer={toggleDrawer}/>
             <Header/>
             {props.children}

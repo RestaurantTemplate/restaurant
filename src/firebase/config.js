@@ -198,6 +198,47 @@ class Firebase {
             .doc('ORfpUYXcivMoLs1ObM8R')
             .collection('Sales')
             .doc(year)
+
+    getMenu = (typeOfMenu) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Menu')
+            .doc(typeOfMenu)
+            .get()
+
+    getMainDishes = () =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('MainDishes')
+            .get()
+
+    getDesserts = () =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Desserts')
+            .get()
+
+    getAppetizers = () =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Appetizers')
+            .get()
+
+    getDrinks = () =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Drinks')
+            .get()
 }
 
 export default new Firebase()
