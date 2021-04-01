@@ -1,6 +1,7 @@
-import React,{useState,useContext} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React,{useState,useContext,useEffect} from 'react';
 import {DialogValue,Tablelist} from '../components';
-import {addBranchStore} from '../../../firebase/branchstoreFirebase';
+import {addBranchStore,editBranchStore} from '../../../firebase/branchstoreFirebase';
 import {Auth} from './../../../context/authContext';
 export const Dialoglist = (props) =>{
     const {open = false,setopen,setalert} = props;
@@ -26,6 +27,35 @@ export const Dialoglist = (props) =>{
     }
     return(
         <DialogValue onClose={onClose} open={open} onAddlist={onAddlist}>
+            <Tablelist item={item} setitem={setitem}/>
+        </DialogValue>
+    );
+}
+export const DialoglistEdit = (props) =>{
+    const {open = false,setopen,setalert,doc} = props;
+    const {state} = useContext(Auth);
+    const initialState = {
+        name:doc.value.name,
+    }
+    const [item, setitem] = useState(initialState)
+    useEffect(() => {
+        setitem({...item,name:doc.value.name})
+    }, [])
+    const onClose = () =>{
+        setopen(false)
+    }
+    const onEditlist = () =>{
+        editBranchStore(item,state.user.uid,doc.id).then(function() {
+            setalert(prevState =>({...prevState,open:true,text:'แก้ไขสาขาสำเร็จ',colorNotify:'success'}));
+            setopen(false)
+            setitem(initialState)
+        })
+        .catch(function() {
+            setalert(prevState =>({...prevState,open:true,text:'แก้ไขสาขาไม่สำเร็จ',colorNotify:'error'}));
+        });;
+    }
+    return(
+        <DialogValue mode={'edit'} onClose={onClose} open={open} onAddlist={onEditlist}>
             <Tablelist item={item} setitem={setitem}/>
         </DialogValue>
     );

@@ -1,9 +1,9 @@
 import React,{useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import {getAllBranchStore} from './../../../firebase/branchstoreFirebase';
 import AddIcon from '@material-ui/icons/Add';
 import {
     Grid,
-    Container,
     Fab,
     Box
 } from '@material-ui/core';
@@ -41,13 +41,23 @@ const useStyleslocal = makeStyles((theme) => ({
             maxwidth:"20px",
         },
     },
+    borderStyle: {
+        borderStyle: 'solid',
+        borderColor: '#0000cd'
+    },
+    marginStyle: {
+        marginBottom:'10px'
+    },
+    table: {
+        minWidth: 650,
+    },
 }));
-export const Menu = (props) =>{
-    const {menu,setmenu,setopen} = props;
+export const AddBranchStore = (props) =>{
+    const {setopen} = props;      
     return(
         <>
             <Grid container alignItems="center" >
-                <Grid container justify="right" alignItems="right" xs={2}>
+                <Grid  container justify="right" alignItems="right" xs={2}>
                     <Box component='div'>
                         <Fab  component="button" justify="center" alignItems="center" size={'small'}  color="primary" aria-label="add" onClick={() => setopen(true)}>
                             <AddIcon />
@@ -57,5 +67,4 @@ export const Menu = (props) =>{
             </Grid>
         </>
     );
-
 }
