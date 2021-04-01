@@ -37,7 +37,6 @@ class Firebase {
         return token
     }
 
-
     // loginWithToken
     async loginWithToken(token) {
         const user = await firebase.auth().signInWithCustomToken(token)
@@ -142,7 +141,6 @@ class Firebase {
         return firestoreOrder
     }
 
-
     getNotifications = () =>
         firebase
             .firestore()
@@ -184,6 +182,22 @@ class Firebase {
             .collection('Orders')
             .orderBy('created_at', 'desc')
             .get()
+
+    addHistories = (history) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Histories')
+            .add(history)
+
+    getSales = (year) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Sales')
+            .doc(year)
 }
 
 export default new Firebase()

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+import moment from 'moment'
+
 import {
     Container,
     Typography,
@@ -66,14 +68,31 @@ export default function OrderSummary(props) {
         setOpen(false)
     }
 
-    const {
-        match: { params },
-    } = props
+    const customerId = props.match.params.id
+    const tableNumber = props.match.params.table_number
+
+    const checkout = () => {
+        handleOpen()
+        const history = {
+            customer_id: customerId,
+            orderHistory: orderSummary,
+            totol_price: totalPrice,
+            created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+            updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+        }
+        console.log('history', history)
+        firebase
+            .addHistories(history)
+            .then(() => console.log('addHistories success'))
+            .catch((error) =>
+                console.log('addHistories error message:', error.message)
+            )
+    }
 
     const fetchOrderSummary = () => {
         setIsLoading(true)
         firebase
-            .getOrderSummary(params.id)
+            .getOrderSummary(customerId)
             .then(function (querySnapshot) {
                 setIsLoading(false)
                 let data = []
@@ -154,7 +173,7 @@ export default function OrderSummary(props) {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={handleOpen}
+                        onClick={checkout}
                     >
                         เสร็จสิ้น
                     </Button>
@@ -168,12 +187,12 @@ export default function OrderSummary(props) {
             <Container>
                 <Paper elevation={5} className={classes.paper}>
                     <Typography variant="h5" className={classes.textHeader}>
-                        โต๊ะที่ {params.table_number}
+                        โต๊ะที่ {tableNumber}
                     </Typography>
                     {orderSummaryItems}
                 </Paper>
             </Container>
-            <SimpleModal handleOpen={handleOpen} open={open} handleClose={handleClose}/>
+            <SimpleModal open={open} handleClose={handleClose} />
         </BaseLayout>
     )
 }

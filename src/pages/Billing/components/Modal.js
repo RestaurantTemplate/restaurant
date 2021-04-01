@@ -38,7 +38,7 @@ export default function SimpleModal(props) {
         <div style={modalStyle} className={classes.paper}>
             <Typography variant="h3">Check Out</Typography>
             <div>
-                <img src={moneyLogo} width="auto" height="150" />
+                <img src={moneyLogo} width="auto" height="150" alt="moneyLogo" />
             </div>
             <Button variant="contained" color="primary" onClick={props.handleClose}>
                 เสร็จสิ้น
