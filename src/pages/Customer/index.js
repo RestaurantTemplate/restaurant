@@ -5,7 +5,7 @@ import BaseLayout from '../../components/BaseLayout'
 import './style.css'
 import CartProvider from '../../context/cartContext'
 
-function Customer(props) {
+function Customer() {
     const [open, setopen] = useState(false)
 
     return (

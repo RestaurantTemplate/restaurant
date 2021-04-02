@@ -136,6 +136,7 @@ export const Menu = (props) => {
                             aria-label="add"
                             onClick={() =>
                                 cartAction.addToCart({
+                                    id: fooditem.id,
                                     name: fooditem.name,
                                     amount: count,
                                     price: price,

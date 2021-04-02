@@ -1,7 +1,6 @@
 import React from "react";
 //firebaseauth reducer
 import { firebaseAuth } from "../reducers/authReducer";
-import firebase from '../firebase/config'
 
 
 export const Auth = React.createContext();

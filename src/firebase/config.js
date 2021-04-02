@@ -199,15 +199,6 @@ class Firebase {
             .collection('Sales')
             .doc(year)
 
-    getMenu = (typeOfMenu) =>
-        firebase
-            .firestore()
-            .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
-            .collection('Menu')
-            .doc(typeOfMenu)
-            .get()
-
     getMainDishes = () =>
         firebase
             .firestore()
@@ -239,6 +230,14 @@ class Firebase {
             .doc('ORfpUYXcivMoLs1ObM8R')
             .collection('Drinks')
             .get()
+
+    addOrder = (order) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Orders')
+            .add(order)
 }
 
 export default new Firebase()

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import moment from 'moment'
 
@@ -37,16 +37,18 @@ const Login = (props) => {
     const [userType, setUserType] = useState('')
     const [error, setError] = useState(null)
 
-    const { state, dispatch } = React.useContext(Auth)
+    const { state, dispatch } = useContext(Auth)
 
-    const {
-        match: { params },
-    } = props
+    const token = props.match.params.token
+
+    // const {
+    //     match: { params },
+    // } = props
 
     // console.log('[Login Page] query params: ', params.token)
 
     useEffect(() => {
-        if (params.token) {
+        if (token) {
             loginWithToken()
         }
     }, [])
@@ -54,7 +56,7 @@ const Login = (props) => {
     const loginWithToken = async () => {
         setIsLoading(true)
         await firebase
-            .loginWithToken(params.token)
+            .loginWithToken(token)
             .then((response) => {
                 setIsLoading(false)
                 console.log('Login user:', response.user)
@@ -62,6 +64,7 @@ const Login = (props) => {
                 const customer = {
                     uid: user.uid,
                     type: 'customer',
+                    table_number: 3,
                     created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
                     updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
                 }
@@ -72,6 +75,7 @@ const Login = (props) => {
                         const customerInfo = {
                             uid: user.uid,
                             type: 'customer',
+                            table_number: 3,
                             email: null,
                             refreshToken: user.refreshToken,
                         }

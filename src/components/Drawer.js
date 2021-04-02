@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 function TemporaryDrawer(props) {
     const classes = useStyles()
 
-    const { state, dispatch } = React.useContext(Auth)
+    const { state } = React.useContext(Auth)
 
     let menu = null
     if (state.user.type === "manager") {

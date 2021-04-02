@@ -14,11 +14,6 @@ import { useStyles } from './../../../css/css'
 import { useCartContext } from '../../../context/cartContext'
 
 export const Tablelist = () => {
-    const [head] = useState([
-        { align: 'left', label: 'ชื่ออาหาร' },
-        { align: 'right', label: 'จำนวน' },
-        { align: 'right', label: 'ราคา' },
-    ])
     const [sum, setsum] = useState(0)
     const classes = useStyles()
     const { cart } = useCartContext()
@@ -37,35 +32,23 @@ export const Tablelist = () => {
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        {head.map((value, index) => {
-                            return (
-                                <TableCell key={index} align={value.align}>
-                                    {value.label}
-                                </TableCell>
-                            )
-                        })}
+                        <TableCell align="left">ชื่ออาหาร</TableCell>
+                        <TableCell align="right">จำนวน</TableCell>
+                        <TableCell align="right">ราคา</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {cart.items.map((row, index) => (
-                        <TableRow key={index}>
-                            {Object.keys(row).map((value, index) => (
-                                <TableCell
-                                    key={index}
-                                    align={head[index].align}
-                                >
-                                    {row[value]}
-                                </TableCell>
-                            ))}
-                            <TableCell align={'right'}>
-                                {row[cart.items]}
-                            </TableCell>
+                    {cart.items.map((row) => (
+                        <TableRow key={row.id}>
+                            <TableCell align="left">{row.name}</TableCell>
+                            <TableCell align="right">{row.amount}</TableCell>
+                            <TableCell align="right">{row.price}</TableCell>
                         </TableRow>
                     ))}
-                    <TableRow key={cart.items.length + 1}>
+                    <TableRow>
                         <TableCell />
-                        <TableCell align={'right'}>{'ราคารวม'}</TableCell>
-                        <TableCell align={'right'}>{sum}</TableCell>
+                        <TableCell align="right">ราคารวม</TableCell>
+                        <TableCell align="right">{sum}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
