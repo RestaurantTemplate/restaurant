@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 import Customer from './pages/Customer'
 import BranchStore from './pages/BranchStore'
+import SelectBranchStore from './pages/SelectBranchStore'
 import { Dashboard } from './pages/Dashboard'
 import { History } from './pages/History'
 import Billing from './pages/Billing/Billing'
@@ -29,15 +30,25 @@ const Routes = (props) => {
 
     if (state.user) {
         if (state.user.type === 'manager') {
-            routes = (
-                <Switch>
-                    <Route path="/branchstore" component={BranchStore} />
-                    <Route path="/dashboard" component={Dashboard} exact />
-                    <Route path="/history" component={History} />
-                    <Route path="/Menu" component={Menu} />
-                    <Redirect to="/dashboard" />
-                </Switch>
-            )
+            if(state.user.branchstore !== ''){
+                routes = (
+                    <Switch>
+                        <Route path="/branchstore" component={BranchStore} />
+                        <Route path="/dashboard" component={Dashboard} exact />
+                        <Route path="/history" component={History} />
+                        <Route path="/Menu" component={Menu} />
+                        <Redirect to="/dashboard" />
+                    </Switch>
+                )
+            }
+            else{
+                routes = (
+                    <Switch>
+                        <Route path="/selectbranchstore" component={SelectBranchStore} />
+                        <Redirect to="/selectbranchstore" />
+                    </Switch>
+                )
+            }
         } else if (state.user.type === 'staff') {
             routes = (
                 <Switch>
