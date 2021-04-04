@@ -32,34 +32,36 @@ function TemporaryDrawer(props) {
 
     let menu = null
     if (state.user.type === "manager") {
-        menu = (
-            <List>
-                <ListItem button onClick={() => props.history.push("/dashboard")}>
-                    <ListItemIcon>
-                        <HomeIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="หน้าหลัก" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <DescriptionIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="บันทึกการขาย" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <InboxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="การจัดการ" />
-                </ListItem>
-                <ListItem button  onClick={() => props.history.push("/branchstore")}>
-                    <ListItemIcon>
-                        <InboxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="สาขาของร้าน" />
-                </ListItem>
-            </List>
-        )
+        if(state.user.branchstore !== ''){
+            menu = (
+                <List>
+                    <ListItem button onClick={() => props.history.push("/dashboard")}>
+                        <ListItemIcon>
+                            <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="หน้าหลัก" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <DescriptionIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="บันทึกการขาย" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <InboxIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="การจัดการ" />
+                    </ListItem>
+                    <ListItem button  onClick={() => props.history.push("/branchstore")}>
+                        <ListItemIcon>
+                            <InboxIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="สาขาของร้าน" />
+                    </ListItem>
+                </List>
+            )
+        }
     } else if (state.user.type === "staff") {
         menu = (
             <List>

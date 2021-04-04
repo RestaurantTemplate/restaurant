@@ -74,6 +74,7 @@ const Login = (props) => {
                         console.log(response)
                         const customerInfo = {
                             uid: user.uid,
+                            branchstore: user.branchstore,
                             type: 'customer',
                             table_number: 3,
                             email: null,
@@ -124,6 +125,7 @@ const Login = (props) => {
                         const userInfo = {
                             uid: response.user.uid,
                             type: doc.data().type,
+                            branchstore: doc.data().branchstore,
                             email: response.user.email,
                             refreshToken: response.user.refreshToken,
                         }
