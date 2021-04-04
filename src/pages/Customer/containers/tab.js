@@ -7,7 +7,8 @@ import {
     Container,
     Paper,
     Box,
-    ListItemSecondaryAction,
+    CircularProgress,
+    Typography,
 } from '@material-ui/core'
 import { Menu } from './../components'
 import { useStyles } from './../../../css/css'
@@ -21,18 +22,24 @@ export const Tabmenu = (props) => {
     const [desserts, setDesserts] = useState([])
     const [drinks, setDrinks] = useState([])
     const [value, setvalue] = useState('1')
+    const [isLoading, setIsLoading] = useState(false)
 
     const fetchMainDishes = () => {
-        firebase.getMainDishes().then(function (querySnapshot) {
-            let data = []
-            querySnapshot.forEach(function (doc) {
-                data.push({
-                    id: doc.id,
-                    ...doc.data(),
+        setIsLoading(true)
+        firebase
+            .getMainDishes()
+            .then(function (querySnapshot) {
+                let data = []
+                querySnapshot.forEach(function (doc) {
+                    data.push({
+                        id: doc.id,
+                        ...doc.data(),
+                    })
                 })
+                setIsLoading(false)
+                setMainDishes(data)
             })
-            setMainDishes(data)
-        })
+            .catch((error) => console.log('[Tab] error message', error.message))
     }
 
     const fetchDesserts = () => {
@@ -85,6 +92,50 @@ export const Tabmenu = (props) => {
         setvalue(newValue)
     }
 
+    let mainDishesItem = (
+        <TabPanel value="1">
+            <Container className={classes._root} maxWidth={'md'}>
+                <Paper style={{ padding: '5%' }} elevation={4}>
+                    {mainDishes.map((item, index) => (
+                        <React.Fragment key={index}>
+                            <Menu id={item.id} fooditem={item} />
+                            <br />
+                        </React.Fragment>
+                    ))}
+                </Paper>
+            </Container>
+        </TabPanel>
+    )
+    if (mainDishes.length === 0 && isLoading) {
+        mainDishesItem = <CircularProgress />
+    } else if (mainDishes.length === 0 && !isLoading) {
+        mainDishesItem = (
+            <Typography variant="h6">ไม่มีเมนูจานหลักในขณะนี้</Typography>
+        )
+    }
+
+    // let appetizersItem = (
+    //     <TabPanel value="2">
+    //         <Container className={classes._root} maxWidth={'md'}>
+    //             <Paper style={{ padding: '5%' }} elevation={4}>
+    //                 {appetizers.map((item, index) => (
+    //                     <React.Fragment key={index}>
+    //                         <Menu id={item.id} fooditem={item} />
+    //                         <br />
+    //                     </React.Fragment>
+    //                 ))}
+    //             </Paper>
+    //         </Container>
+    //     </TabPanel>
+    // )
+    // if (appetizers.length === 0 && isLoading) {
+    //     appetizersItem = <CircularProgress />
+    // } else if (appetizers.length === 0) {
+    //     appetizersItem = (
+    //         <Typography variant="h6">ไม่มีเมนูทานเล่นในขณะนี้</Typography>
+    //     )
+    // }
+
     return (
         <Box display={{ xs: 'block', md: 'block' }}>
             <Box component="div">
@@ -102,18 +153,7 @@ export const Tabmenu = (props) => {
                             <Tab label="เครื่องดื่ม" value="4" />
                         </TabList>
                     </AppBar>
-                    <TabPanel value="1">
-                        <Container className={classes._root} maxWidth={'md'}>
-                            <Paper style={{ padding: '5%' }} elevation={4}>
-                                {mainDishes.map((item, index) => (
-                                    <React.Fragment key={index}>
-                                        <Menu id={item.id} fooditem={item} />
-                                        <br />
-                                    </React.Fragment>
-                                ))}
-                            </Paper>
-                        </Container>
-                    </TabPanel>
+                    {mainDishesItem}
                     <TabPanel value="2">
                         <Container className={classes._root} maxWidth={'md'}>
                             <Paper style={{ padding: '5%' }} elevation={4}>

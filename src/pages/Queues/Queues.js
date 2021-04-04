@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import moment from 'moment'
 
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -51,30 +52,66 @@ const Queues = (props) => {
         fetchQueues()
     }, [])
 
-    const removeQueueHandler = (index) => {
-        // console.log('index', index)
-        const queueId = queues[index].id
+    const alertToCustomer = (queue) => {
+        const alert = {
+            order_number: queue.order_number,
+            status: 'success',
+            message:
+                'ออเดอร์หมายเลข ' + queue.order_number + ' เสร็จเรียบร้อยแล้ว',
+            created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+            updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+        }
+
+        firebase
+            .alertToCustomer(queue.customer_id, alert)
+            .then(() => console.log('alert to customer success'))
+            .catch((error) =>
+                console.log('[alertToCustomer] error message:', error.message)
+            )
+    }
+
+    const removeQueueHandler = (queueId) => {
+        const newQueues = queues.filter(queue => queue.id !== queueId)
+        // const queueId = queues[index].id
         firebase
             .removeQueue(queueId)
             .then((response) => {
                 console.log('remove queue successful!!!')
                 // console.log('response', response)
-                const oldQueues = [...queues]
-                oldQueues.splice(index, 1)
-                setQueues(oldQueues)
-                console.log('remove order', index)
+                // const oldQueues = [...queues]
+                // oldQueues.splice(index, 1)
+                setQueues(newQueues)
+                // console.log('remove order', index)
             })
             .catch(() => {
                 console.log('remove order failed!!!')
             })
     }
 
+    const addOrderToCustomerOrders = (order) => {
+        firebase
+            .addOrderToCustomerOrders(order)
+            .then(() => console.log('addOrderToCustomerOrders success'))
+            .catch((error) =>
+                console.log(
+                    'addOrderToCustomerOrders error message ',
+                    error.message
+                )
+            )
+    }
+
+    const queueHandle = (queue) => {
+        addOrderToCustomerOrders(queue)
+        removeQueueHandler(queue.id)
+    }
+
     let queueItems = queues.map((queue, index) => (
         <Queue
             key={queue.id}
-            tableNumber={queue.table_number}
-            orderNumber={queue.order_number}
-            description={queue.desc}
+            queue={queue}
+            alert={alertToCustomer}
+            addOrderToCustomerOrders={addOrderToCustomerOrders}
+            queueHandle={queueHandle}
             queueRemoved={() => removeQueueHandler(index)}
         />
     ))

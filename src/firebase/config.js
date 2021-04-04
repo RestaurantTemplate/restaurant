@@ -103,15 +103,7 @@ class Firebase {
         return firestoreOrder
     }
 
-    addQueues = (order) => {
-        let queue = {
-            order_id: order.id,
-            order_number: order.order_number,
-            table_number: order.table_number,
-            desc: order.desc,
-            created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
-            updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
-        }
+    addQueues = (queue) => {
         const firestoreQueues = firebase
             .firestore()
             .collection('Restaurants')
@@ -236,6 +228,26 @@ class Firebase {
             .firestore()
             .collection('Restaurants')
             .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Orders')
+            .add(order)
+
+    alertToCustomer = (customerId, alert) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Customers')
+            .doc(customerId)
+            .collection('Notifications')
+            .add(alert)
+
+    addOrderToCustomerOrders = (order) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Customers')
+            .doc(order.custoer_id)
             .collection('Orders')
             .add(order)
 }

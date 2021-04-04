@@ -50,9 +50,10 @@ function CartProvider({ children }) {
     const orderConfirmed = () => {
         const order = {
             order_number: moment(new Date()).format('DDMMYYHHmmss'),
-            table_number: state.user.table_number,
+            // table_number: state.user.table_number,
+            table_number: 2,
             customer_id: state.user.uid,
-            ...cart.items,
+            items: cart.items,
             created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
             updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
         }

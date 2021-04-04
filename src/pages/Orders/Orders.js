@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import moment from 'moment'
 
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -64,8 +65,19 @@ const Orders = (props) => {
 
     const addQueueHandler = (index) => {
         console.log('index', index)
+        const order = orders[index]
+        let queue = {
+            customer_id: order.customer_id,
+            order_number: order.order_number,
+            table_number: order.table_number,
+            items: order.items,
+            created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+            updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+        }
+        console.log('queue', queue)
+
         firebase
-            .addQueues(orders[index])
+            .addQueues(queue)
             .then((response) => console.log(response))
     }
 
@@ -88,6 +100,7 @@ const Orders = (props) => {
 
     let orderItems = orders.map((order, index) => (
         <Order
+            items={order.items}
             key={order.id}
             tableNumber={order.table_number}
             orderNumber={order.order_number}
