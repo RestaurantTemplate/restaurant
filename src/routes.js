@@ -11,6 +11,7 @@ import Billing from './pages/Billing/Billing'
 import Orders from './pages/Orders/Orders'
 import Queues from './pages/Queues/Queues'
 import Menu from './pages/Menu/index'
+import Table from './pages/Table'
 // import Login from './pages/Login/index'
 import Login from './pages/Auth/Login'
 import OrderSummary from './pages/Billing/components/OrderSummary'
@@ -36,7 +37,8 @@ const Routes = (props) => {
                         <Route path="/branchstore" component={BranchStore} />
                         <Route path="/dashboard" component={Dashboard} exact />
                         <Route path="/history" component={History} />
-                        <Route path="/Menu" component={Menu} />
+                        <Route path="/menu" component={Menu} />
+                        <Route path="/table" component={Table} />
                         <Redirect to="/dashboard" />
                     </Switch>
                 )

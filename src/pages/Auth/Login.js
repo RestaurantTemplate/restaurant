@@ -63,6 +63,7 @@ const Login = (props) => {
                 const user = response.user
                 const customer = {
                     uid: user.uid,
+                    branchstore: user.branchstore,
                     type: 'customer',
                     table_number: 3,
                     created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),

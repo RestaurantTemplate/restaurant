@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
@@ -11,25 +11,35 @@ import InboxIcon from '@material-ui/icons/MoveToInbox'
 import HomeIcon from '@material-ui/icons/Home'
 import DescriptionIcon from '@material-ui/icons/Description'
 import FaceIcon from '@material-ui/icons/Face'
+import Collapse from "@material-ui/core/Collapse";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
 
 import { withRouter } from 'react-router-dom'
 import { Auth } from '../context/authContext'
 import Logout from './Logout'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     list: {
         width: 250,
     },
     fullList: {
         width: 'auto',
     },
-})
+    nested: {
+        paddingLeft: theme.spacing(9),
+        backgroundColor:'#F5F5DC'
+    },
+    fontList: {
+        fontSize:'14px'
+    }
+}))
 
 function TemporaryDrawer(props) {
     const classes = useStyles()
 
     const { state } = React.useContext(Auth)
-
+    const [open,setopen] = useState(false);
     let menu = null
     if (state.user.type === "manager") {
         if(state.user.branchstore !== ''){
@@ -47,12 +57,23 @@ function TemporaryDrawer(props) {
                         </ListItemIcon>
                         <ListItemText primary="บันทึกการขาย" />
                     </ListItem>
-                    <ListItem button>
+                    <ListItem button onClick={() => setopen(!open)}>
                         <ListItemIcon>
                             <InboxIcon />
                         </ListItemIcon>
                         <ListItemText primary="การจัดการ" />
+                        {open ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            <ListItem button className={classes.nested} onClick={() => props.history.push("/table")}>
+                                <ListItemText classes={{primary:classes.fontList}} primary="โต๊ะอาหาร" />
+                            </ListItem>
+                            <ListItem button className={classes.nested} onClick={() => props.history.push("/menu")}>
+                                <ListItemText classes={{primary:classes.fontList}} primary="เมนูอาหาร" />
+                            </ListItem>
+                        </List>
+                    </Collapse>
                     <ListItem button  onClick={() => props.history.push("/branchstore")}>
                         <ListItemIcon>
                             <InboxIcon />
@@ -91,7 +112,7 @@ function TemporaryDrawer(props) {
         <div
             className={clsx(classes.list)}
             role="presentation"
-            onClick={props.toggleDrawer}
+            // onClick={props.toggleDrawer}
             onKeyDown={props.toggleDrawer}
         >
             <ListItem button>

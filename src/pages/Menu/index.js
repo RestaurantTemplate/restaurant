@@ -4,6 +4,7 @@ import { useStyles } from '../../css/css';
 import {Layoutbar} from '../../components/LayoutBar';
 import {Header} from './../../containers'
 import {Tabmenu,Dialoglist} from './containers';
+import BaseLayout from './../../components/BaseLayout';
 import './style.css'
 function Menues(props) {
     const classes = useStyles()
@@ -26,10 +27,9 @@ function Menues(props) {
         <div className={classes.root}>
             <>
                 {console.log(data)}
-                <Layoutbar isSidebar={true} topath={link}  menu={list}>
-                    <Header />
+                <BaseLayout >
                     <Tabmenu menu={list} setmenu={setlist} />
-                </Layoutbar>
+                </BaseLayout>
             </>
 
         </div>
