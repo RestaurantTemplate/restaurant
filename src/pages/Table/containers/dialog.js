@@ -17,9 +17,14 @@ export const Dialoglist = (props) =>{
     const onAddlist = () =>{
         addTable(item,state.user.branchstore).then(function(docRef) {
             // console.log("Tutorial created with ID: ", docRef.id);
-            setalert(prevState =>({...prevState,open:true,text:'เพิ่มโต๊ะสำเร็จ',colorNotify:'success'}));
-            setopen(false)
-            setitem(initialState)
+            if(docRef === null){
+                setalert(prevState =>({...prevState,open:true,text:'เพิ่มโต๊ะไม่สำเร็จ',colorNotify:'error'}));
+            }
+            else{
+                setalert(prevState =>({...prevState,open:true,text:'เพิ่มโต๊ะสำเร็จ',colorNotify:'success'}));
+                setopen(false)
+                setitem(initialState)
+            }
         })
         .catch(function(error) {
             console.error("Error adding Tutorial: ", error);

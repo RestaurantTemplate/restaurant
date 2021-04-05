@@ -51,12 +51,12 @@ export function Table(props) {
         GenToken().then((token)=>{
             setlink(token);
         })
-    }, [doc.id])
+    }, [])
     return (
         <Card className={classes.root}>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={5} md={5}>
-                    <Typography>สาขาชื่อ <b>{doc.value.name}</b></Typography>
+                    <Typography>ชื่อโต๊ะ <b>{doc.value.name}</b></Typography>
                 </Grid>
                 <Grid item xs={12} sm={5} md={5}>
                     <Typography>หมายเลขโต๊ะ <b>{doc.value.table_number}</b></Typography>
