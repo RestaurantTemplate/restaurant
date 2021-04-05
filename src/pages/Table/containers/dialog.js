@@ -48,6 +48,7 @@ export const DialoglistEdit = (props) =>{
     }
     const onEditlist = () =>{
         editTable(item,doc.id,state.user.branchstore).then(function(docRef) {
+            console.log('docRef:',docRef)
             if(docRef === null){
                 setalert(prevState =>({...prevState,open:true,text:'แก้ไขโต๊ะไม่สำเร็จ',colorNotify:'error'}));
             }
