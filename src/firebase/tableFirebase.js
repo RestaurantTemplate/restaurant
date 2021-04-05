@@ -15,7 +15,7 @@ export  async function  addTable(item,restaurants){
         customer_id : '',
         table_number : item.table_number,
     }
-    return await firebase.db.collection('Restaurants').doc(restaurants).collection('Tables').add(table)
+    return await firebase.db.collection('Restaurants').doc(restaurants).collection('Tables').doc('TABLE_'+ item.table_number).set(table)
 }
 export  async function editTable(item,idValue,restaurants){ 
     const list = await firebase.db.collection('Restaurants').doc(restaurants).collection('Tables').where('table_number','==',item.table_number).get();

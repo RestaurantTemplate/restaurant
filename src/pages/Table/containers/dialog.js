@@ -16,7 +16,7 @@ export const Dialoglist = (props) =>{
     }
     const onAddlist = () =>{
         addTable(item,state.user.branchstore).then(function(docRef) {
-            console.log("Tutorial created with ID: ", docRef.id);
+            // console.log("Tutorial created with ID: ", docRef.id);
             setalert(prevState =>({...prevState,open:true,text:'เพิ่มโต๊ะสำเร็จ',colorNotify:'success'}));
             setopen(false)
             setitem(initialState)
