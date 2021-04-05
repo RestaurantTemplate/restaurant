@@ -51,7 +51,7 @@ function TemporaryDrawer(props) {
                         </ListItemIcon>
                         <ListItemText primary="หน้าหลัก" />
                     </ListItem>
-                    <ListItem button>
+                    <ListItem button onClick={() => props.history.push("/salesrecord")}>
                         <ListItemIcon>
                             <DescriptionIcon />
                         </ListItemIcon>

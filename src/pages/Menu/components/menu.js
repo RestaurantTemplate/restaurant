@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import {getAllBranchStore} from './../../../firebase/maindishesFirebase';
 import AddIcon from '@material-ui/icons/Add';
 import {
     Grid,
@@ -42,7 +43,7 @@ const useStyleslocal = makeStyles((theme) => ({
     },
 }));
 export const Menu = (props) =>{
-    const {menu,setmenu,setopen} = props;
+    const {setopen} = props;
     return(
         <>
             <Grid container alignItems="center" >
