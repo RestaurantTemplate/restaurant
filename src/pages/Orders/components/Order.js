@@ -31,29 +31,29 @@ const useStyles = makeStyles({
 export default function Order(props) {
     const classes = useStyles()
 
-    const { items, tableNumber, orderNumber, queueAdded, orderRemoved } = props
+    const { order, queueAdded, orderRemoved } = props
 
-    console.log('items', items)
+    console.log('items', order.items)
 
     return (
         <Card className={classes.root}>
             <Grid container spacing={3}>
                 <Grid item xs={5} sm={3} md={3}>
-                    <Typography>โต๊ะที่ {tableNumber}</Typography>
-                    <Typography>ออเดอร์ที่ {orderNumber}</Typography>
-                    <IconButton className={classes.accept} onClick={queueAdded}>
+                    <Typography>โต๊ะที่ {order.tableNumber}</Typography>
+                    <Typography>ออเดอร์ที่ {order.orderNumber}</Typography>
+                    <IconButton className={classes.accept} onClick={() => queueAdded(order.id)}>
                         <CheckCircleOutlineIcon />
                     </IconButton>
                     <IconButton
                         className={classes.cancel}
-                        onClick={orderRemoved}
+                        onClick={() => orderRemoved(order.id)}
                     >
                         <CancelOutlinedIcon />
                     </IconButton>
                 </Grid>
                 <Grid item xs={7} sm={9} md={9}>
                     <Typography>รายละเอียด</Typography>
-                    {items.map((item, index) => (
+                    {order.items.map((item, index) => (
                         <Box key={index} className={classes.description}>
                             {item.name} จำนวน {item.amount}
                         </Box>

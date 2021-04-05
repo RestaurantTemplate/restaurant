@@ -6,7 +6,7 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 })
 
-const uid = 'some-uid'
+const uid = 'table2'
 
 admin.auth().createCustomToken(uid)
 .then((customToken) => {

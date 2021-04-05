@@ -133,11 +133,13 @@ class Firebase {
         return firestoreOrder
     }
 
-    getNotifications = () =>
+    getNotifications = (customerId) =>
         firebase
             .firestore()
             .collection('Restaurants')
             .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Customers')
+            .doc(customerId)
             .collection('Notifications')
             .orderBy('created_at', 'desc')
 
@@ -155,6 +157,15 @@ class Firebase {
             .doc(customer.uid)
             .set(customerData)
     }
+
+    addCustomerToTable = (tableNumber, customerId) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Tables')
+            .doc('TABLE_' + tableNumber)
+            .update({ customer_id: customerId })
 
     getTable = () =>
         firebase
@@ -247,7 +258,7 @@ class Firebase {
             .collection('Restaurants')
             .doc('ORfpUYXcivMoLs1ObM8R')
             .collection('Customers')
-            .doc(order.custoer_id)
+            .doc(order.customer_id)
             .collection('Orders')
             .add(order)
 }
