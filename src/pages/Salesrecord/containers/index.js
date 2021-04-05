@@ -1,2 +1,2 @@
-import {Tabmenu} from './tabmenu'
-export {Tabmenu}
+import {EnhancedTable} from './tabmenu'
+export {EnhancedTable}

@@ -185,7 +185,12 @@ class Firebase {
             .collection('Orders')
             .orderBy('created_at', 'desc')
             .get()
-
+    getAllHistories = (branchstore) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc(branchstore)
+            .collection('Histories')
     addHistories = (history) =>
         firebase
             .firestore()
