@@ -8,6 +8,7 @@ import {AlertDialog} from '../../../components';
 import {removeTable} from '../../../firebase/tableFirebase';
 import {DialoglistEdit} from './dialog';
 import {Auth} from '../../../context/authContext';
+import QRCode from 'qrcode.react';
 const useStyles = makeStyles({
     root: {
         padding: '10px',
@@ -70,6 +71,11 @@ export function Table(props) {
                         <Fab  component="button"  justify="center" alignItems="center" size={'small'}  color="secondary" aria-label="add" onClick={Remove}>
                             <DeleteIcon />
                         </Fab>
+                    </Box>
+                </Grid>
+                <Grid item xs={12} sm={12} md={12}>
+                    <Box component='div' style={{textAlign:'center'}}>
+                        <QRCode size={200} value={"http://192.168.0.174:3000/login/"+doc.value.table_number+"/eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImlhdCI6MTYxNzYyMjc4MiwiZXhwIjoxNjE3NjI2MzgyLCJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay00ZXRsbEBlei1yZXN0YXVyYW50LmlhbS5nc2VydmljZWFjY291bnQuY29tIiwic3ViIjoiZmlyZWJhc2UtYWRtaW5zZGstNGV0bGxAZXotcmVzdGF1cmFudC5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInVpZCI6InRhYmxlMiJ9.fq3JFJpuCwXJ5vw4KqIB9L5mK7gd0SvlrPWjNnBipkB-tHzMGgY3XbYKprL8dVLg2bc39EKkdlalSO40A03tD1A4s2mNE3PTPRx8g4X_RRyY8VJNTwu-vc0R5f90gNgA2Y49cY5XQDuvGqJz-97mLKedtnHbsoxKeaxN1IcLwvmh1C5brwA3fMr5zY8I06mXFX3eggyB9WGAkwdBpIRaC0ptDrniXzokw56rdYZy4l3H0Z33ERd7Kc6pJ69nJLBNKdnp94w663ViHMqY3xhsIiX4puccVyNYoSyP8eMn7v0-UYQ7UWs6RgFBtYe97SzVmgui7PLZreNdmrbVK84bkw"} />
                     </Box>
                 </Grid>
             </Grid>
