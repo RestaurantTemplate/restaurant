@@ -104,6 +104,7 @@ export const Menu = (props) => {
                             {price + ' THB'}
                         </Typography>
                         <TextField
+                            type="number"
                             InputLabelProps={{
                                 className: classesLocal.textNopadding,
                             }}
@@ -138,7 +139,7 @@ export const Menu = (props) => {
                                 cartAction.addToCart({
                                     id: fooditem.id,
                                     name: fooditem.name,
-                                    amount: count,
+                                    amount: parseInt(count),
                                     price: price,
                                 })
                             }

@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import IconButton from '@material-ui/core/IconButton'
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 
 const useStyles = makeStyles({
     root: {
@@ -31,23 +31,27 @@ const useStyles = makeStyles({
 export default function Queue(props) {
     const classes = useStyles()
 
+    const { queue, queueRemoved, alert, queueHandle } = props
+
     return (
         <Card className={classes.root}>
             <Grid container spacing={3}>
                 <Grid item xs={5} sm={4} md={2}>
-                    <Typography>โต๊ะที่ {props.tableNumber}</Typography>
-                    <IconButton>
+                    <Typography>โต๊ะที่ {queue.table_number}</Typography>
+                    <IconButton onClick={() => alert(queue)}>
                         <NotificationsActiveIcon />
                     </IconButton>
-                    <IconButton onClick={props.queueRemoved}>
+                    <IconButton onClick={() => queueHandle(queue)}>
                         <CheckCircleOutlineIcon />
                     </IconButton>
                 </Grid>
                 <Grid item xs={7} sm={8} md={10}>
                     <Typography>รายละเอียด</Typography>
-                    <Box className={classes.description}>
-                        <Typography >{props.description}</Typography>
-                    </Box>
+                    {queue.items.map((item, index) => (
+                        <Box key={index} className={classes.description}>
+                            <Typography>{item.name} จำนวน {item.amount}</Typography>
+                        </Box>
+                    ))}
                 </Grid>
             </Grid>
         </Card>

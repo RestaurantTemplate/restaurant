@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import { withRouter } from 'react-router-dom'
 
@@ -43,9 +43,9 @@ function Notification(props) {
     const classes = useStyles()
     const [notifications, setNotifications] = useState([])
 
-    const [state, setState] = React.useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
-    const { _, dispatch } = React.useContext(Auth)
+    const { state, dispatch } = useContext(Auth)
 
     useEffect(() => {
         fetchNotifications()
@@ -64,7 +64,7 @@ function Notification(props) {
 
     const fetchNotifications = () => {
         // setIsLoading(true)
-        firebase.getNotifications().onSnapshot(
+        firebase.getNotifications(state.user.uid).onSnapshot(
             (snapshot) => {
                 let data = []
                 snapshot.forEach((doc) => {
@@ -90,25 +90,25 @@ function Notification(props) {
     }
 
     let notiItems = notifications.map((noti, index) => {
-        let desc = ''
-        if (noti.status)
-            switch (noti.status) {
-                case 'success':
-                    desc = 'เสร็จเรียบร้อย เชิญรับอาหารได้ครับ'
-                    break
-                case 'pending':
-                    desc = 'กำลังปรุงอาหาร กรุณารอสักครู่'
-                    break
-                default:
-                    desc = 'เกิดข้อผิดพลาด'
-                    break
-            }
+        // let desc = ''
+        // if (noti.status)
+        //     switch (noti.status) {
+        //         case 'success':
+        //             desc = 'เสร็จเรียบร้อย เชิญรับอาหารได้ครับ'
+        //             break
+        //         case 'pending':
+        //             desc = 'กำลังปรุงอาหาร กรุณารอสักครู่'
+        //             break
+        //         default:
+        //             desc = 'เกิดข้อผิดพลาด'
+        //             break
+        //     }
 
         return (
             <React.Fragment key={noti.id}>
                 <ListItem alignItems="flex-start">
                     <ListItemText
-                        primary={'ออเดอร์หมายเลข ' + noti.order_number}
+                        // primary={'ออเดอร์หมายเลข ' + noti.order_number}
                         secondary={
                             <React.Fragment>
                                 <Typography
@@ -117,7 +117,7 @@ function Notification(props) {
                                     className={classes.inline}
                                     color="textPrimary"
                                 >
-                                    {desc}
+                                    {noti.message}
                                 </Typography>
                             </React.Fragment>
                         }
@@ -129,7 +129,7 @@ function Notification(props) {
     })
 
     const toggleDrawer = () => {
-        setState(!state)
+        setIsOpen(!isOpen)
     }
 
     const list = () => (
@@ -165,7 +165,7 @@ function Notification(props) {
                     <NotificationsIcon />
                 </Badge>
             </IconButton>
-            <Drawer anchor="right" open={state} onClose={toggleDrawer}>
+            <Drawer anchor="right" open={isOpen} onClose={toggleDrawer}>
                 {list()}
             </Drawer>
         </React.Fragment>

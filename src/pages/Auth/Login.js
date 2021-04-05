@@ -40,12 +40,7 @@ const Login = (props) => {
     const { state, dispatch } = useContext(Auth)
 
     const token = props.match.params.token
-
-    // const {
-    //     match: { params },
-    // } = props
-
-    // console.log('[Login Page] query params: ', params.token)
+    const tableNumber = props.match.params.table_number
 
     useEffect(() => {
         if (token) {
@@ -58,40 +53,49 @@ const Login = (props) => {
         await firebase
             .loginWithToken(token)
             .then((response) => {
-                setIsLoading(false)
                 console.log('Login user:', response.user)
                 const user = response.user
                 const customer = {
                     uid: user.uid,
                     branchstore: user.branchstore,
                     type: 'customer',
-                    table_number: 3,
+                    table_number: tableNumber,
                     created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
                     updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
                 }
                 firebase
                     .addCustomer(customer)
-                    .then((response) => {
-                        console.log(response)
-                        const customerInfo = {
-                            uid: user.uid,
-                            branchstore: user.branchstore,
-                            type: 'customer',
-                            table_number: 3,
-                            email: null,
-                            refreshToken: user.refreshToken,
-                        }
-                        localStorage.setItem(
-                            'user',
-                            JSON.stringify(customerInfo)
-                        )
-                        setIsLoading(false)
-                        setUserType('customer')
-                        setRouteRedirect(true)
-                        return dispatch({
-                            type: 'LOGIN',
-                            payload: customerInfo,
-                        })
+                    .then(() => {
+                        firebase
+                            .addCustomerToTable(tableNumber, user.uid)
+                            .then(() => {
+                                const customerInfo = {
+                                    uid: user.uid,
+                                    branchstore: user.branchstore,
+                                    type: 'customer',
+                                    table_number: tableNumber,
+                                    email: null,
+                                    refreshToken: user.refreshToken,
+                                }
+                                localStorage.setItem(
+                                    'user',
+                                    JSON.stringify(customerInfo)
+                                )
+                                setIsLoading(false)
+                                setUserType('customer')
+                                setRouteRedirect(true)
+                                return dispatch({
+                                    type: 'LOGIN',
+                                    payload: customerInfo,
+                                })
+                            })
+                            .catch((error) => {
+                                setIsLoading(false)
+                                console.log(
+                                    '[addCustomerToTable] error',
+                                    error.message
+                                )
+                            })
                     })
                     .catch((error) => {
                         setIsLoading(false)

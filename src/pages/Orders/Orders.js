@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import moment from 'moment'
 
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -62,38 +63,41 @@ const Orders = (props) => {
         fetchOrders()
     }, [])
 
-    const addQueueHandler = (index) => {
-        console.log('index', index)
-        firebase
-            .addQueues(orders[index])
-            .then((response) => console.log(response))
+    const addQueueHandler = (orderId) => {
+        const order = orders.find((order) => order.id === orderId)
+        let queue = {
+            customer_id: order.customer_id,
+            order_number: order.order_number,
+            table_number: order.table_number,
+            items: order.items,
+            created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+            updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+        }
+        firebase.addQueues(queue).then((response) => {
+            removeOrderHandler(orderId)
+            console.log(response)
+        })
     }
 
-    const removeOrderHandler = (index) => {
-        const orderId = orders[index].id
+    const removeOrderHandler = (orderId) => {
+        const newOrders = orders.filter((order) => order.id !== orderId)
         firebase
             .removeOrders(orderId)
             .then((response) => {
                 console.log('remove order successful!!!')
-                console.log('response', response)
-                const oldOrders = [...orders]
-                oldOrders.splice(index, 1)
-                setOrders(oldOrders)
-                console.log('remove order', index)
+                setOrders(newOrders)
             })
             .catch(() => {
                 console.log('remove order failed!!!')
             })
     }
 
-    let orderItems = orders.map((order, index) => (
+    let orderItems = orders.map((order) => (
         <Order
+            order={order}
             key={order.id}
-            tableNumber={order.table_number}
-            orderNumber={order.order_number}
-            description={order.desc}
-            queueAdded={() => addQueueHandler(index)}
-            orderRemoved={() => removeOrderHandler(index)}
+            queueAdded={addQueueHandler}
+            orderRemoved={removeOrderHandler}
         />
     ))
     if (orders.length === 0 && isLoading) {

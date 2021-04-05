@@ -57,7 +57,6 @@ export default function OrderSummary(props) {
 
     const [orderSummary, setOrderSummary] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    const [totalPrice, setTotalPrice] = useState(0)
     const [open, setOpen] = React.useState(false)
 
     const handleOpen = () => {
@@ -71,11 +70,12 @@ export default function OrderSummary(props) {
     const customerId = props.match.params.id
     const tableNumber = props.match.params.table_number
 
-    const checkout = () => {
+    const checkout = (totalPrice) => {
         handleOpen()
         const history = {
+            table_number: orderSummary.table_number,
             customer_id: customerId,
-            orderHistory: orderSummary,
+            orders: orderSummary,
             totol_price: totalPrice,
             created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
             updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
@@ -96,17 +96,12 @@ export default function OrderSummary(props) {
             .then(function (querySnapshot) {
                 setIsLoading(false)
                 let data = []
-                let totalSummaryPrice = 0
                 querySnapshot.forEach(function (doc) {
-                    const total_price = doc.data().amount * doc.data().price
                     data.push({
                         id: doc.id,
-                        total_price: total_price,
                         ...doc.data(),
                     })
-                    totalSummaryPrice += total_price
                 })
-                setTotalPrice(totalSummaryPrice)
                 setOrderSummary(data)
                 console.log('orderSummary', data)
             })
@@ -127,53 +122,80 @@ export default function OrderSummary(props) {
     } else if (orderSummary.length === 0) {
         orderSummaryItems = <Typography variant="h6">ไม่มีออเดอร์</Typography>
     } else {
+        let totalPriceSummary = 0
+        let totalPrice = 0
         orderSummaryItems = (
             <React.Fragment>
-                <TableContainer component={Paper}>
-                    <Table
-                        className={classes.table}
-                        aria-label="customized table"
-                    >
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell>รายการ</StyledTableCell>
-                                <StyledTableCell align="right">
-                                    จำนวน
-                                </StyledTableCell>
-                                <StyledTableCell align="right">
-                                    ราคา
-                                </StyledTableCell>
-                                <StyledTableCell align="right">
-                                    ราคารวม
-                                </StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {orderSummary.map((row) => (
-                                <StyledTableRow key={row.name}>
-                                    <StyledTableCell component="th" scope="row">
-                                        {row.name}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="right">
-                                        {row.amount}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="right">
-                                        {row.price}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="right">
-                                        {row.total_price}
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                {orderSummary.map((order) => {
+                    
+                    totalPrice = 0
+                    return (
+                        <Paper className={classes.paper}>
+                            <Typography>
+                                ออเดอร์ที่ {order.order_number}
+                            </Typography>
+                            <TableContainer component={Paper}>
+                                <Table
+                                    className={classes.table}
+                                    aria-label="customized table"
+                                >
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell>
+                                                รายการ
+                                            </StyledTableCell>
+                                            <StyledTableCell align="right">
+                                                จำนวน
+                                            </StyledTableCell>
+                                            <StyledTableCell align="right">
+                                                ราคา
+                                            </StyledTableCell>
+                                            <StyledTableCell align="right">
+                                                ราคารวม
+                                            </StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {order.items.map((row) => {
+                                            totalPriceSummary += row.amount * row.price
+                                            totalPrice += row.amount * row.price
+                                            return (
+                                                <StyledTableRow key={row.name}>
+                                                    <StyledTableCell
+                                                        component="th"
+                                                        scope="row"
+                                                    >
+                                                        {row.name}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="right">
+                                                        {row.amount}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="right">
+                                                        {row.price}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="right">
+                                                        {row.amount * row.price}
+                                                    </StyledTableCell>
+                                                </StyledTableRow>
+                                            )
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <Paper className={classes.paper}>
+                                <Typography>
+                                    รวมทั้งสิ้น {totalPrice} THB
+                                </Typography>
+                            </Paper>
+                        </Paper>
+                    )
+                })}
                 <Paper className={classes.paper}>
-                    <Typography>รวมทั้งสิ้น {totalPrice} THB</Typography>
+                    <Typography>รวมทั้งสิ้น {totalPriceSummary} THB</Typography>
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={checkout}
+                        onClick={() => checkout(totalPriceSummary)}
                     >
                         เสร็จสิ้น
                     </Button>
