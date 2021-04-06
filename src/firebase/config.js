@@ -157,7 +157,7 @@ class Firebase {
     removeCustomerInUsers = (customerId) =>
         firebase.firestore().collection('Users').doc(customerId).delete()
 
-    updateCustomerTable = (branchstore,tableNumber, customerId) =>
+    updateCustomerTable = (tableNumber, customerId) =>
         firebase
             .firestore()
             .collection('Restaurants')
