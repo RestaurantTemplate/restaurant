@@ -82,31 +82,7 @@ export const LineChart = () => {
     // const [dec, setDec] = useState(0)
 
     const fetchHistoriesJan = () => {
-        // const start = '01/01/21 00:00:00'
-        // const end = '31/01/21 23:59:59'
-        // let janTotalPrice = 0
-        // let febTotalPrice = 0
-        // let marTotalPrice = 0
-        // let aprTotalPrice = 0
-        // let mayTotalPrice = 0
-        // let junTotalPrice = 0
-        // let julyTotalPrice = 0
-        // let augTotalPrice = 0
-        // let sepTotalPrice = 0
-        // let octTotalPrice = 0
-        // let novTotalPrice = 0
-        // let decTotalPrice = 0
-        // firebase
-        //     .getHistories(start, end)
-        //     .then((querySnapshot) => {
-        //         querySnapshot.forEach((doc) => {
-                    
 
-        //             // doc.data() is never undefined for query doc snapshots
-        //             console.log(doc.id, ' => ', doc.data())
-        //         })
-        //     })
-        //     .catch((error) => console.log('getHistories error', error.message))
 
         firebase.getHistories().onSnapshot(
             (snapshot) => {

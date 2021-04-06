@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { TabContext, TabList, TabPanel } from '@material-ui/lab'
 import {
     AppBar,
@@ -14,6 +14,7 @@ import { Menu } from './../components'
 import { useStyles } from './../../../css/css'
 
 import firebase from '../../../firebase/config'
+import { Auth } from '../../../context/authContext'
 
 export const Tabmenu = (props) => {
     const classes = useStyles()
@@ -23,6 +24,19 @@ export const Tabmenu = (props) => {
     const [drinks, setDrinks] = useState([])
     const [value, setvalue] = useState('1')
     const [isLoading, setIsLoading] = useState(false)
+
+    const { state, dispatch } = useContext(Auth)
+
+    const logout = () => {
+        console.log('props', props)
+        firebase.logout()
+        localStorage.clear()
+        props.history.replace('/login')
+        return dispatch({
+            type: 'LOGOUT',
+            payload: null,
+        })
+    }
 
     const fetchMainDishes = () => {
         setIsLoading(true)
@@ -39,46 +53,67 @@ export const Tabmenu = (props) => {
                 setIsLoading(false)
                 setMainDishes(data)
             })
-            .catch((error) => console.log('[Tab] error message', error.message))
+            .catch((error) => {
+                console.log('[Tab] error message', error.message)
+                // logout()
+            })
     }
 
     const fetchDesserts = () => {
-        firebase.getDesserts().then(function (querySnapshot) {
-            let data = []
-            querySnapshot.forEach(function (doc) {
-                data.push({
-                    id: doc.id,
-                    ...doc.data(),
+        firebase
+            .getDesserts()
+            .then(function (querySnapshot) {
+                let data = []
+                querySnapshot.forEach(function (doc) {
+                    data.push({
+                        id: doc.id,
+                        ...doc.data(),
+                    })
                 })
+                setDesserts(data)
             })
-            setDesserts(data)
-        })
+            .catch((error) => {
+                console.log('[Tab] error message', error.message)
+                // logout()
+            })
     }
 
     const fetchDrinks = () => {
-        firebase.getDrinks().then(function (querySnapshot) {
-            let data = []
-            querySnapshot.forEach(function (doc) {
-                data.push({
-                    id: doc.id,
-                    ...doc.data(),
+        firebase
+            .getDrinks()
+            .then(function (querySnapshot) {
+                let data = []
+                querySnapshot.forEach(function (doc) {
+                    data.push({
+                        id: doc.id,
+                        ...doc.data(),
+                    })
                 })
+                setDrinks(data)
             })
-            setDrinks(data)
-        })
+            .catch((error) => {
+                console.log('[Tab] error message', error.message)
+                // logout()
+            })
     }
 
     const fetchAppetizers = () => {
-        firebase.getAppetizers().then(function (querySnapshot) {
-            let data = []
-            querySnapshot.forEach(function (doc) {
-                data.push({
-                    id: doc.id,
-                    ...doc.data(),
+        firebase
+            .getAppetizers()
+            .then(function (querySnapshot) {
+                let data = []
+                querySnapshot.forEach(function (doc) {
+                    data.push({
+                        id: doc.id,
+                        ...doc.data(),
+                    })
                 })
+                setAppetizers(data)
             })
-            setAppetizers(data)
-        })
+            .catch((error) => {
+                console.log('[Tab] error message', error.message)
+                // logout()
+            })
     }
 
     useEffect(() => {

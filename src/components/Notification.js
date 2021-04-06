@@ -86,7 +86,7 @@ function Notification(props) {
             },
             function (error) {
                 console.log('Notifications Error: ', error.message)
-                // logout()
+                logout()
             }
         )
 
