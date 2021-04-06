@@ -65,7 +65,7 @@ export const LineChart = () => {
     }
 
     useEffect(() => {
-        fetchHistoriesJan()
+        // fetchHistoriesJan()
     }, [])
 
     return (

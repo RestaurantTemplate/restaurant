@@ -197,18 +197,25 @@ class Firebase {
             .collection('Histories')
             .add(history)
 
-    getHistories = (start, end) => {
-        // const start = '01' + '/' + month + '/' + year + ' 00:00:00'
-        // const end = '31/12/21 23:59:59'
-        return firebase
+    // getHistories = (start, end) => {
+    //     // const start = '01' + '/' + month + '/' + year + ' 00:00:00'
+    //     // const end = '31/12/21 23:59:59'
+    //     return firebase
+    //         .collection('Restaurants')
+    //         .doc('ORfpUYXcivMoLs1ObM8R')
+    //         .collection('Customers')
+    //         .doc(id)
+    //         .collection('Orders')
+    //         .orderBy('created_at', 'desc')
+    //         .get()
+    // }
+
+    getAllHistories = (branchstore) =>
+        firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc(branchstore)
             .collection('Histories')
-            .where('created_at', '>=', start)
-            .where('created_at', '<=', end)
-            .get()
-    }
 
     getSales = (year) =>
         firebase

@@ -9,6 +9,7 @@ import { Dashboard } from './pages/Dashboard'
 import { History } from './pages/History'
 import Billing from './pages/Billing/Billing'
 import Orders from './pages/Orders/Orders'
+import Salesrecord from './pages/Salesrecord'
 import Queues from './pages/Queues/Queues'
 import Menu from './pages/Menu/index'
 import Table from './pages/Table'
@@ -38,6 +39,7 @@ const Routes = (props) => {
                         <Route path="/dashboard" component={Dashboard} exact />
                         <Route path="/history" component={History} />
                         <Route path="/menu" component={Menu} />
+                        <Route path="/salesrecord" component={Salesrecord} />
                         <Route path="/table" component={Table} />
                         <Redirect to="/dashboard" />
                     </Switch>

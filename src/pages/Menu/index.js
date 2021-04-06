@@ -4,6 +4,7 @@ import { useStyles } from '../../css/css';
 import {Layoutbar} from '../../components/LayoutBar';
 import {Header} from './../../containers'
 import {Tabmenu,Dialoglist} from './containers';
+import MaindishProvider from './../../context/maindishesContext';
 import BaseLayout from './../../components/BaseLayout';
 import './style.css'
 function Menues(props) {
@@ -25,12 +26,11 @@ function Menues(props) {
     }, [props.location])
     return (
         <div className={classes.root}>
-            <>
-                {console.log(data)}
+            <MaindishProvider>
                 <BaseLayout >
                     <Tabmenu menu={list} setmenu={setlist} />
                 </BaseLayout>
-            </>
+            </MaindishProvider>
 
         </div>
     )
