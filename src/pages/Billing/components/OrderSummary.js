@@ -74,6 +74,7 @@ function OrderSummary(props) {
 
     const checkout = (totalPrice) => {
         const history = {
+            month: new Date().getMonth(),
             table_number: tableNumber,
             customer_id: customerId,
             orders: orderSummary,

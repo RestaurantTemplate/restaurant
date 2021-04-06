@@ -13,6 +13,7 @@ import firebase from '../../firebase/config'
 
 import Order from './components/Order'
 import BaseLayout from '../../components/BaseLayout'
+import { AlertDialog } from '../../components/Alert'
 
 const useStyles = makeStyles({
     paper: {
@@ -27,6 +28,13 @@ const useStyles = makeStyles({
 const Orders = (props) => {
     const [orders, setOrders] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+
+    const initialAlert = {
+        open: false,
+        text: 'รับออเดอร์เรียบร้อยแล้ว',
+        colorNotify: 'success',
+    }
+    const [alert, setalert] = useState(initialAlert)
 
     const classes = useStyles()
 
@@ -75,6 +83,7 @@ const Orders = (props) => {
         }
         firebase.addQueues(queue).then((response) => {
             removeOrderHandler(orderId)
+            setalert({ ...initialAlert, open: true })
             console.log(response)
         })
     }
@@ -108,6 +117,10 @@ const Orders = (props) => {
 
     return (
         <BaseLayout>
+            <AlertDialog
+                alert={alert}
+                onClose={() => setalert({ ...alert, open: false })}
+            />
             <Container>
                 <Paper elevation={5} className={classes.paper}>
                     <Typography variant="h4" className={classes.textOrder}>

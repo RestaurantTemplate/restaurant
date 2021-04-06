@@ -133,15 +133,13 @@ class Firebase {
         return firestoreOrder
     }
 
-    // getNotifications = (customerId) =>
-    //     firebase
-    //         .firestore()
-    //         .collection('Restaurants')
-    //         .doc('ORfpUYXcivMoLs1ObM8R')
-    //         .collection('Customers')
-    //         .doc(customerId)
-    //         .collection('Notifications')
-    //         .orderBy('created_at', 'desc')
+    getNotifications = (customerId) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Notifications')
+            .orderBy('created_at', 'desc')
 
     getUserInfo = (id) => firebase.firestore().collection('Users').doc(id).get()
 
@@ -197,18 +195,19 @@ class Firebase {
             .collection('Histories')
             .add(history)
 
-    // getHistories = (start, end) => {
-    //     // const start = '01' + '/' + month + '/' + year + ' 00:00:00'
-    //     // const end = '31/12/21 23:59:59'
-    //     return firebase
-    //         .collection('Restaurants')
-    //         .doc('ORfpUYXcivMoLs1ObM8R')
-    //         .collection('Customers')
-    //         .doc(id)
-    //         .collection('Orders')
-    //         .orderBy('created_at', 'desc')
-    //         .get()
-    // }
+    getHistories = () => {
+        // const start = new Date('2021-04-01');
+        // const end = new Date('2021-04-28');
+        return firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Histories')
+            .orderBy('created_at', 'asc')
+            // .where('created_at', '>=', start)
+            // .where('created_at', '<=', end)
+            // .get()
+    }
 
     getAllHistories = (branchstore) =>
         firebase
@@ -265,13 +264,11 @@ class Firebase {
             .collection('Orders')
             .add(order)
 
-    alertToCustomer = (customerId, alert) =>
+    alertToCustomer = (alert) =>
         firebase
             .firestore()
             .collection('Restaurants')
             .doc('ORfpUYXcivMoLs1ObM8R')
-            .collection('Customers')
-            .doc(customerId)
             .collection('Notifications')
             .add(alert)
 

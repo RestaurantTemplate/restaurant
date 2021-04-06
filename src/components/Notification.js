@@ -61,66 +61,55 @@ function Notification(props) {
         })
     }
 
+    console.log('state user', state.user)
+
     const fetchNotifications = () => {
-        // setIsLoading(true)
-        // firebase.getNotifications(state.user.uid).onSnapshot(
-        //     (snapshot) => {
-        //         let data = []
-        //         snapshot.forEach((doc) => {
-        //             var source = doc.metadata.hasPendingWrites
-        //                 ? 'Local'
-        //                 : 'Server'
-        //             if (source === 'Server') {
-        //                 data.push({
-        //                     id: doc.id,
-        //                     ...doc.data(),
-        //                 })
-        //             }
-        //         })
-        //         // setIsLoading(false)
-        //         setNotifications(data)
-        //         console.log('notifications', data)
-        //     },
-        //     function (error) {
-        //         console.log('Notifications Error: ', error.message)
-        //         // logout()
-        //     }
-        // )
-
-        firebase
-            .getDataFromCustomer(state.user.uid)
-            .then(function (doc) {
-                if (doc.exists) {
-                    console.log('doc.exists', doc.data())
-                    if (doc.data().notifications) {
-                        setNotifications(doc.data().notifications)
+        firebase.getNotifications(state.user.uid).onSnapshot(
+            (snapshot) => {
+                let data = []
+                snapshot.forEach((doc) => {
+                    var source = doc.metadata.hasPendingWrites
+                        ? 'Local'
+                        : 'Server'
+                    if (source === 'Server') {
+                        if (doc.data().customer_id === state.user.uid) {
+                            data.push({
+                                id: doc.id,
+                                ...doc.data(),
+                            })
+                        }
                     }
+                })
+                // setIsLoading(false)
+                setNotifications(data)
+                console.log('notifications', data)
+            },
+            function (error) {
+                console.log('Notifications Error: ', error.message)
+                // logout()
+            }
+        )
 
-                    console.log('notifications:', doc.data().notifications)
-                } else {
-                    console.log('No such document!')
-                }
-            })
-            .catch(function (error) {
-                console.log('Error getting document:', error)
-            })
+        // firebase
+        //     .getDataFromCustomer(state.user.uid)
+        //     .then(function (doc) {
+        //         if (doc.exists) {
+        //             console.log('doc.exists', doc.data())
+        //             if (doc.data().notifications) {
+        //                 setNotifications(doc.data().notifications)
+        //             }
+
+        //             console.log('notifications:', doc.data().notifications)
+        //         } else {
+        //             console.log('No such document!')
+        //         }
+        //     })
+        //     .catch(function (error) {
+        //         console.log('Error getting document:', error)
+        //     })
     }
 
     let notiItems = notifications.map((noti, index) => {
-        // let desc = ''
-        // if (noti.status)
-        //     switch (noti.status) {
-        //         case 'success':
-        //             desc = 'เสร็จเรียบร้อย เชิญรับอาหารได้ครับ'
-        //             break
-        //         case 'pending':
-        //             desc = 'กำลังปรุงอาหาร กรุณารอสักครู่'
-        //             break
-        //         default:
-        //             desc = 'เกิดข้อผิดพลาด'
-        //             break
-        //     }
-
         return (
             <React.Fragment key={noti.id}>
                 <ListItem alignItems="flex-start">
@@ -145,29 +134,29 @@ function Notification(props) {
         )
     })
 
-    if (notiItems.length === 0) {
-        notiItems = (
-            <React.Fragment>
-                <ListItem alignItems="flex-start">
-                    <ListItemText
-                        // primary={'ออเดอร์หมายเลข ' + noti.order_number}
-                        secondary={
-                            <React.Fragment>
-                                <Typography
-                                    component="span"
-                                    variant="body2"
-                                    color="textPrimary"
-                                >
-                                    ยังไม่มีการแจ้งเตือน
-                                </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-                <Divider variant="fullWidth" component="li" />
-            </React.Fragment>
-        )
-    }
+    // if (notiItems.length === 0) {
+    //     notiItems = (
+    //         <React.Fragment>
+    //             <ListItem alignItems="flex-start">
+    //                 <ListItemText
+    //                     // primary={'ออเดอร์หมายเลข ' + noti.order_number}
+    //                     secondary={
+    //                         <React.Fragment>
+    //                             <Typography
+    //                                 component="span"
+    //                                 variant="body2"
+    //                                 color="textPrimary"
+    //                             >
+    //                                 ยังไม่มีการแจ้งเตือน
+    //                             </Typography>
+    //                         </React.Fragment>
+    //                     }
+    //                 />
+    //             </ListItem>
+    //             <Divider variant="fullWidth" component="li" />
+    //         </React.Fragment>
+    //     )
+    // }
 
     const toggleDrawer = () => {
         setIsOpen(!isOpen)
