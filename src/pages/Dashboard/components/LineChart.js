@@ -8,7 +8,9 @@ import {
     ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui'
 import { Paper } from '@material-ui/core'
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
+import firebase from '../../../firebase/config'
 
 const generateData = () => {
     const monthOfYears = [
@@ -47,6 +49,24 @@ const generateData = () => {
 
 export const LineChart = () => {
     const [chartData] = useState(generateData())
+
+    const fetchHistoriesJan = () => {
+        const start = '01/01/21 00:00:00'
+        const end = '31/01/21 23:59:59'
+        firebase
+            .getHistories(start, end)
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, ' => ', doc.data())
+                })
+            })
+            .catch((error) => console.log('getHistories error', error.message))
+    }
+
+    useEffect(() => {
+        fetchHistoriesJan()
+    }, [])
 
     return (
         <Paper>

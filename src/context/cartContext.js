@@ -23,17 +23,18 @@ function CartProvider({ children }) {
 
     function addToCart(menu) {
         const duplicatedItem = cart.items.find((item) => item.id === menu.id)
+        console.log('addToCart', menu)
         if (duplicatedItem) {
             const newItems = cart.items.filter((item) => item.id !== menu.id)
             const oldAmount = duplicatedItem.amount
             const updatedAmout = oldAmount + menu.amount
-            const oldPrice = duplicatedItem.price
-            const newPice = oldPrice + menu.price
+            // const oldPrice = duplicatedItem.price
+            const newPice = duplicatedItem.price * updatedAmout
 
             const updatedItem = {
                 ...duplicatedItem,
                 amount: updatedAmout,
-                price: newPice,
+                totalPrice: newPice
             }
             setCart((prevCart) => ({
                 ...prevCart,

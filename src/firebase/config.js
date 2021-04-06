@@ -133,15 +133,15 @@ class Firebase {
         return firestoreOrder
     }
 
-    getNotifications = (customerId) =>
-        firebase
-            .firestore()
-            .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
-            .collection('Customers')
-            .doc(customerId)
-            .collection('Notifications')
-            .orderBy('created_at', 'desc')
+    // getNotifications = (customerId) =>
+    //     firebase
+    //         .firestore()
+    //         .collection('Restaurants')
+    //         .doc('ORfpUYXcivMoLs1ObM8R')
+    //         .collection('Customers')
+    //         .doc(customerId)
+    //         .collection('Notifications')
+    //         .orderBy('created_at', 'desc')
 
     getUserInfo = (id) => firebase.firestore().collection('Users').doc(id).get()
 
@@ -158,7 +158,10 @@ class Firebase {
             .set(customerData)
     }
 
-    addCustomerToTable = (tableNumber, customerId) =>
+    removeCustomerInUsers = (customerId) =>
+        firebase.firestore().collection('Users').doc(customerId).delete()
+
+    updateCustomerTable = (tableNumber, customerId) =>
         firebase
             .firestore()
             .collection('Restaurants')
@@ -175,16 +178,16 @@ class Firebase {
             .collection('Tables')
             .orderBy('table_number', 'asc')
 
-    getOrderSummary = (id) =>
-        firebase
-            .firestore()
-            .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
-            .collection('Customers')
-            .doc(id)
-            .collection('Orders')
-            .orderBy('created_at', 'desc')
-            .get()
+    // getOrderSummary = (id) =>
+    //     firebase
+    //         .firestore()
+    //         .collection('Restaurants')
+    //         .doc('ORfpUYXcivMoLs1ObM8R')
+    //         .collection('Customers')
+    //         .doc(id)
+    //         .collection('Orders')
+    //         .orderBy('created_at', 'desc')
+    //         .get()
 
     addHistories = (history) =>
         firebase
@@ -193,6 +196,19 @@ class Firebase {
             .doc('ORfpUYXcivMoLs1ObM8R')
             .collection('Histories')
             .add(history)
+
+    getHistories = (start, end) => {
+        // const start = '01' + '/' + month + '/' + year + ' 00:00:00'
+        // const end = '31/12/21 23:59:59'
+        return firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Histories')
+            .where('created_at', '>=', start)
+            .where('created_at', '<=', end)
+            .get()
+    }
 
     getSales = (year) =>
         firebase
@@ -252,15 +268,59 @@ class Firebase {
             .collection('Notifications')
             .add(alert)
 
-    addOrderToCustomerOrders = (order) =>
+    getDataFromCustomer = (customerId) =>
         firebase
             .firestore()
             .collection('Restaurants')
             .doc('ORfpUYXcivMoLs1ObM8R')
             .collection('Customers')
-            .doc(order.customer_id)
-            .collection('Orders')
-            .add(order)
+            .doc(customerId.toString())
+            .get()
+
+    // addOrderToCustomerOrders = (customerId, order) =>
+    //     firebase
+    //         .firestore()
+    //         .collection('Restaurants')
+    //         .doc('ORfpUYXcivMoLs1ObM8R')
+    //         .collection('Customers')
+    //         .doc(customerId.toString())
+    //         .update(order)
+
+    updatedCustomerOrders = (customerId, orders) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Customers')
+            .doc(customerId.toString())
+            .update({ orders: orders })
+
+    updatedCustomerNotificaitons = (customerId, notifications) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Customers')
+            .doc(customerId.toString())
+            .update({ notifications: notifications })
+
+    addCustomerToRestaurant = (uid) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Customers')
+            .doc(uid)
+            .set({})
+
+    removeCustomer = (customerId) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc('ORfpUYXcivMoLs1ObM8R')
+            .collection('Customers')
+            .doc(customerId)
+            .delete()
 }
 
 export default new Firebase()

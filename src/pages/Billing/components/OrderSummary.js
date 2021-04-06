@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { withRouter } from 'react-router-dom'
 
 import moment from 'moment'
 
@@ -52,7 +53,7 @@ const useStyles = makeStyles({
     },
 })
 
-export default function OrderSummary(props) {
+function OrderSummary(props) {
     const classes = useStyles()
 
     const [orderSummary, setOrderSummary] = useState([])
@@ -64,6 +65,7 @@ export default function OrderSummary(props) {
     }
 
     const handleClose = () => {
+        props.history.replace('/billing')
         setOpen(false)
     }
 
@@ -71,9 +73,8 @@ export default function OrderSummary(props) {
     const tableNumber = props.match.params.table_number
 
     const checkout = (totalPrice) => {
-        handleOpen()
         const history = {
-            table_number: orderSummary.table_number,
+            table_number: tableNumber,
             customer_id: customerId,
             orders: orderSummary,
             totol_price: totalPrice,
@@ -83,36 +84,59 @@ export default function OrderSummary(props) {
         console.log('history', history)
         firebase
             .addHistories(history)
-            .then(() => console.log('addHistories success'))
+            .then(() => {})
             .catch((error) =>
                 console.log('addHistories error message:', error.message)
             )
+        firebase
+            .removeCustomer(customerId)
+            .then((response) => {
+                console.log('removeCustomer response', response)
+                handleOpen()
+            })
+            .catch((error) =>
+                console.log('removeCustomer error', error.message)
+            )
+        firebase
+            .updateCustomerTable(tableNumber, '')
+            .then(() => console.log('updateCustomerTable success'))
+            .catch((error) =>
+                console.log('updateCustomerTable error', error.message)
+            )
+
+        firebase
+            .removeCustomerInUsers(customerId)
+            .then(() => console.log('removeCustomerInUsers success'))
+            .catch((error) =>
+                console.log(
+                    'removeCustomerInUsers error.message',
+                    error.message
+                )
+            )
     }
 
-    const fetchOrderSummary = () => {
-        setIsLoading(true)
+    const fetchCustomerData = () => {
         firebase
-            .getOrderSummary(customerId)
-            .then(function (querySnapshot) {
-                setIsLoading(false)
-                let data = []
-                querySnapshot.forEach(function (doc) {
-                    data.push({
-                        id: doc.id,
-                        ...doc.data(),
-                    })
-                })
-                setOrderSummary(data)
-                console.log('orderSummary', data)
+            .getDataFromCustomer(customerId)
+            .then(function (doc) {
+                if (doc.exists) {
+                    if (doc.data().orders) {
+                        setOrderSummary(doc.data().orders)
+                        console.log('getDataFromCustomer:', doc.data().orders)
+                    }
+                    // orders.push(order)
+                } else {
+                    console.log('No such document!')
+                }
             })
-            .catch((error) => {
-                setIsLoading(false)
-                console.log(error.nessage)
+            .catch(function (error) {
+                console.log('Error getting document:', error)
             })
     }
 
     useEffect(() => {
-        fetchOrderSummary()
+        // fetchOrderSummary()
+        fetchCustomerData()
     }, [])
 
     let orderSummaryItems = []
@@ -127,10 +151,9 @@ export default function OrderSummary(props) {
         orderSummaryItems = (
             <React.Fragment>
                 {orderSummary.map((order) => {
-                    
                     totalPrice = 0
                     return (
-                        <Paper className={classes.paper}>
+                        <Paper key={order.id} className={classes.paper}>
                             <Typography>
                                 ออเดอร์ที่ {order.order_number}
                             </Typography>
@@ -157,7 +180,8 @@ export default function OrderSummary(props) {
                                     </TableHead>
                                     <TableBody>
                                         {order.items.map((row) => {
-                                            totalPriceSummary += row.amount * row.price
+                                            totalPriceSummary +=
+                                                row.amount * row.price
                                             totalPrice += row.amount * row.price
                                             return (
                                                 <StyledTableRow key={row.name}>
@@ -218,3 +242,5 @@ export default function OrderSummary(props) {
         </BaseLayout>
     )
 }
+
+export default withRouter(OrderSummary)

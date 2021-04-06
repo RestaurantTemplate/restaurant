@@ -52,26 +52,61 @@ const Queues = (props) => {
         fetchQueues()
     }, [])
 
-    const alertToCustomer = (queue) => {
+    const alertToCustomer = (order) => {
         const alert = {
-            order_number: queue.order_number,
+            order_number: order.order_number,
             status: 'success',
             message:
-                'ออเดอร์หมายเลข ' + queue.order_number + ' เสร็จเรียบร้อยแล้ว',
+                'ออเดอร์หมายเลข ' + order.order_number + ' เสร็จเรียบร้อยแล้ว',
             created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
             updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
         }
 
+        // firebase
+        //     .alertToCustomer(queue.customer_id, alert)
+        //     .then(() => console.log('alert to customer success'))
+        //     .catch((error) =>
+        //         console.log('[alertToCustomer] error message:', error.message)
+        //     )
+
         firebase
-            .alertToCustomer(queue.customer_id, alert)
-            .then(() => console.log('alert to customer success'))
-            .catch((error) =>
-                console.log('[alertToCustomer] error message:', error.message)
-            )
+            .getDataFromCustomer(order.customer_id)
+            .then(function (doc) {
+                if (doc.exists) {
+                    console.log('doc.exists', doc.data())
+                    let notifications = null
+                    if (doc.data().notifications) {
+                        notifications = doc.data().notifications
+                        notifications.push(alert)
+                    } else {
+                        notifications = []
+                        notifications.push(alert)
+                    }
+                    console.log('notifications:', notifications)
+
+                    firebase
+                        .updatedCustomerNotificaitons(order.customer_id, notifications)
+                        .then(() => {
+                            // removeQueueHandler(order.id)
+                            console.log('updatedCustomerNotificaitons success')
+                        })
+                        .catch((error) =>
+                            console.log(
+                                'updatedCustomerNotificaitons error message ',
+                                error.message
+                            )
+                        )
+                } else {
+                    console.log('No such document!')
+                }
+            })
+            .catch(function (error) {
+                console.log('Error getting document:', error)
+            })
     }
 
     const removeQueueHandler = (queueId) => {
-        const newQueues = queues.filter(queue => queue.id !== queueId)
+        const newQueues = queues.filter((queue) => queue.id !== queueId)
         // const queueId = queues[index].id
         firebase
             .removeQueue(queueId)
@@ -90,19 +125,44 @@ const Queues = (props) => {
 
     const addOrderToCustomerOrders = (order) => {
         firebase
-            .addOrderToCustomerOrders(order)
-            .then(() => console.log('addOrderToCustomerOrders success'))
-            .catch((error) =>
-                console.log(
-                    'addOrderToCustomerOrders error message ',
-                    error.message
-                )
-            )
+            .getDataFromCustomer(order.customer_id)
+            .then(function (doc) {
+                if (doc.exists) {
+                    console.log('doc.exists', doc.data())
+                    let orders = null
+                    if (doc.data().orders) {
+                        orders = doc.data().orders
+                        orders.push(order)
+                    } else {
+                        orders = []
+                        orders.push(order)
+                    }
+                    console.log('orders:', orders)
+
+                    firebase
+                        .updatedCustomerOrders(order.customer_id, orders)
+                        .then(() => {
+                            removeQueueHandler(order.id)
+                            console.log('addOrderToCustomerOrders success')
+                        })
+                        .catch((error) =>
+                            console.log(
+                                'addOrderToCustomerOrders error message ',
+                                error.message
+                            )
+                        )
+                } else {
+                    console.log('No such document!')
+                }
+            })
+            .catch(function (error) {
+                console.log('Error getting document:', error)
+            })
     }
 
     const queueHandle = (queue) => {
         addOrderToCustomerOrders(queue)
-        removeQueueHandler(queue.id)
+        // removeQueueHandler(queue.id)
     }
 
     let queueItems = queues.map((queue, index) => (

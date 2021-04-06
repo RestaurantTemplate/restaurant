@@ -27,6 +27,8 @@ export const Tablelist = () => {
             setsum(val)
         }
     }, [])
+
+    let totalPrice = 0
     return (
         <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
@@ -38,17 +40,22 @@ export const Tablelist = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {cart.items.map((row) => (
-                        <TableRow key={row.id}>
-                            <TableCell align="left">{row.name}</TableCell>
-                            <TableCell align="right">{row.amount}</TableCell>
-                            <TableCell align="right">{row.price}</TableCell>
-                        </TableRow>
-                    ))}
+                    {cart.items.map((row) => {
+                        totalPrice += row.amount * row.price
+                        return (
+                            <TableRow key={row.id}>
+                                <TableCell align="left">{row.name}</TableCell>
+                                <TableCell align="right">
+                                    {row.amount}
+                                </TableCell>
+                                <TableCell align="right">{row.amount * row.price}</TableCell>
+                            </TableRow>
+                        )
+                    })}
                     <TableRow>
                         <TableCell />
                         <TableCell align="right">ราคารวม</TableCell>
-                        <TableCell align="right">{sum}</TableCell>
+                        <TableCell align="right">{totalPrice}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>

@@ -39,8 +39,8 @@ export default function Order(props) {
         <Card className={classes.root}>
             <Grid container spacing={3}>
                 <Grid item xs={5} sm={3} md={3}>
-                    <Typography>โต๊ะที่ {order.tableNumber}</Typography>
-                    <Typography>ออเดอร์ที่ {order.orderNumber}</Typography>
+                    <Typography>โต๊ะที่ {order.table_number}</Typography>
+                    <Typography>ออเดอร์ที่ {order.order_number}</Typography>
                     <IconButton className={classes.accept} onClick={() => queueAdded(order.id)}>
                         <CheckCircleOutlineIcon />
                     </IconButton>

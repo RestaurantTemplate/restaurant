@@ -17,6 +17,8 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { HeaderLogin } from '../../containers/index'
 
+import { AlertDialog } from '../../components/Alert'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiTextField-root': {
@@ -38,6 +40,12 @@ const Login = (props) => {
     const [error, setError] = useState(null)
 
     const { state, dispatch } = useContext(Auth)
+    const initialAlert = {
+        open: false,
+        text: 'token ไม่ถูกต้องหรือหมดอายุ กรุณาสแกน QR CODE ใหม่อีกครั้ง',
+        colorNotify: 'error',
+    }
+    const [alert, setalert] = useState(initialAlert)
 
     const token = props.match.params.token
     const tableNumber = props.match.params.table_number
@@ -67,32 +75,42 @@ const Login = (props) => {
                     .addCustomer(customer)
                     .then(() => {
                         firebase
-                            .addCustomerToTable(tableNumber, user.uid)
+                            .updateCustomerTable(tableNumber, user.uid)
                             .then(() => {
-                                const customerInfo = {
-                                    uid: user.uid,
-                                    branchstore: user.branchstore,
-                                    type: 'customer',
-                                    table_number: tableNumber,
-                                    email: null,
-                                    refreshToken: user.refreshToken,
-                                }
-                                localStorage.setItem(
-                                    'user',
-                                    JSON.stringify(customerInfo)
-                                )
-                                setIsLoading(false)
-                                setUserType('customer')
-                                setRouteRedirect(true)
-                                return dispatch({
-                                    type: 'LOGIN',
-                                    payload: customerInfo,
-                                })
+                                firebase
+                                    .addCustomerToRestaurant(customer.uid)
+                                    .then(() => {
+                                        const customerInfo = {
+                                            uid: user.uid,
+                                            branchstore: user.branchstore,
+                                            type: 'customer',
+                                            table_number: tableNumber,
+                                            email: null,
+                                            refreshToken: user.refreshToken,
+                                        }
+                                        localStorage.setItem(
+                                            'user',
+                                            JSON.stringify(customerInfo)
+                                        )
+                                        setIsLoading(false)
+                                        setUserType('customer')
+                                        setRouteRedirect(true)
+                                        return dispatch({
+                                            type: 'LOGIN',
+                                            payload: customerInfo,
+                                        })
+                                    })
+                                    .catch((error) =>
+                                        console.log(
+                                            'addCustomerToRestaurant',
+                                            error.message
+                                        )
+                                    )
                             })
                             .catch((error) => {
                                 setIsLoading(false)
                                 console.log(
-                                    '[addCustomerToTable] error',
+                                    '[updateCustomerTable] error',
                                     error.message
                                 )
                             })
@@ -105,6 +123,7 @@ const Login = (props) => {
             .catch((error) => {
                 setIsLoading(false)
                 console.log('[loginWithToken] error', error.message)
+                setalert({ ...initialAlert, open: true })
                 setError(error.message)
             })
     }
@@ -179,6 +198,10 @@ const Login = (props) => {
 
     return (
         <React.Fragment>
+            <AlertDialog
+                alert={alert}
+                onClose={() => setalert({ ...alert, open: false })}
+            />
             <HeaderLogin background="gray" />
             <Container className={classes.paper}>
                 <Paper elevation={5} className={classes.paper}>

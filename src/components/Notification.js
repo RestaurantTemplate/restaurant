@@ -17,7 +17,6 @@ import ListItemText from '@material-ui/core/ListItemText'
 import firebase from '../firebase/config'
 import { Auth } from '../context/authContext'
 
-
 const useStyles = makeStyles((theme) => ({
     typography: {
         padding: theme.spacing(2),
@@ -52,7 +51,7 @@ function Notification(props) {
     }, [])
 
     const logout = () => {
-        console.log('props',props)
+        console.log('props', props)
         firebase.logout()
         localStorage.clear()
         props.history.replace('/login')
@@ -64,29 +63,47 @@ function Notification(props) {
 
     const fetchNotifications = () => {
         // setIsLoading(true)
-        firebase.getNotifications(state.user.uid).onSnapshot(
-            (snapshot) => {
-                let data = []
-                snapshot.forEach((doc) => {
-                    var source = doc.metadata.hasPendingWrites
-                        ? 'Local'
-                        : 'Server'
-                    if (source === 'Server') {
-                        data.push({
-                            id: doc.id,
-                            ...doc.data(),
-                        })
+        // firebase.getNotifications(state.user.uid).onSnapshot(
+        //     (snapshot) => {
+        //         let data = []
+        //         snapshot.forEach((doc) => {
+        //             var source = doc.metadata.hasPendingWrites
+        //                 ? 'Local'
+        //                 : 'Server'
+        //             if (source === 'Server') {
+        //                 data.push({
+        //                     id: doc.id,
+        //                     ...doc.data(),
+        //                 })
+        //             }
+        //         })
+        //         // setIsLoading(false)
+        //         setNotifications(data)
+        //         console.log('notifications', data)
+        //     },
+        //     function (error) {
+        //         console.log('Notifications Error: ', error.message)
+        //         // logout()
+        //     }
+        // )
+
+        firebase
+            .getDataFromCustomer(state.user.uid)
+            .then(function (doc) {
+                if (doc.exists) {
+                    console.log('doc.exists', doc.data())
+                    if (doc.data().notifications) {
+                        setNotifications(doc.data().notifications)
                     }
-                })
-                // setIsLoading(false)
-                setNotifications(data)
-                console.log('notifications', data)
-            },
-            function (error) {
-                console.log('Notifications Error: ', error.message)
-                // logout()
-            }
-        )
+
+                    console.log('notifications:', doc.data().notifications)
+                } else {
+                    console.log('No such document!')
+                }
+            })
+            .catch(function (error) {
+                console.log('Error getting document:', error)
+            })
     }
 
     let notiItems = notifications.map((noti, index) => {
@@ -127,6 +144,30 @@ function Notification(props) {
             </React.Fragment>
         )
     })
+
+    if (notiItems.length === 0) {
+        notiItems = (
+            <React.Fragment>
+                <ListItem alignItems="flex-start">
+                    <ListItemText
+                        // primary={'ออเดอร์หมายเลข ' + noti.order_number}
+                        secondary={
+                            <React.Fragment>
+                                <Typography
+                                    component="span"
+                                    variant="body2"
+                                    color="textPrimary"
+                                >
+                                    ยังไม่มีการแจ้งเตือน
+                                </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+                <Divider variant="fullWidth" component="li" />
+            </React.Fragment>
+        )
+    }
 
     const toggleDrawer = () => {
         setIsOpen(!isOpen)

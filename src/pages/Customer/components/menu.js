@@ -140,7 +140,8 @@ export const Menu = (props) => {
                                     id: fooditem.id,
                                     name: fooditem.name,
                                     amount: parseInt(count),
-                                    price: price,
+                                    price:  fooditem.price,
+                                    totalPrice: fooditem.price * parseInt(count),
                                 })
                             }
                         >
