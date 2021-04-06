@@ -70,7 +70,7 @@ export function Table(props) {
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
                     <Box component='div' style={{textAlign:'center'}}>
-                        <QRCode size={200} value={"http://192.168.0.174:3000/login/"+doc.value.table_number+"/"+link} />
+                        <QRCode size={200} value={window.location.origin+"/login/"+doc.value.table_number+"/"+link} />
                     </Box>
                 </Grid>
             </Grid>
