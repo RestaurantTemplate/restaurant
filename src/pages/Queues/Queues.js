@@ -12,6 +12,7 @@ import {
 import firebase from '../../firebase/config'
 import Queue from './components/Queue'
 import BaseLayout from '../../components/BaseLayout'
+import { AlertDialog } from '../../components/Alert'
 
 const useStyles = makeStyles({
     paper: {
@@ -26,6 +27,13 @@ const useStyles = makeStyles({
 const Queues = (props) => {
     const [queues, setQueues] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+
+    const initialAlert = {
+        open: false,
+        text: 'แจ้งเตือนไปยังลูกค้าแล้ว',
+        colorNotify: 'success',
+    }
+    const [alert, setalert] = useState(initialAlert)
 
     const classes = useStyles()
 
@@ -54,6 +62,7 @@ const Queues = (props) => {
 
     const alertToCustomer = (order) => {
         const alert = {
+            customer_id: order.customer_id,
             order_number: order.order_number,
             status: 'success',
             message:
@@ -62,47 +71,50 @@ const Queues = (props) => {
             updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
         }
 
-        // firebase
-        //     .alertToCustomer(queue.customer_id, alert)
-        //     .then(() => console.log('alert to customer success'))
-        //     .catch((error) =>
-        //         console.log('[alertToCustomer] error message:', error.message)
-        //     )
-
         firebase
-            .getDataFromCustomer(order.customer_id)
-            .then(function (doc) {
-                if (doc.exists) {
-                    console.log('doc.exists', doc.data())
-                    let notifications = null
-                    if (doc.data().notifications) {
-                        notifications = doc.data().notifications
-                        notifications.push(alert)
-                    } else {
-                        notifications = []
-                        notifications.push(alert)
-                    }
-                    console.log('notifications:', notifications)
+            .alertToCustomer(alert)
+            .then(() => {
+                setalert({ ...initialAlert, open: true })
+                console.log('alert to customer success')
+            })
+            .catch((error) =>
+                console.log('[alertToCustomer] error message:', error.message)
+            )
 
-                    firebase
-                        .updatedCustomerNotificaitons(order.customer_id, notifications)
-                        .then(() => {
-                            // removeQueueHandler(order.id)
-                            console.log('updatedCustomerNotificaitons success')
-                        })
-                        .catch((error) =>
-                            console.log(
-                                'updatedCustomerNotificaitons error message ',
-                                error.message
-                            )
-                        )
-                } else {
-                    console.log('No such document!')
-                }
-            })
-            .catch(function (error) {
-                console.log('Error getting document:', error)
-            })
+        // firebase
+        //     .getDataFromCustomer(order.customer_id)
+        //     .then(function (doc) {
+        //         if (doc.exists) {
+        //             console.log('doc.exists', doc.data())
+        //             let notifications = null
+        //             if (doc.data().notifications) {
+        //                 notifications = doc.data().notifications
+        //                 notifications.push(alert)
+        //             } else {
+        //                 notifications = []
+        //                 notifications.push(alert)
+        //             }
+        //             console.log('notifications:', notifications)
+
+        //             firebase
+        //                 .updatedCustomerNotificaitons(order.customer_id, notifications)
+        //                 .then(() => {
+        //                     // removeQueueHandler(order.id)
+        //                     console.log('updatedCustomerNotificaitons success')
+        //                 })
+        //                 .catch((error) =>
+        //                     console.log(
+        //                         'updatedCustomerNotificaitons error message ',
+        //                         error.message
+        //                     )
+        //                 )
+        //         } else {
+        //             console.log('No such document!')
+        //         }
+        //     })
+        //     .catch(function (error) {
+        //         console.log('Error getting document:', error)
+        //     })
     }
 
     const removeQueueHandler = (queueId) => {
@@ -183,6 +195,10 @@ const Queues = (props) => {
 
     return (
         <BaseLayout>
+            <AlertDialog
+                alert={alert}
+                onClose={() => setalert({ ...alert, open: false })}
+            />
             <Container>
                 <Paper elevation={5} className={classes.paper}>
                     <Typography variant="h4" className={classes.textOrder}>
