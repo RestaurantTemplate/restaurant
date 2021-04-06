@@ -1,5 +1,3 @@
-import moment from 'moment'
-
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -77,7 +75,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Orders')
             .orderBy('created_at', 'asc')
 
@@ -85,7 +83,7 @@ class Firebase {
         const firestoreOrder = firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Orders')
 
         //    console.log('id', firestoreOrder.doc().id)
@@ -96,7 +94,7 @@ class Firebase {
         const firestoreOrder = firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Orders')
             .doc(id)
             .delete()
@@ -107,7 +105,7 @@ class Firebase {
         const firestoreQueues = firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Queues')
 
         //    console.log('id', firestoreOrder.doc().id)
@@ -118,7 +116,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Queues')
             .orderBy('created_at', 'asc')
 
@@ -126,7 +124,7 @@ class Firebase {
         const firestoreOrder = firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Queues')
             .doc(id)
             .delete()
@@ -137,7 +135,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Notifications')
             .orderBy('created_at', 'desc')
 
@@ -159,11 +157,11 @@ class Firebase {
     removeCustomerInUsers = (customerId) =>
         firebase.firestore().collection('Users').doc(customerId).delete()
 
-    updateCustomerTable = (tableNumber, customerId) =>
+    updateCustomerTable = (branchstore,tableNumber, customerId) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Tables')
             .doc('TABLE_' + tableNumber)
             .update({ customer_id: customerId })
@@ -172,7 +170,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Tables')
             .orderBy('table_number', 'asc')
 
@@ -180,7 +178,7 @@ class Firebase {
     //     firebase
     //         .firestore()
     //         .collection('Restaurants')
-    //         .doc('ORfpUYXcivMoLs1ObM8R')
+    //         .doc('jhWrzDEa4RKqBG2vifmm')
     //         .collection('Customers')
     //         .doc(id)
     //         .collection('Orders')
@@ -191,7 +189,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Histories')
             .add(history)
 
@@ -201,12 +199,12 @@ class Firebase {
         return firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Histories')
             .orderBy('created_at', 'asc')
-            // .where('created_at', '>=', start)
-            // .where('created_at', '<=', end)
-            // .get()
+        // .where('created_at', '>=', start)
+        // .where('created_at', '<=', end)
+        // .get()
     }
 
     getAllHistories = (branchstore) =>
@@ -220,7 +218,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Sales')
             .doc(year)
 
@@ -228,7 +226,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('MainDishes')
             .get()
 
@@ -236,7 +234,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Desserts')
             .get()
 
@@ -244,7 +242,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Appetizers')
             .get()
 
@@ -252,7 +250,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Drinks')
             .get()
 
@@ -260,7 +258,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Orders')
             .add(order)
 
@@ -268,7 +266,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Notifications')
             .add(alert)
 
@@ -276,7 +274,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Customers')
             .doc(customerId.toString())
             .get()
@@ -285,7 +283,7 @@ class Firebase {
     //     firebase
     //         .firestore()
     //         .collection('Restaurants')
-    //         .doc('ORfpUYXcivMoLs1ObM8R')
+    //         .doc('jhWrzDEa4RKqBG2vifmm')
     //         .collection('Customers')
     //         .doc(customerId.toString())
     //         .update(order)
@@ -294,7 +292,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Customers')
             .doc(customerId.toString())
             .update({ orders: orders })
@@ -303,7 +301,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Customers')
             .doc(customerId.toString())
             .update({ notifications: notifications })
@@ -312,7 +310,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Customers')
             .doc(uid)
             .set({})
@@ -321,7 +319,7 @@ class Firebase {
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('ORfpUYXcivMoLs1ObM8R')
+            .doc('jhWrzDEa4RKqBG2vifmm')
             .collection('Customers')
             .doc(customerId)
             .delete()
