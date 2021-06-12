@@ -154,7 +154,7 @@ function OrderSummary(props) {
     useEffect(() => {
         // fetchOrderSummary()
         fetchCustomerData()
-        recommended()
+        // recommended()
     }, [])
 
     let orderSummaryItems = []
