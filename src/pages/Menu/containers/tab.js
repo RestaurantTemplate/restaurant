@@ -5,7 +5,7 @@ import {AppBar,Tab,Container,Paper,Box,CircularProgress } from '@material-ui/cor
 import {Menu,List} from './../components';
 import {Dialoglist} from './dialog';
 import {useStyles} from './../../../css/css';
-import {Auth} from './../../../context/authContext';
+import {Auth} from './../../../context/authContext'; 
 import {getAllMaindishes} from './../../../firebase/maindishesFirebase';
 import {getAllAppetizers} from './../../../firebase/appetizersFirebase';
 import {getAllDesserts} from './../../../firebase/dessertsFirebase';

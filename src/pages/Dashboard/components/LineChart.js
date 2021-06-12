@@ -8,7 +8,8 @@ import {
     ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui'
 import { Paper } from '@material-ui/core'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import {Auth} from '../../../context/authContext';
 
 import firebase from '../../../firebase/config'
 
@@ -64,6 +65,7 @@ const monthlySales = [
 
 export const LineChart = () => {
     const [chartData, setChartData] = useState(generateData(monthlySales))
+    const {state} = useContext(Auth);
 
     // const [monthlySales, setMonthlySales] = useState([])
 
@@ -84,7 +86,7 @@ export const LineChart = () => {
     const fetchHistoriesJan = () => {
 
 
-        firebase.getHistories().onSnapshot(
+        firebase.getHistories(state.user.branchstore).onSnapshot(
             (snapshot) => {
                 let data = []
                 snapshot.forEach((doc) => {

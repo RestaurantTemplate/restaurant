@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import { withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
@@ -13,6 +13,7 @@ import firebase from '../../firebase/config'
 
 import Table from './components/Table'
 import BaseLayout from '../../components/BaseLayout'
+import {Auth} from '../../context/authContext';
 
 const useStyles = makeStyles({
     paper: {
@@ -29,11 +30,11 @@ const Billing = (props) => {
 
     const [tables, setTables] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const {state} = useContext(Auth);
 
     const fetchTables = () => {
         setIsLoading(true)
-        // firebase.addOrders().then()
-        firebase.getTable().onSnapshot(
+        firebase.getTable(state.user.branchstore).onSnapshot(
             (snapshot) => {
                 let data = []
                 snapshot.forEach((doc) => {

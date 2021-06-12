@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import moment from 'moment'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -14,6 +14,7 @@ import firebase from '../../firebase/config'
 import Order from './components/Order'
 import BaseLayout from '../../components/BaseLayout'
 import { AlertDialog } from '../../components/Alert'
+import {Auth} from '../../context/authContext';
 
 const useStyles = makeStyles({
     paper: {
@@ -29,6 +30,8 @@ const Orders = (props) => {
     const [orders, setOrders] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
+    const {state} = useContext(Auth);
+
     const initialAlert = {
         open: false,
         text: 'รับออเดอร์เรียบร้อยแล้ว',
@@ -40,8 +43,7 @@ const Orders = (props) => {
 
     const fetchOrders = () => {
         setIsLoading(true)
-        // firebase.addOrders().then()
-        firebase.getOrders().onSnapshot(
+        firebase.getOrders(state.user.branchstore).onSnapshot(
             (snapshot) => {
                 let data = []
                 snapshot.forEach((doc) => {
@@ -81,7 +83,7 @@ const Orders = (props) => {
             created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
             updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
         }
-        firebase.addQueues(queue).then((response) => {
+        firebase.addQueues(state.user.branchstore,queue).then((response) => {
             removeOrderHandler(orderId)
             setalert({ ...initialAlert, open: true })
             console.log(response)
@@ -91,7 +93,7 @@ const Orders = (props) => {
     const removeOrderHandler = (orderId) => {
         const newOrders = orders.filter((order) => order.id !== orderId)
         firebase
-            .removeOrders(orderId)
+            .removeOrders(state.user.branchstore,orderId)
             .then((response) => {
                 console.log('remove order successful!!!')
                 setOrders(newOrders)

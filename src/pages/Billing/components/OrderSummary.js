@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { withRouter } from 'react-router-dom'
 
 import moment from 'moment'
@@ -21,6 +21,7 @@ import BaseLayout from '../../../components/BaseLayout'
 
 import firebase from '../../../firebase/config'
 import SimpleModal from './Modal'
+import {Auth} from '../../../context/authContext';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -59,6 +60,7 @@ function OrderSummary(props) {
     const [orderSummary, setOrderSummary] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false)
+    const {state} = useContext(Auth);
 
     const handleOpen = () => {
         setOpen(true)
@@ -72,6 +74,12 @@ function OrderSummary(props) {
     const customerId = props.match.params.id
     const tableNumber = props.match.params.table_number
 
+    // const recommended = () => {
+    //     orderSummary.map(order => {
+    //         console.log('order', order)
+    //     })
+    // }
+
     const checkout = (totalPrice) => {
         const history = {
             month: new Date().getMonth(),
@@ -84,13 +92,13 @@ function OrderSummary(props) {
         }
         console.log('history', history)
         firebase
-            .addHistories(history)
+            .addHistories(state.user.branchstore,history)
             .then(() => {})
             .catch((error) =>
                 console.log('addHistories error message:', error.message)
             )
         firebase
-            .removeCustomer(customerId)
+            .removeCustomer(state.user.branchstore,customerId)
             .then((response) => {
                 console.log('removeCustomer response', response)
                 handleOpen()
@@ -99,7 +107,7 @@ function OrderSummary(props) {
                 console.log('removeCustomer error', error.message)
             )
         firebase
-            .updateCustomerTable(tableNumber, '')
+            .updateCustomerTable(state.user.branchstore,tableNumber, '')
             .then(() => console.log('updateCustomerTable success'))
             .catch((error) =>
                 console.log('updateCustomerTable error', error.message)
@@ -114,11 +122,19 @@ function OrderSummary(props) {
                     error.message
                 )
             )
+        
+        // firebase
+        //     .addRecommended(state.user.branchstore, orderSummary)
+        //     .then(() => console.log('addRecommended success'))
+        //     .catch((error) =>
+        //         console.log('updateCustomerTable error', error.message)
+        //     )
+
     }
 
     const fetchCustomerData = () => {
         firebase
-            .getDataFromCustomer(customerId)
+            .getDataFromCustomer(state.user.branchstore,customerId)
             .then(function (doc) {
                 if (doc.exists) {
                     if (doc.data().orders) {
@@ -138,6 +154,7 @@ function OrderSummary(props) {
     useEffect(() => {
         // fetchOrderSummary()
         fetchCustomerData()
+        recommended()
     }, [])
 
     let orderSummaryItems = []

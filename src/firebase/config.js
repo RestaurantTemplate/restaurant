@@ -71,71 +71,71 @@ class Firebase {
         })
     }
 
-    getOrders = () =>
+    getOrders = (branch_id) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Orders')
             .orderBy('created_at', 'asc')
 
-    addOrders = (order) => {
+    addOrders = (branch_id,order) => {
         const firestoreOrder = firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Orders')
 
         //    console.log('id', firestoreOrder.doc().id)
         return firestoreOrder.add(order)
     }
 
-    removeOrders = (id) => {
+    removeOrders = (branch_id,id) => {
         const firestoreOrder = firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Orders')
             .doc(id)
             .delete()
         return firestoreOrder
     }
 
-    addQueues = (queue) => {
+    addQueues = (branch_id,queue) => {
         const firestoreQueues = firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Queues')
 
         //    console.log('id', firestoreOrder.doc().id)
         return firestoreQueues.add(queue)
     }
 
-    getQueues = () =>
+    getQueues = (branch_id) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Queues')
             .orderBy('created_at', 'asc')
 
-    removeQueue = (id) => {
+    removeQueue = (branch_id,id) => {
         const firestoreOrder = firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Queues')
             .doc(id)
             .delete()
         return firestoreOrder
     }
 
-    getNotifications = (customerId) =>
+    getNotifications = (branch_id,customerId) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Notifications')
             .orderBy('created_at', 'desc')
 
@@ -157,20 +157,20 @@ class Firebase {
     removeCustomerInUsers = (customerId) =>
         firebase.firestore().collection('Users').doc(customerId).delete()
 
-    updateCustomerTable = (tableNumber, customerId) =>
+    updateCustomerTable = (branch_id,tableNumber, customerId) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Tables')
             .doc('TABLE_' + tableNumber)
             .update({ customer_id: customerId })
 
-    getTable = () =>
+    getTable = (branch_id) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Tables')
             .orderBy('table_number', 'asc')
 
@@ -185,21 +185,21 @@ class Firebase {
     //         .orderBy('created_at', 'desc')
     //         .get()
 
-    addHistories = (history) =>
+    addHistories = (branch_id,history) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Histories')
             .add(history)
 
-    getHistories = () => {
+    getHistories = (branch_id) => {
         // const start = new Date('2021-04-01');
         // const end = new Date('2021-04-28');
         return firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Histories')
             .orderBy('created_at', 'asc')
         // .where('created_at', '>=', start)
@@ -214,67 +214,67 @@ class Firebase {
             .doc(branchstore)
             .collection('Histories')
 
-    getSales = (year) =>
-        firebase
-            .firestore()
-            .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
-            .collection('Sales')
-            .doc(year)
+    // getSales = (branch_id,year) =>
+    //     firebase
+    //         .firestore()
+    //         .collection('Restaurants')
+    //         .doc(branch_id)
+    //         .collection('Sales')
+    //         .doc(year)
 
-    getMainDishes = () =>
+    getMainDishes = (branch_id) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('MainDishes')
             .get()
 
-    getDesserts = () =>
+    getDesserts = (branch_id) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Desserts')
             .get()
 
-    getAppetizers = () =>
+    getAppetizers = (branch_id) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Appetizers')
             .get()
 
-    getDrinks = () =>
+    getDrinks = (branch_id) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Drinks')
             .get()
 
-    addOrder = (order) =>
+    addOrder = (branch_id,order) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Orders')
             .add(order)
 
-    alertToCustomer = (alert) =>
+    alertToCustomer = (branch_id,alert) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Notifications')
             .add(alert)
 
-    getDataFromCustomer = (customerId) =>
+    getDataFromCustomer = (branch_id,customerId) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Customers')
             .doc(customerId.toString())
             .get()
@@ -288,41 +288,50 @@ class Firebase {
     //         .doc(customerId.toString())
     //         .update(order)
 
-    updatedCustomerOrders = (customerId, orders) =>
+    updatedCustomerOrders = (branch_id,customerId, orders) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Customers')
             .doc(customerId.toString())
             .update({ orders: orders })
 
-    updatedCustomerNotificaitons = (customerId, notifications) =>
-        firebase
-            .firestore()
-            .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
-            .collection('Customers')
-            .doc(customerId.toString())
-            .update({ notifications: notifications })
+    // updatedCustomerNotificaitons = (branch_id,customerId, notifications) =>
+    //     firebase
+    //         .firestore()
+    //         .collection('Restaurants')
+    //         .doc(branch_id)
+    //         .collection('Customers')
+    //         .doc(customerId.toString())
+    //         .update({ notifications: notifications })
 
-    addCustomerToRestaurant = (uid) =>
+    addCustomerToRestaurant = (branch_id,uid) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Customers')
             .doc(uid)
             .set({})
 
-    removeCustomer = (customerId) =>
+    removeCustomer = (branch_id,customerId) =>
         firebase
             .firestore()
             .collection('Restaurants')
-            .doc('jhWrzDEa4RKqBG2vifmm')
+            .doc(branch_id)
             .collection('Customers')
             .doc(customerId)
             .delete()
+    
+    addRecommended = (branch_id, item) =>
+        firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc(branch_id)
+            .collection('Recommended')
+            .doc(item.id)
+            .add(item)
 }
 
 export default new Firebase()

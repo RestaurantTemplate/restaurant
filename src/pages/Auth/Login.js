@@ -49,6 +49,7 @@ const Login = (props) => {
 
     const token = props.match.params.token
     const tableNumber = props.match.params.table_number
+    const branchId = props.match.params.branch_id
 
     useEffect(() => {
         if (token) {
@@ -71,18 +72,19 @@ const Login = (props) => {
                     created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
                     updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
                 }
+                console.log('customer', customer)
                 firebase
                     .addCustomer(customer)
                     .then(() => {
                         firebase
-                            .updateCustomerTable(tableNumber, user.uid)
+                            .updateCustomerTable(branchId,tableNumber, user.uid)
                             .then(() => {
                                 firebase
-                                    .addCustomerToRestaurant(customer.uid)
+                                    .addCustomerToRestaurant(branchId,customer.uid)
                                     .then(() => {
                                         const customerInfo = {
                                             uid: user.uid,
-                                            branchstore: user.branchstore,
+                                            branchstore: branchId,
                                             type: 'customer',
                                             table_number: tableNumber,
                                             email: null,

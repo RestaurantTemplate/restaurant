@@ -58,7 +58,7 @@ function CartProvider({ children }) {
             updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
         }
         firebase
-        .addOrder(order)
+        .addOrder(state.user.branchstore,order)
         .then(() => {
             setCart(initialCart)
         })

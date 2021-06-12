@@ -64,7 +64,7 @@ function Notification(props) {
     console.log('state user', state.user)
 
     const fetchNotifications = () => {
-        firebase.getNotifications(state.user.uid).onSnapshot(
+        firebase.getNotifications(state.user.branchstore,state.user.uid).onSnapshot(
             (snapshot) => {
                 let data = []
                 snapshot.forEach((doc) => {

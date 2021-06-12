@@ -25,7 +25,7 @@ const Routes = (props) => {
     let routes = (
         <Switch>
             <Route path="/login" component={Login} exact />
-            <Route path="/login/:table_number/:token" component={Login} />
+            <Route path="/login/:branch_id/:table_number/:token" component={Login} />
             <Redirect to="/login" />
         </Switch>
     )

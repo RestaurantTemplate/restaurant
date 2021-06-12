@@ -41,7 +41,7 @@ export const Tabmenu = (props) => {
     const fetchMainDishes = () => {
         setIsLoading(true)
         firebase
-            .getMainDishes()
+            .getMainDishes(state.user.branchstore)
             .then(function (querySnapshot) {
                 let data = []
                 querySnapshot.forEach(function (doc) {
@@ -61,7 +61,7 @@ export const Tabmenu = (props) => {
 
     const fetchDesserts = () => {
         firebase
-            .getDesserts()
+            .getDesserts(state.user.branchstore)
             .then(function (querySnapshot) {
                 let data = []
                 querySnapshot.forEach(function (doc) {
@@ -80,7 +80,7 @@ export const Tabmenu = (props) => {
 
     const fetchDrinks = () => {
         firebase
-            .getDrinks()
+            .getDrinks(state.user.branchstore)
             .then(function (querySnapshot) {
                 let data = []
                 querySnapshot.forEach(function (doc) {
@@ -99,7 +99,7 @@ export const Tabmenu = (props) => {
 
     const fetchAppetizers = () => {
         firebase
-            .getAppetizers()
+            .getAppetizers(state.user.branchstore)
             .then(function (querySnapshot) {
                 let data = []
                 querySnapshot.forEach(function (doc) {

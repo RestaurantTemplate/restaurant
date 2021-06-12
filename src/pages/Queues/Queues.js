@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import moment from 'moment'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -13,6 +13,7 @@ import firebase from '../../firebase/config'
 import Queue from './components/Queue'
 import BaseLayout from '../../components/BaseLayout'
 import { AlertDialog } from '../../components/Alert'
+import {Auth} from '../../context/authContext';
 
 const useStyles = makeStyles({
     paper: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles({
 const Queues = (props) => {
     const [queues, setQueues] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const {state} = useContext(Auth);
 
     const initialAlert = {
         open: false,
@@ -39,7 +41,7 @@ const Queues = (props) => {
 
     const fetchQueues = () => {
         setIsLoading(true)
-        firebase.getQueues().onSnapshot((snapshot) => {
+        firebase.getQueues(state.user.branchstore).onSnapshot((snapshot) => {
             let data = []
             snapshot.forEach((doc) => {
                 var source = doc.metadata.hasPendingWrites ? 'Local' : 'Server'
@@ -72,7 +74,7 @@ const Queues = (props) => {
         }
 
         firebase
-            .alertToCustomer(alert)
+            .alertToCustomer(state.user.branchstore,alert)
             .then(() => {
                 setalert({ ...initialAlert, open: true })
                 console.log('alert to customer success')
@@ -121,7 +123,7 @@ const Queues = (props) => {
         const newQueues = queues.filter((queue) => queue.id !== queueId)
         // const queueId = queues[index].id
         firebase
-            .removeQueue(queueId)
+            .removeQueue(state.user.branchstore,queueId)
             .then((response) => {
                 console.log('remove queue successful!!!')
                 // console.log('response', response)
@@ -137,8 +139,9 @@ const Queues = (props) => {
 
     const addOrderToCustomerOrders = (order) => {
         firebase
-            .getDataFromCustomer(order.customer_id)
+            .getDataFromCustomer(state.user.branchstore,order.customer_id)
             .then(function (doc) {
+                console.log('doc',doc)
                 if (doc.exists) {
                     console.log('doc.exists', doc.data())
                     let orders = null
@@ -152,7 +155,7 @@ const Queues = (props) => {
                     console.log('orders:', orders)
 
                     firebase
-                        .updatedCustomerOrders(order.customer_id, orders)
+                        .updatedCustomerOrders(state.user.branchstore,order.customer_id, orders)
                         .then(() => {
                             removeQueueHandler(order.id)
                             console.log('addOrderToCustomerOrders success')
