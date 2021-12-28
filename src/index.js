@@ -3,15 +3,18 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from './context/authContext'
+import reportWebVitals from './reportWebVitals';
+import ContextProvider from './reducers/compareReducer'
 
 import './index.css'
 
 ReactDOM.render(
-    <AuthProvider>
+    <ContextProvider>
         <BrowserRouter>
             <App />
-        </BrowserRouter>
-    </AuthProvider>,
+        </BrowserRouter>            
+    </ContextProvider>,
     document.getElementById('root')
 )
+
+reportWebVitals();

@@ -1,5 +1,5 @@
 // src/routes.js
-import React from 'react'
+import React,{useState} from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 import Customer from './pages/Customer'
@@ -18,10 +18,9 @@ import Login from './pages/Auth/Login'
 import OrderSummary from './pages/Billing/components/OrderSummary'
 
 import { Auth } from './context/authContext'
-
+import BaseLayout from './components/BaseLayout'
 const Routes = (props) => {
     const { state } = React.useContext(Auth)
-    
     let routes = (
         <Switch>
             <Route path="/login" component={Login} exact />
@@ -34,41 +33,53 @@ const Routes = (props) => {
         if (state.user.type === 'manager') {
             if(state.user.branchstore !== ''){
                 routes = (
-                    <Switch>
-                        <Route path="/branchstore" component={BranchStore} />
-                        <Route path="/dashboard" component={Dashboard} exact />
-                        <Route path="/history" component={History} />
-                        <Route path="/menu" component={Menu} />
-                        <Route path="/salesrecord" component={Salesrecord} />
-                        <Route path="/table" component={Table} />
-                        <Redirect to="/dashboard" />
-                    </Switch>
+                    <>
+                        <BaseLayout />
+                        <Switch>
+                            <Route path="/branchstore" component={BranchStore} />
+                            <Route path="/dashboard" component={Dashboard} exact />
+                            <Route path="/history" component={History} />
+                            <Route path="/menu" component={Menu} />
+                            <Route path="/salesrecord" component={Salesrecord} />
+                            <Route path="/table" component={Table} />
+                            <Redirect to="/dashboard" />
+                        </Switch>
+                    </>
                 )
             }
             else{
                 routes = (
-                    <Switch>
-                        <Route path="/selectbranchstore" component={SelectBranchStore} />
-                        <Redirect to="/selectbranchstore" />
-                    </Switch>
+                    <>
+                        <BaseLayout />
+                        <Switch>
+                            <Route path="/selectbranchstore" component={SelectBranchStore} />
+                            <Redirect to="/selectbranchstore" />
+                        </Switch>
+                    </>
                 )
             }
         } else if (state.user.type === 'staff') {
             routes = (
-                <Switch>
-                    <Route path="/orders" component={Orders} exact/>
-                    <Route path="/queues" component={Queues} />
-                    <Route path="/billing" component={Billing} exact/>
-                    <Route path="/billing/order_summary/:table_number/:id" component={OrderSummary} exact/>
-                    <Redirect to="/orders" />
-                </Switch>
+                <>
+                    <BaseLayout />
+                    <Switch>
+                        <Route path="/orders" component={Orders} exact/>
+                        <Route path="/queues" component={Queues} />
+                        <Route path="/billing" component={Billing} exact/>
+                        <Route path="/billing/order_summary/:table_number/:id" component={OrderSummary} exact/>
+                        <Redirect to="/orders" />
+                    </Switch>
+                </>
             )
         } else if (state.user.type === 'customer') {
             routes = (
-                <Switch>
-                    <Route path="/customer" component={Customer} />
-                    <Redirect to="/customer" />
-                </Switch>
+                <>
+                    <BaseLayout />
+                    <Switch>
+                        <Route path="/customer" component={Customer} />
+                        <Redirect to="/customer" />
+                    </Switch>
+                </>
             )
         }
     }

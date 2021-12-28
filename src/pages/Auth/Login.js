@@ -9,7 +9,7 @@ import {
     Button,
     Container,
     TextField,
-    Paper,
+    Box,
     CircularProgress,
 } from '@material-ui/core'
 
@@ -19,16 +19,51 @@ import { HeaderLogin } from '../../containers/index'
 
 import { AlertDialog } from '../../components/Alert'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) =>  console.log('theme:',theme) || ({
     root: {
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
-            width: 200,
         },
+        '& .MuiContainer-root': {
+            padding: '0px',
+        },
+        marginTop:theme.spacing(14),
     },
-    paper: {
-        padding: '20px',
+    login:{
+        backgroundColor: '#5daf3f',
+        color:'#f0ffe8',
+        margin: theme.spacing(1),
     },
+    paper: {    
+        justifyContent: 'center',
+        [theme.breakpoints.up('lg')]: {
+            display: "flex",
+        },
+        height:'100%',
+        width: '70%',
+        boxShadow: '0 5px 10px 0 rgba(0, 0, 0, 0.2)',
+    },
+    box: {
+        padding:theme.spacing(3),
+    },
+    font:{
+        fontFamily: 'Pattaya, sans-serif',
+        fontSize:'75px',
+        color:'#f0ffe8',
+    },
+    backgrounds:{
+        textAlign: 'center',
+        justifyContent: 'center',
+        [theme.breakpoints.up('md')]: {
+            height:'300px',
+            width: '100%',
+        },
+        [theme.breakpoints.down('md')]: {
+            height:'100px',
+            width: '100%',
+        },
+        background: 'rgb(34,193,195) linear-gradient(239deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)'
+    }
 }))
 
 const Login = (props) => {
@@ -189,8 +224,8 @@ const Login = (props) => {
     }
 
     let button = (
-        <Button variant="contained" type="submit">
-            Login
+        <Button variant="contained" fullWidth onClick={handleSubmit} className={classes.login}>
+            Sign In
         </Button>
     )
 
@@ -199,45 +234,39 @@ const Login = (props) => {
     }
 
     return (
-        <React.Fragment>
-            <AlertDialog
-                alert={alert}
-                onClose={() => setalert({ ...alert, open: false })}
-            />
-            <HeaderLogin background="gray" />
-            <Container className={classes.paper}>
-                <Paper elevation={5} className={classes.paper}>
-                    <form
-                        onSubmit={handleSubmit}
-                        className={classes.root}
-                        noValidate
-                        autoComplete="off"
-                    >
-                        <div>
-                            <TextField
-                                id="input-email"
-                                variant="outlined"
-                                fullWidth
-                                label="Email"
-                                type="email"
-                                placeholder="Email"
-                            />
-                        </div>
-                        <div>
-                            <TextField
-                                id="input-password"
-                                variant="outlined"
-                                fullWidth
-                                label="Password"
-                                type="password"
-                                placeholder="Password"
-                            />
-                        </div>
-                        {button}
-                    </form>
-                </Paper>
-            </Container>
-        </React.Fragment>
+                <React.Fragment>
+                    <AlertDialog
+                        alert={alert}
+                        onClose={() => setalert({ ...alert, open: false })}
+                    />
+                    <Container className={classes.root}>
+                        <Container  className={classes.paper}>
+                            <div className={classes.backgrounds}>
+                                <p className={classes.font}>{'Ez Restaurant'}</p>
+                            </div>
+                            <div className={classes.box}>
+                                <HeaderLogin background="gray" />
+                                <TextField
+                                    id="input-email"
+                                    variant="outlined"
+                                    fullWidth
+                                    label="Email"
+                                    type="email"
+                                    placeholder="Email"
+                                />
+                                <TextField
+                                    id="input-password"
+                                    variant="outlined"
+                                    fullWidth
+                                    label="Password"
+                                    type="password"
+                                    placeholder="Password"
+                                />
+                                {button}
+                            </div>
+                        </Container>
+                    </Container>
+                </React.Fragment>
     )
 }
 

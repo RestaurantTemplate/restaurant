@@ -1,21 +1,14 @@
-import React, { useState } from 'react'
-
+import React,{useContext} from 'react'
+import {useCustomerContext} from '../../context/customerContext'
 import { Tabmenu, Dialoglist } from './containers'
-import BaseLayout from '../../components/BaseLayout'
 import './style.css'
-import CartProvider from '../../context/cartContext'
 
 function Customer() {
-    const [open, setopen] = useState(false)
-
+    const {open,setopen} = useCustomerContext();
     return (
         <React.Fragment>
-            <CartProvider>
-                <BaseLayout setopenmenu={setopen}>
-                    <Tabmenu />
-                </BaseLayout>
-                <Dialoglist open={open} setopen={setopen} />
-            </CartProvider>
+            <Tabmenu />
+            <Dialoglist open={open} setopen={setopen} />
         </React.Fragment>
     )
 }

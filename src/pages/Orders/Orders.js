@@ -118,7 +118,7 @@ const Orders = (props) => {
     }
 
     return (
-        <BaseLayout>
+        <>
             <AlertDialog
                 alert={alert}
                 onClose={() => setalert({ ...alert, open: false })}
@@ -131,7 +131,7 @@ const Orders = (props) => {
                     {orderItems}
                 </Paper>
             </Container>
-        </BaseLayout>
+        </>
     )
 }
 
