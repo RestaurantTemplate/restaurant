@@ -109,7 +109,7 @@ function PrimarySearchAppBar(props) {
                 <IconButton
                     aria-label="show 4 new mails"
                     color="inherit"
-                    onClick={() => setopenmenu(true)}
+                    onClick={() => {setopenmenu(true)}}
                 >
                     <Badge
                         badgeContent={

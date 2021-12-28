@@ -17,7 +17,6 @@ import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import BaseLayout from '../../../components/BaseLayout'
 
 import firebase from '../../../firebase/config'
 import SimpleModal from './Modal'
@@ -247,7 +246,7 @@ function OrderSummary(props) {
     }
 
     return (
-        <BaseLayout>
+        <>
             <Container>
                 <Paper elevation={5} className={classes.paper}>
                     <Typography variant="h5" className={classes.textHeader}>
@@ -257,7 +256,7 @@ function OrderSummary(props) {
                 </Paper>
             </Container>
             <SimpleModal open={open} handleClose={handleClose} />
-        </BaseLayout>
+        </>
     )
 }
 

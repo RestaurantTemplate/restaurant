@@ -14,7 +14,6 @@ export const AuthProvider = (props) => {
     const value = {state, dispatch};
 
     const user = JSON.parse(localStorage.getItem('user'))
-
     if (user) {
         console.log('[Local Storage] user :' , user)
         initialState.user = user

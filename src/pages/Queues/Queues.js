@@ -11,7 +11,6 @@ import {
 
 import firebase from '../../firebase/config'
 import Queue from './components/Queue'
-import BaseLayout from '../../components/BaseLayout'
 import { AlertDialog } from '../../components/Alert'
 import {Auth} from '../../context/authContext';
 
@@ -82,41 +81,6 @@ const Queues = (props) => {
             .catch((error) =>
                 console.log('[alertToCustomer] error message:', error.message)
             )
-
-        // firebase
-        //     .getDataFromCustomer(order.customer_id)
-        //     .then(function (doc) {
-        //         if (doc.exists) {
-        //             console.log('doc.exists', doc.data())
-        //             let notifications = null
-        //             if (doc.data().notifications) {
-        //                 notifications = doc.data().notifications
-        //                 notifications.push(alert)
-        //             } else {
-        //                 notifications = []
-        //                 notifications.push(alert)
-        //             }
-        //             console.log('notifications:', notifications)
-
-        //             firebase
-        //                 .updatedCustomerNotificaitons(order.customer_id, notifications)
-        //                 .then(() => {
-        //                     // removeQueueHandler(order.id)
-        //                     console.log('updatedCustomerNotificaitons success')
-        //                 })
-        //                 .catch((error) =>
-        //                     console.log(
-        //                         'updatedCustomerNotificaitons error message ',
-        //                         error.message
-        //                     )
-        //                 )
-        //         } else {
-        //             console.log('No such document!')
-        //         }
-        //     })
-        //     .catch(function (error) {
-        //         console.log('Error getting document:', error)
-        //     })
     }
 
     const removeQueueHandler = (queueId) => {
@@ -197,7 +161,7 @@ const Queues = (props) => {
     }
 
     return (
-        <BaseLayout>
+        <>
             <AlertDialog
                 alert={alert}
                 onClose={() => setalert({ ...alert, open: false })}
@@ -210,7 +174,7 @@ const Queues = (props) => {
                     {queueItems}
                 </Paper>
             </Container>
-        </BaseLayout>
+        </>
     )
 }
 

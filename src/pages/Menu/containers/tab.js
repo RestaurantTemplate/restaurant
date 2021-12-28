@@ -12,7 +12,6 @@ import {getAllDesserts} from './../../../firebase/dessertsFirebase';
 import {getAllDrinks} from './../../../firebase/drinksFirebase';
 import {AlertDialog} from './../../../components';
 export const Tabmenu = (props) =>{
-    const {menu,setmenu} = props
     const [loading,setloading] = useState(true)
     const classes = useStyles();
     const {state} = useContext(Auth);

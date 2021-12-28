@@ -12,7 +12,6 @@ import {
 import firebase from '../../firebase/config'
 
 import Table from './components/Table'
-import BaseLayout from '../../components/BaseLayout'
 import {Auth} from '../../context/authContext';
 
 const useStyles = makeStyles({
@@ -86,7 +85,7 @@ const Billing = (props) => {
     }
 
     return (
-        <BaseLayout>
+        <>
             <Container>
                 <Paper elevation={5} className={classes.paper}>
                     <Typography variant="h4" className={classes.textOrder}>
@@ -95,7 +94,7 @@ const Billing = (props) => {
                     {tableItems}
                 </Paper>
             </Container>
-        </BaseLayout>
+        </>
     )
 }
 

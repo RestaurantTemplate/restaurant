@@ -1,0 +1,10 @@
+{
+    "apiKey": "AIzaSyBdWAi5YG-JOEwAzYbOXwe9TX11jFnPKbM",
+    "authDomain": "ez-restaurant.firebaseapp.com",
+    "databaseURL": "https://ez-restaurant-default-rtdb.firebaseio.com",
+    "projectId": "ez-restaurant",
+    "storageBucket": "ez-restaurant.appspot.com",
+    "messagingSenderId": "491710541754",
+    "appId": "1:491710541754:web:65d7822af8b35920a27783",
+    "measurementId": "G-NG3FGD09TQ"
+}

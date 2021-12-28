@@ -2,7 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/storage'
-
+import config from './firebaseConfig.json'
 var admin = require('firebase-admin')
 
 var serviceAccount = require('../ServiceAccountKey.json')
@@ -11,17 +11,6 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 })
 
-const config = {
-    //firebase config
-    apiKey: 'AIzaSyBdWAi5YG-JOEwAzYbOXwe9TX11jFnPKbM',
-    authDomain: 'ez-restaurant.firebaseapp.com',
-    databaseURL: 'https://ez-restaurant-default-rtdb.firebaseio.com',
-    projectId: 'ez-restaurant',
-    storageBucket: 'ez-restaurant.appspot.com',
-    messagingSenderId: '491710541754',
-    appId: '1:491710541754:web:65d7822af8b35920a27783',
-    measurementId: 'G-NG3FGD09TQ',
-}
 class Firebase {
     constructor() {
         firebase.initializeApp(config)
