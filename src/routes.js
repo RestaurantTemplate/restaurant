@@ -5,6 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Customer from './pages/Customer'
 import BranchStore from './pages/BranchStore'
 import SelectBranchStore from './pages/SelectBranchStore'
+import UserStaffStore from './pages/UserStaffStore'
 import { Dashboard } from './pages/Dashboard'
 import { History } from './pages/History'
 import Billing from './pages/Billing/Billing'
@@ -37,6 +38,7 @@ const Routes = (props) => {
                         <BaseLayout />
                         <Switch>
                             <Route path="/branchstore" component={BranchStore} />
+                            <Route path="/userstaffstore" component={UserStaffStore} />
                             <Route path="/dashboard" component={Dashboard} exact />
                             <Route path="/history" component={History} />
                             <Route path="/menu" component={Menu} />
