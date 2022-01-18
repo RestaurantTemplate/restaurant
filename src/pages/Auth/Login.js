@@ -5,6 +5,7 @@ import moment from 'moment'
 import { Redirect } from 'react-router-dom'
 import firebase from '../../firebase/config'
 import { Auth } from '../../context/authContext'
+import './../../css/animation.css'
 import {
     Button,
     Container,
@@ -22,10 +23,10 @@ import { AlertDialog } from '../../components/Alert'
 const useStyles = makeStyles((theme) =>  console.log('theme:',theme) || ({
     root: {
         '& .MuiTextField-root': {
-            margin: theme.spacing(1),
+            margin: theme.spacing(1)
         },
         '& .MuiContainer-root': {
-            padding: '0px',
+            padding: '0px'
         },
         marginTop:theme.spacing(14),
     },
@@ -43,12 +44,23 @@ const useStyles = makeStyles((theme) =>  console.log('theme:',theme) || ({
         width: '70%',
         boxShadow: '0 5px 10px 0 rgba(0, 0, 0, 0.2)',
     },
+    upper:{
+        position:'relative',
+    },
     box: {
         padding:theme.spacing(3),
+        backgroundColor:'#FFFFFF'
     },
     font:{
-        fontFamily: 'Pattaya, sans-serif',
-        fontSize:'75px',
+        justifyContent: 'center',
+        textAlign: 'center',
+        fontFamily: 'The Nautigal',
+        [theme.breakpoints.up('md')]: {
+            fontSize:'100px',
+        },
+        [theme.breakpoints.down('md')]: {
+            fontSize:'50px',
+        },
         color:'#f0ffe8',
     },
     backgrounds:{
@@ -59,7 +71,7 @@ const useStyles = makeStyles((theme) =>  console.log('theme:',theme) || ({
             width: '100%',
         },
         [theme.breakpoints.down('md')]: {
-            height:'100px',
+            height:'60px',
             width: '100%',
         },
         background: 'rgb(34,193,195) linear-gradient(239deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)'
@@ -234,39 +246,55 @@ const Login = (props) => {
     }
 
     return (
-                <React.Fragment>
-                    <AlertDialog
-                        alert={alert}
-                        onClose={() => setalert({ ...alert, open: false })}
-                    />
-                    <Container className={classes.root}>
-                        <Container  className={classes.paper}>
-                            <div className={classes.backgrounds}>
-                                <p className={classes.font}>{'Ez Restaurant'}</p>
-                            </div>
-                            <div className={classes.box}>
-                                <HeaderLogin background="gray" />
-                                <TextField
-                                    id="input-email"
-                                    variant="outlined"
-                                    fullWidth
-                                    label="Email"
-                                    type="email"
-                                    placeholder="Email"
-                                />
-                                <TextField
-                                    id="input-password"
-                                    variant="outlined"
-                                    fullWidth
-                                    label="Password"
-                                    type="password"
-                                    placeholder="Password"
-                                />
-                                {button}
-                            </div>
-                        </Container>
+        <>
+            <div>
+                <div className='circle xxlarge shade1'/>
+                <div className='circle xlarge shade2'/>
+                <div className='circle large shade3'/>
+                <div className='circle mediun shade4'/>
+                <div className='circle small shade5'/>
+            </div>
+            <div>
+                <div className='circle-top xxlarge-top shade1'/>
+                <div className='circle-top xlarge-top shade2'/>
+                <div className='circle-top large-top shade3'/>
+                <div className='circle-top mediun-top shade4'/>
+                <div className='circle-top small-top shade5'/>
+            </div>
+            <div className={classes.upper}>
+                <AlertDialog
+                    alert={alert}
+                    onClose={() => setalert({ ...alert, open: false })}
+                />
+                <Container className={classes.root}>
+                    <Container className={classes.paper}>
+                        <div className={classes.backgrounds}>
+                            <p className={classes.font}>{'Ez Restaurant'}</p>
+                        </div>
+                        <div className={classes.box}>
+                            <HeaderLogin background="gray" />
+                            <TextField
+                                id="input-email"
+                                variant="outlined"
+                                fullWidth
+                                label="Email"
+                                type="email"
+                                placeholder="Email"
+                            />
+                            <TextField
+                                id="input-password"
+                                variant="outlined"
+                                fullWidth
+                                label="Password"
+                                type="password"
+                                placeholder="Password"
+                            />
+                            {button}
+                        </div>
                     </Container>
-                </React.Fragment>
+                </Container>
+            </div> 
+        </>
     )
 }
 

@@ -3,14 +3,9 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/storage'
 import config from './firebaseConfig.json'
-var admin = require('firebase-admin')
+import axios from 'axios';
 
 var serviceAccount = require('../ServiceAccountKey.json')
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-})
-
 class Firebase {
     constructor() {
         firebase.initializeApp(config)
@@ -20,10 +15,16 @@ class Firebase {
     }
     // generateToken
     async generateToken(uid) {
-        const token = await admin.auth().createCustomToken(uid)
-        return token
+        const token = await axios.post('http://localhost:9000/token', {'uid':uid})
+        console.log('token:',token)
+        return token.data
     }
-
+    async getAlluser() {
+        axios.get(`http://localhost:9000/AllUser`)
+        .then(res => {
+            console.log('res:',res)
+        })
+    }
     // loginWithToken
     async loginWithToken(token) {
         const user = await firebase.auth().signInWithCustomToken(token)

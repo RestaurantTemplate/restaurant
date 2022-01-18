@@ -80,6 +80,12 @@ function TemporaryDrawer(props) {
                         </ListItemIcon>
                         <ListItemText primary="สาขาของร้าน" />
                     </ListItem>
+                    <ListItem button  onClick={() => props.history.push("/userstaffstore")}>
+                        <ListItemIcon>
+                            <InboxIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="พนักงานของร้าน" />
+                    </ListItem>
                 </List>
             )
         }
