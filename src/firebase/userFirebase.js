@@ -3,11 +3,12 @@ const auth = firebase.auth;
 const adminAuth = firebase.adminAuth
 const db = firebase.storage;
 
-export const registerWithEmailAndPassword = async (email, password) => {
+export const getUser = async(branchid) => {
     try {
-        firebase.getAlluser();
+        return await firebase.getAlluser(branchid);
     } catch (err) {
         console.error(err);
         alert(err.message);
+        return [];
     }
-  };
+};

@@ -1,29 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React,{useState,useContext,useEffect} from 'react';
+import firebase from './../../../firebase/config';
 import {DialogValue,Tablelist} from '../components';
 import {addBranchStore,editBranchStore} from '../../../firebase/branchstoreFirebase';
 import {Auth} from './../../../context/authContext';
 export const Dialoglist = (props) =>{
-    const {open = false,setopen,setalert} = props;
+    const {open = false,setopen,setalert,check,setcheck} = props;
     const {state} = useContext(Auth);
     const initialState = {
         name:'',
+        password:''
     }
     const [item, setitem] = useState(initialState)
     const onClose = () =>{
         setopen(false)
     }
-    const onAddlist = () =>{
-        addBranchStore(item,state.user.uid).then(function(docRef) {
-            console.log("Tutorial created with ID: ", docRef.id);
+    const onAddlist = async() =>{
+        const user = await firebase.createStaff(item.name,item.password,state.user.branchstore)
+        console.log('success:',user)
+        if(user.data.success){
             setalert(prevState =>({...prevState,open:true,text:'เพิ่ม user สำเร็จ',colorNotify:'success'}));
             setopen(false)
+            setcheck(!check)
             setitem(initialState)
-        })
-        .catch(function(error) {
-            console.error("Error adding Tutorial: ", error);
-            setalert(prevState =>({...prevState,open:true,text:'เพิ่ม user ไม่สำเร็จ',colorNotify:'error'}));
-        });;
+        }
+        else{
+            setalert(prevState =>({...prevState,open:true,text:user.data.message,colorNotify:'error'}));
+        }
     }
     return(
         <DialogValue onClose={onClose} open={open} onAddlist={onAddlist}>

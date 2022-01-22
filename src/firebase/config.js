@@ -4,14 +4,14 @@ import 'firebase/firestore'
 import 'firebase/storage'
 import config from './firebaseConfig.json'
 import axios from 'axios';
-
-var serviceAccount = require('../ServiceAccountKey.json')
 class Firebase {
     constructor() {
         firebase.initializeApp(config)
         this.auth = firebase.auth()
         this.db = firebase.firestore()
         this.storage = firebase.storage()
+        this.getStaffWithBranchId = this.getStaffWithBranchId.bind(this)
+        this.createtaffWithBranchId = this.createtaffWithBranchId.bind(this)
     }
     // generateToken
     async generateToken(uid) {
@@ -19,18 +19,45 @@ class Firebase {
         console.log('token:',token)
         return token.data
     }
-    async getAlluser() {
-        axios.get(`http://localhost:9000/AllUser`)
-        .then(res => {
-            console.log('res:',res)
-        })
+    async getAlluser(uid) {
+        return await axios.post(`http://localhost:9000/AllUser`,uid)
+        // .then(res => {
+        //     console.log('res:',res)
+        //     return
+        // })
     }
     // loginWithToken
     async loginWithToken(token) {
         const user = await firebase.auth().signInWithCustomToken(token)
         return user
     }
-
+    async getStaffWithBranchId(brandId){
+        var users = ''
+        await firebase.firestore().collection('Users').get().then(async(querySnapshot) => {
+            await querySnapshot.forEach((doc) => {
+                if(doc.data().branchstore === brandId && doc.data().type === 'staff'){
+                    users = doc.id
+                }
+            });
+        });
+        return users
+    }
+    async createtaffWithBranchId(brandId){
+        return await firebase.firestore().collection('Users').add({
+            branchstore:brandId,
+            type:"staff"
+        })
+        .then((value) => {
+            // console.log('sadfsdf:',value)
+            return value
+        });
+    }
+    async createStaff(email, password, branchId) {
+        return await axios.post(`http://localhost:9000/AddUser`,{'email':email,'password':password,'branchId':branchId})
+    }
+    async deleteStaff(uid) {
+        return await axios.post(`http://localhost:9000/DeleteUser`,{'uid':uid})
+    }
     //login
     async login(email, password) {
         const user = await firebase

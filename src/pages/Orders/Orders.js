@@ -71,6 +71,7 @@ const Orders = (props) => {
 
     useEffect(() => {
         fetchOrders()
+        console.log('state->Orders:',state)
     }, [])
 
     const addQueueHandler = (orderId) => {

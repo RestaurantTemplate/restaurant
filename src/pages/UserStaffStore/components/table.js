@@ -19,10 +19,10 @@ export const Tablelist = (props) =>{
     return(
         <Grid container >
             <Grid  md={12} className={classes1.root}>
-                <TextField fullWidth name='username' variant="outlined" id="menu-username" label="User Name" value={item.username} onChange={onChangeValue}/>
+                <TextField fullWidth name='name' variant="outlined" id="menu-username" label="User Name" value={item.username} onChange={onChangeValue}/>
             </Grid>
             <Grid  md={12} className={classes1.root}>
-                <TextField fullWidth name='password' variant="outlined" id="menu-password" label="Password" value={item.password} onChange={onChangeValue}/>
+                <TextField fullWidth name='password' type="password" variant="outlined" id="menu-password" label="Password" value={item.password} onChange={onChangeValue}/>
             </Grid>
         </Grid>                   
 

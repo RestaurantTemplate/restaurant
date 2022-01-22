@@ -1,14 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import {Container,Paper,Box,CircularProgress } from '@material-ui/core';
-import {registerWithEmailAndPassword} from './../../../firebase/userFirebase';
+import {getUser} from './../../../firebase/userFirebase';
 import {AddUserStaffStore} from './../components';
 import {Dialoglist} from './dialog';
 import {AlertDialog} from './../../../components';
 import {UserStaffStore} from './userStaffStore'
+import { Auth } from './../../../context/authContext'
 export const Tabmenu = () =>{
-    const [branchstore,setbranchstore] = useState([]);
+    const [user,setuser] = useState([]);
     const [open,setopen] = useState(false);
+    const [check,setcheck] = useState(false);
+    const { state, dispatch } = useContext(Auth)
     const initialAlert = {
         open:false,
         text:'',
@@ -16,22 +19,26 @@ export const Tabmenu = () =>{
     }
     const [alert,setalert] = useState(initialAlert);
     const [loading,setloading] = useState(true)
+    const getDefault = async() =>{
+        setloading(true);
+        const userAll = await getUser({branchid:state.user.branchstore});
+        await setuser(userAll.data);
+        setloading(false);
+    }
     useEffect(() => {
-        setloading(true)
-        registerWithEmailAndPassword('sdafsadf','sdfadsfsadfa')
-        setloading(false)
-    }, [])
+        getDefault();
+    }, [check])
     const ShowData = () =>(
         loading === false ?
-            branchstore.map((doc)=>{
-                return <UserStaffStore  doc={doc} setalert={setalert}/>
+            user.map((doc)=>{
+                return <UserStaffStore check={check} setcheck={setcheck}  doc={doc} setalert={setalert}/>
             })
             :<CircularProgress />    
     )
     return(
         <Box display={{ xs: 'block', md: 'block' }}>
             <AlertDialog alert={alert} onClose={() => setalert({...alert,open:false})} />
-            <Dialoglist  open={open} setopen={setopen} setalert={setalert}/>
+            <Dialoglist  open={open} setopen={setopen} setalert={setalert} check={check} setcheck={setcheck}/>
             <Container maxWidth={'md'}>
                 <Paper style={{padding:'5%'}} elevation={4} >
                 {
