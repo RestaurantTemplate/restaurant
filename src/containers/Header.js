@@ -78,32 +78,34 @@ const useStyles = makeStyles({
 })
 
 export const Header = (props) => {
-    const { title = 'ชื่อร้านอาหาร' } = props
 
     const { state, dispatch } = React.useContext(Auth)
 
     const classes = useStyles(state.user)
 
     return (
-        <Container
-            className={classes.container}
-            disableGutters={true}
-            maxWidth={false}
-        >
-            <Container
-                align="center"
-                maxWidth={false}
-                className={classes.restaurantName}
-            >
-                <Label variant="h4" align="center" className={classes.title}>
-                    {title}
-                </Label>
-            </Container>
-            <Container className={classes.location}>
-                <LocationOnIcon color="disabled" />
-                <Label variant="subtitle2">ที่อยู่ร้าน</Label>
-            </Container>
-        </Container>
+        <>
+            {console.log('state.name:',state)}
+            {
+                state.user.name !== '' && state.user.name  !== undefined ?
+                    <Container
+                        className={classes.container}
+                        disableGutters={true}
+                        maxWidth={false}
+                    >
+                            <Container
+                                align="center"
+                                maxWidth={false}
+                                className={classes.restaurantName}
+                            >
+                                <Label variant="h5" align="center" className={classes.title}>
+                                    {state.user.name}
+                                </Label>
+                            </Container>
+                    </Container>
+                    :<div style={{width: '100%',height: '100px'}}></div>
+            }
+        </>
     )
 }
 export const HeaderLogin = (props) => {

@@ -6,7 +6,7 @@ import {AddBranchStore} from './../components';
 import {Dialoglist} from './dialog';
 import {AlertDialog} from './../../../components';
 import {BranchStore} from './branchStore'
-export const Tabmenu = () =>{
+export const Tabmenu = (props) =>{
     const [branchstore,setbranchstore] = useState([]);
     const [open,setopen] = useState(false);
     const initialAlert = {
@@ -34,7 +34,7 @@ export const Tabmenu = () =>{
     const ShowData = () =>(
         loading === false ?
             branchstore.map((doc)=>{
-                return <BranchStore  doc={doc} setalert={setalert}/>
+                return <BranchStore {...props} doc={doc} setalert={setalert}/>
             })
             :<CircularProgress />    
     )

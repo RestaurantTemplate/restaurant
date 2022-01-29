@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import SendIcon from '@material-ui/icons/Send';
 import { Redirect } from 'react-router-dom'
 import { Auth } from '../../../context/authContext';
+import Firebase from './../../../firebase/config';
 const useStyles = makeStyles({
     root: {
         padding: '10px',
@@ -29,16 +30,19 @@ export function BranchStore(props) {
     const classes = useStyles()
     const {doc} = props;
     const { dispatch } = useContext(Auth)
-    const setLocalStorage = () =>{
+    const setLocalStorage = async() =>{
         let user = JSON.parse(localStorage.getItem('user'));
         console.log('[localStorage]:',user);
         user['branchstore'] = doc.id;
-        localStorage.setItem('user',JSON.stringify(user));
-        dispatch({
-            type: 'LOGIN',
-            payload: user,
+        return await Firebase.getBranchName(doc.id).then((docs)=>{
+            user['name'] = docs.name;
+            localStorage.setItem('user',JSON.stringify(user));
+            dispatch({
+                type: 'LOGIN',
+                payload: user,
+            })
+            return <Redirect to="/dashboard" />
         })
-        return <Redirect to="/dashboard" />
     }
     return (
         <Card className={classes.root}>

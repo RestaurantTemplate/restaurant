@@ -52,6 +52,11 @@ class Firebase {
             return value
         });
     }
+    async getBranchName(brandId){
+        return await firebase.firestore().collection('Restaurants').doc(brandId).get().then((doc)=>{
+            return doc.data()
+        })
+    }
     async createStaff(email, password, branchId) {
         return await axios.post(`http://localhost:9000/AddUser`,{'email':email,'password':password,'branchId':branchId})
     }

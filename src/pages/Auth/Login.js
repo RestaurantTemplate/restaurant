@@ -128,11 +128,12 @@ const Login = (props) => {
                             .then(() => {
                                 firebase
                                     .addCustomerToRestaurant(branchId,customer.uid)
-                                    .then(() => {
+                                    .then(async() => {
                                         const customerInfo = {
                                             uid: user.uid,
                                             branchstore: branchId,
                                             type: 'customer',
+                                            name: await firebase.getBranchName(branchId).name,
                                             table_number: tableNumber,
                                             email: null,
                                             refreshToken: user.refreshToken,
@@ -198,6 +199,7 @@ const Login = (props) => {
                         const userInfo = {
                             uid: response.user.uid,
                             type: doc.data().type,
+                            name:'',
                             branchstore: doc.data().branchstore,
                             email: response.user.email,
                             refreshToken: response.user.refreshToken,
