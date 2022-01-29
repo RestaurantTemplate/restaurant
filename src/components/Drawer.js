@@ -18,7 +18,6 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import { withRouter } from 'react-router-dom'
 import { Auth } from '../context/authContext'
 import Logout from './Logout'
-
 const useStyles = makeStyles((theme) => ({
     list: {
         width: 250,
@@ -38,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 function TemporaryDrawer(props) {
     const classes = useStyles()
 
-    const { state } = React.useContext(Auth)
+    const { state,dispatch } = React.useContext(Auth)
     const [open,setopen] = useState(false);
     let menu = null
     if (state.user.type === "manager") {
@@ -113,7 +112,17 @@ function TemporaryDrawer(props) {
             </List>
         )
     }
-
+    const directbranchstorePath = () =>{
+        let user = JSON.parse(localStorage.getItem('user'));
+        user['branchstore'] = '';
+        user['name'] = ''
+        localStorage.setItem('user',JSON.stringify(user));
+        dispatch({
+            type: 'LOGIN',
+            payload: user,
+        })
+        props.history.push('/branchstore')
+    }
     const list = () => (
         <div
             className={clsx(classes.list)}
@@ -121,7 +130,7 @@ function TemporaryDrawer(props) {
             // onClick={props.toggleDrawer}
             onKeyDown={props.toggleDrawer}
         >
-            <ListItem button>
+            <ListItem button onClick={directbranchstorePath}>
                 <ListItemIcon>
                     <FaceIcon />
                 </ListItemIcon>

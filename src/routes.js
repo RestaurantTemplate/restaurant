@@ -4,7 +4,6 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 import Customer from './pages/Customer'
 import BranchStore from './pages/BranchStore'
-import SelectBranchStore from './pages/SelectBranchStore'
 import UserStaffStore from './pages/UserStaffStore'
 import { Dashboard } from './pages/Dashboard'
 import { History } from './pages/History'
@@ -54,8 +53,8 @@ const Routes = (props) => {
                     <>
                         <BaseLayout />
                         <Switch>
-                            <Route path="/selectbranchstore" component={SelectBranchStore} />
-                            <Redirect to="/selectbranchstore" />
+                            <Route path="/branchstore" component={BranchStore} />
+                            <Redirect to="/branchstore" />
                         </Switch>
                     </>
                 )
@@ -65,6 +64,7 @@ const Routes = (props) => {
                 <>
                     <BaseLayout />
                     <Switch>
+                        <Route path="/branchstore" component={BranchStore} />
                         <Route path="/orders" component={Orders} exact/>
                         <Route path="/queues" component={Queues} />
                         <Route path="/billing" component={Billing} exact/>
