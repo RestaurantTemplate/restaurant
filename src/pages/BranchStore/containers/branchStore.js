@@ -1,6 +1,6 @@
 import React,{useState,useContext} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import {Grid,Card,Box,Fab} from '@material-ui/core'
+import {Grid,Card,Box,Fab,TextField} from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from '@material-ui/core/Typography'
 import EditIcon from '@material-ui/icons/Edit';
@@ -10,6 +10,7 @@ import SendIcon from '@material-ui/icons/Send';
 import {DialoglistEdit} from './dialog';
 import { Auth } from '../../../context/authContext';
 import Firebase from './../../../firebase/config';
+import {AlertPasswordRequest} from './../../../components/AlertPasswordRequest'
 const useStyles = makeStyles({
     root: {
         padding: '10px',
@@ -34,14 +35,11 @@ export function BranchStore(props) {
     const classes = useStyles()
     const {setalert,doc} = props;
     const [open,setopen] = useState(false);
-    const { dispatch } = useContext(Auth)
+    const [error,seterror] = useState(false);
+    const [openRemove,setopenRemove] = useState(false)
+    const { state,dispatch } = useContext(Auth)
     const Remove =()=>{
-        removeBranchStore(doc.id).then(function() {
-            setalert(prevState =>({...prevState,open:true,text:'ลบสาขาสำเร็จ',colorNotify:'success'}));
-        })
-        .catch(function() {
-            setalert(prevState =>({...prevState,open:true,text:'ลบสาขาไม่สำเร็จ',colorNotify:'error'}));
-        });
+        setopenRemove(true)
     }
     const setLocalStorage = async() =>{
         let user = JSON.parse(localStorage.getItem('user'));
@@ -57,10 +55,52 @@ export function BranchStore(props) {
             props.history.push('/dashboard')
         })
     }
+    const onDelete = async() =>{
+        const password = document.getElementById('input-password').value
+        if(password){
+            let response = await Firebase.login(state.user.email, password)
+            if (response.hasOwnProperty('message')) {
+                console.log(response.message)
+            } else {
+                Firebase
+                    .getUserInfo(response.user.uid)
+                    .then((docs) => {
+                        if (docs.exists) {
+                            removeBranchStore(doc.id).then(function() {
+                                setalert(prevState =>({...prevState,open:true,text:'ลบสาขาสำเร็จ',colorNotify:'success'}));
+                            })
+                            .catch(function() {
+                                setalert(prevState =>({...prevState,open:true,text:'ลบสาขาไม่สำเร็จ',colorNotify:'error'}));
+                            });
+                            seterror(false)
+                        } else {
+                            console.log('Not found user!')
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log('[Login] error: ', error.message)
+                    })
+            }
+        }
+        else{
+            seterror(true)
+        }
+    }
     return (
         <Card className={classes.root}>
             <AlertDialog alert={alert} onClose={() => setalert({...alert,open:false})} />
             <DialoglistEdit doc={doc} open={open} setopen={setopen} setalert={setalert}/>
+            <AlertPasswordRequest onDelete={onDelete} open={openRemove} setopen={setopenRemove} >
+                <TextField
+                    id="input-password"
+                    variant="outlined"
+                    fullWidth
+                    error={error}
+                    label="Password"
+                    type="password"
+                    placeholder="Password"
+                />
+            </AlertPasswordRequest>
             <Grid container spacing={3}>
                 <Grid item xs={6} sm={6} md={9}>
                     <Typography>สาขาชื่อ <b>{doc.value.name}</b></Typography>
