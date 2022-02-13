@@ -13,6 +13,7 @@ export function useMaindishContext() {
 const initialMaindish = {
     name:'',
     desc:'',
+    foodEnable:true,
     price:'',
     image_url:''
 }
