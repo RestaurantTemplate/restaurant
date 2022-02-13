@@ -8,12 +8,25 @@ export  async function addDrinks(item,id){
     let drink = {
         name: item.name,
         desc: item.desc,
+        foodEnable:item.foodEnable,
         image_url: item.image_url,
         price: item.price,
         created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
         updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
     }
     return await firebase.db.collection('Restaurants').doc(id).collection('Drinks').add(drink)
+}
+export  async function editDrinks(item,id,drinksid){ 
+    let maindish = {
+        name: item.name,
+        desc: item.desc,
+        foodEnable:item.foodEnable,
+        image_url: item.image_url,
+        price: item.price,
+        created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+        updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+    }
+    return await firebase.db.collection('Restaurants').doc(id).collection('Drinks').doc(drinksid).update(maindish)
 }
 export  function getAllDrinks(id){ 
     return firebase.db.collection('Restaurants').doc(id).collection('Drinks')

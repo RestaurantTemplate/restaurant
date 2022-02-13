@@ -3,11 +3,11 @@ import React,{useState,useContext}  from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
-import { Grid, Fab, Typography, Box } from '@material-ui/core'
-import {removeMaindishes} from './../../../firebase/maindishesFirebase';
-import {removeAppetizers} from './../../../firebase/appetizersFirebase';
-import {removeDesserts} from './../../../firebase/dessertsFirebase';
-import {removeDrinks} from './../../../firebase/drinksFirebase';
+import { Grid, Fab, Typography, Box, FormControlLabel, Switch } from '@material-ui/core'
+import {removeMaindishes,editMaindishes} from './../../../firebase/maindishesFirebase';
+import {removeAppetizers,editAppetizers} from './../../../firebase/appetizersFirebase';
+import {removeDesserts,editDesserts} from './../../../firebase/dessertsFirebase';
+import {removeDrinks,editDrinks} from './../../../firebase/drinksFirebase';
 import {Auth} from './../../../context/authContext';
 import {AlertDialog} from './../../../components';
 import {DialoglistEdit} from './../containers'
@@ -83,6 +83,68 @@ export const List = (props) => {
                 setalert(prevState =>({...prevState,open:true,text:'ลบสาขาไม่สำเร็จ',colorNotify:'error'}));
             });
         }
+    }
+    const onChangeDisabledFood = () =>{
+        if(number === "1"){
+            let food = {
+                name: fooditem.value.name,
+                desc: fooditem.value.desc,
+                foodEnable:!fooditem.value.foodEnable,
+                image_url: fooditem.value.image_url,
+                price: fooditem.value.price,
+            }
+            editMaindishes(food,state.user.branchstore,fooditem.id).then(function() {
+                console.log('Success')
+            })
+            .catch(function(e) {
+                console.log('UnSuccess:',e)
+            });
+        }
+        else if(number === "2"){
+            let food = {
+                name: fooditem.value.name,
+                desc: fooditem.value.desc,
+                foodEnable:!fooditem.value.foodEnable,
+                image_url: fooditem.value.image_url,
+                price: fooditem.value.price,
+            }
+            editAppetizers(food,state.user.branchstore,fooditem.id).then(function() {
+                console.log('Success')
+            })
+            .catch(function(e) {
+                console.log('UnSuccess:',e)
+            });
+        }
+        else if(number === "3"){
+            let food = {
+                name: fooditem.value.name,
+                desc: fooditem.value.desc,
+                foodEnable:!fooditem.value.foodEnable,
+                image_url: fooditem.value.image_url,
+                price: fooditem.value.price,
+            }
+            editDesserts(food,state.user.branchstore,fooditem.id).then(function() {
+                console.log('Success')
+            })
+            .catch(function(e) {
+                console.log('UnSuccess:',e)
+            });
+        }
+        else if(number === "4"){
+            let food = {
+                name: fooditem.value.name,
+                desc: fooditem.value.desc,
+                foodEnable:!fooditem.value.foodEnable,
+                image_url: fooditem.value.image_url,
+                price: fooditem.value.price,
+            }
+            editDrinks(food,state.user.branchstore,fooditem.id).then(function() {
+                console.log('Success')
+            })
+            .catch(function(e) {
+                console.log('UnSuccess:',e)
+            });
+        }
 
     }
     return (
@@ -120,7 +182,7 @@ export const List = (props) => {
                     </Grid>
 
                 </Grid>
-                <Grid container xs={4}>
+                <Grid container xs={3}>
                     <Grid item xs={4}>
                         <Typography
                             className={classesLocal.Font}
@@ -138,7 +200,7 @@ export const List = (props) => {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container justify="right" alignItems="right" xs={1}>
+                <Grid container justify="right" alignItems="right" xs={2}>
                     {/* <Grid item xs={6}>
                         <Box component='div'>
                             <Fab  component="button"  justify="center" alignItems="center" size={'small'}  color="primary" aria-label="edit" onClick={() => setopen(true)}>
@@ -146,7 +208,12 @@ export const List = (props) => {
                             </Fab>
                         </Box>
                     </Grid> */}
-                    <Grid item xs={12}>
+                    <Grid item xs={6}>
+                        <FormControlLabel
+                            control={<Switch checked={fooditem.value.foodEnable} onChange={onChangeDisabledFood} name="checkedA" />}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
                         <Box component='div'>
                             <Fab  component="button"  justify="center" alignItems="center" size={'small'}  color="secondary" aria-label="delete" onClick={onDelete}>
                                 <DeleteIcon />

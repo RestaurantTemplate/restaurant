@@ -33,6 +33,7 @@ export const DialogValue = ({children,...props}) =>{
                         let _maindish = {
                             name: maindish.name,
                             desc: maindish.desc,
+                            foodEnable:true,
                             image_url: url,
                             price: maindish.price,
                         }
@@ -40,6 +41,7 @@ export const DialogValue = ({children,...props}) =>{
                             const initialMaindish = {
                                 name:'',
                                 desc:'',
+                                foodEnable:true,
                                 price:'',
                                 image_url:''
                             }
@@ -76,6 +78,7 @@ export const DialogValue = ({children,...props}) =>{
                         let _maindish = {
                             name: maindish.name,
                             desc: maindish.desc,
+                            foodEnable:true,
                             image_url: url,
                             price: maindish.price,
                         }
@@ -83,6 +86,7 @@ export const DialogValue = ({children,...props}) =>{
                             const initialMaindish = {
                                 name:'',
                                 desc:'',
+                                foodEnable:true,
                                 price:'',
                                 image_url:''
                             }
@@ -119,6 +123,7 @@ export const DialogValue = ({children,...props}) =>{
                         let _maindish = {
                             name: maindish.name,
                             desc: maindish.desc,
+                            foodEnable:true,
                             image_url: url,
                             price: maindish.price,
                         }
@@ -126,6 +131,7 @@ export const DialogValue = ({children,...props}) =>{
                             const initialMaindish = {
                                 name:'',
                                 desc:'',
+                                foodEnable:true,
                                 price:'',
                                 image_url:''
                             }
@@ -162,6 +168,7 @@ export const DialogValue = ({children,...props}) =>{
                         let _maindish = {
                             name: maindish.name,
                             desc: maindish.desc,
+                            foodEnable:true,
                             image_url: url,
                             price: maindish.price,
                         }
@@ -169,6 +176,7 @@ export const DialogValue = ({children,...props}) =>{
                             const initialMaindish = {
                                 name:'',
                                 desc:'',
+                                foodEnable:true,
                                 price:'',
                                 image_url:''
                             }
