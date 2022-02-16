@@ -15,12 +15,12 @@ class Firebase {
     }
     // generateToken
     async generateToken(uid) {
-        const token = await axios.post('http://localhost:9000/token', {'uid':uid})
+        const token = await axios.post('https://restaurant-api-1234.herokuapp.com/token', {'uid':uid})
         console.log('token:',token)
         return token.data
     }
     async getAlluser(uid) {
-        return await axios.post(`http://localhost:9000/AllUser`,uid)
+        return await axios.post(`https://restaurant-api-1234.herokuapp.com/AllUser`,uid)
         // .then(res => {
         //     console.log('res:',res)
         //     return
@@ -58,10 +58,10 @@ class Firebase {
         })
     }
     async createStaff(email, password, branchId) {
-        return await axios.post(`http://localhost:9000/AddUser`,{'email':email,'password':password,'branchId':branchId})
+        return await axios.post(`https://restaurant-api-1234.herokuapp.com/AddUser`,{'email':email,'password':password,'branchId':branchId})
     }
     async deleteStaff(uid) {
-        return await axios.post(`http://localhost:9000/DeleteUser`,{'uid':uid})
+        return await axios.post(`https://restaurant-api-1234.herokuapp.com/DeleteUser`,{'uid':uid})
     }
     //login
     async login(email, password) {
