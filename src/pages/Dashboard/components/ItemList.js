@@ -6,10 +6,13 @@ export const ItemList = (props) => {
 
     return (
         <React.Fragment>
-            {items.map((item, i) => (
-                // TODO: change key from index to id from firebase
-                <Item key={i} item={item} />
-            ))}
+            {
+                items &&
+                    items.map((item, i) => (
+                        // TODO: change key from index to id from firebase
+                        <Item key={i} item={item} />
+                    ))
+            }
         </React.Fragment>
     )
 }

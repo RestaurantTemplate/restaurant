@@ -9,9 +9,11 @@ import LocalGroceryStoreSharpIcon from '@material-ui/icons/LocalGroceryStoreShar
 
 import Notification from './Notification'
 import AppLogo from './AppLogo'
+import DescriptionIcon from '@material-ui/icons/Description';
 
 import { Auth } from '../context/authContext'
 import { useCartContext } from '../context/cartContext'
+import {getCustomerOrder,getCustomerQueues} from './../firebase/customerFirebase';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -83,10 +85,10 @@ const useStyles = makeStyles((theme) => ({
 function PrimarySearchAppBar(props) {
     const classes = useStyles()
 
-    const { setopenmenu } = props
+    const { setopenmenu,setopenorder } = props
     const { state } = React.useContext(Auth)
 
-    const { cart } = useCartContext()
+    const { cart,setorder, setqueues } = useCartContext()
 
     let hamburgerButton = (
         <IconButton
@@ -101,7 +103,31 @@ function PrimarySearchAppBar(props) {
     )
 
     let menuItem = null
-
+    const getOrder = async() =>{
+        // alert('::state:: uid:'+state.user.uid+' branchstore:'+state.user.branchstore+' type:'+state.user.type+' name:'+state.user.name+' table_number:'+state.user.table_number)
+        getCustomerOrder(state.user.branchstore).onSnapshot((snapshot) => {
+            setorder(snapshot.docs.map(doc => {
+                let data = doc.data();
+                let value = []
+                if(data.customer_id === state.user.uid){
+                    value.push(data)
+                }
+                return value
+            }))
+        });
+        getCustomerQueues(state.user.branchstore).onSnapshot((snapshot) => {
+            setqueues(snapshot.docs.map(doc => {
+                let data = doc.data();
+                let value = []
+                if(data.customer_id === state.user.uid){
+                    value.push(data)
+                }
+                return value
+            }))
+        });
+        
+        setopenorder(true);
+    }
     if (state.user.type === 'customer') {
         hamburgerButton = null
         menuItem = (
@@ -120,6 +146,17 @@ function PrimarySearchAppBar(props) {
                         <LocalGroceryStoreSharpIcon />
                     </Badge>
                 </IconButton>
+                <IconButton
+                    aria-label="show 4 new mails"
+                    color="inherit"
+                    onClick={getOrder}
+                >
+                    <Badge
+                        color="secondary"
+                    >
+                        <DescriptionIcon />
+                    </Badge>
+                </IconButton>
                 <Notification />
             </React.Fragment>
         )
@@ -134,7 +171,11 @@ function PrimarySearchAppBar(props) {
                     className={classes.backgroundBlack}
                 >
                     {hamburgerButton}
-                    <div className={classes.grow} />
+                    {
+                        (hamburgerButton !== null)?
+                            <div className={classes.grow} />
+                            :<></>
+                    }
                     <AppLogo />
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>{menuItem}</div>
