@@ -8,9 +8,12 @@ export function useCustomerContext() {
 
 function CustomerProvider({ children }) {
     const [open,setopen] = useState(false);
+    const [openorder,setopenorder] = useState(false);
     const customerStore = {
         open,
-        setopen
+        setopen,
+        openorder,
+        setopenorder
     }
 
     return (

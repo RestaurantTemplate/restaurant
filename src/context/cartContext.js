@@ -16,11 +16,44 @@ const initialCart = {
 
 function CartProvider({ children }) {
     const [cart, setCart] = useState(initialCart)
-
+    const [order, setorder] = useState([])
+    const [queues, setqueues] = useState([])
     const { state } = useContext(Auth)
 
     console.log('cart items ', cart.items)
+    function deleteToCart(menu) {
+        const duplicatedItem = cart.items.find((item) => item.id === menu.id)
+        console.log('deleteToCart', menu)
+        if (duplicatedItem) {
+            if(duplicatedItem.amount === 1){
+                //months.splice(4, 1);
+                const newItems = cart.items.filter((item) => item.id !== menu.id)
+                // const index = cart.items.findIndex((item) => item.id !== menu.id)
 
+                setCart((prevCart) => ({
+                    ...prevCart,
+                    items: [...newItems],
+                }))
+            }
+            else{
+                const newItems = cart.items.filter((item) => item.id !== menu.id)
+                const oldAmount = duplicatedItem.amount
+                const updatedAmout = oldAmount - menu.amount
+                // const oldPrice = duplicatedItem.price
+                const newPice = duplicatedItem.price * updatedAmout
+    
+                const updatedItem = {
+                    ...duplicatedItem,
+                    amount: updatedAmout,
+                    totalPrice: newPice
+                }
+                setCart((prevCart) => ({
+                    ...prevCart,
+                    items: [...newItems, updatedItem],
+                }))
+            }
+        }
+    }
     function addToCart(menu) {
         const duplicatedItem = cart.items.find((item) => item.id === menu.id)
         console.log('addToCart', menu)
@@ -70,8 +103,13 @@ function CartProvider({ children }) {
         cart,
         cartAction: {
             addToCart,
+            deleteToCart,
             orderConfirmed
         },
+        order, 
+        setorder,
+        queues, 
+        setqueues
     }
 
     return (

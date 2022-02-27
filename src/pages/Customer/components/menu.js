@@ -1,8 +1,10 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AddIcon from '@material-ui/icons/Add'
+import SoldOut from './../../../Image/out-of-stock.png'
 import { useCartContext } from '../../../context/cartContext'
-import { Grid, TextField, Fab, Typography, Box } from '@material-ui/core'
+import { Grid, TextField, Fab, Typography, Box, SvgIcon } from '@material-ui/core'
 const useStyleslocal = makeStyles((theme) => ({
     Font: {
         [theme.breakpoints.up('xs')]: {
@@ -14,8 +16,8 @@ const useStyleslocal = makeStyles((theme) => ({
     },
     icons: {
         [theme.breakpoints.down('sm')]: {
-            width: '20px',
-            height: '20px',
+            width: '30px',
+            height: '30px',
         },
     },
     textStyle: {
@@ -84,10 +86,10 @@ export const Menu = (props) => {
                         </Typography>
                     </Grid>
                     <Grid container xs={4}>
-                        <Grid item xs={4}>
+                        <Grid item style={{ display:'flex'}}>
                             <Typography
                                 className={classesLocal.Font}
-                                style={{ color: '#737373' }}
+                                style={{ color: '#737373',paddingLeft:'10px',paddingRight:'5px'}}
                             >
                                 {'ราคา'}
                             </Typography>
@@ -95,37 +97,8 @@ export const Menu = (props) => {
                                 className={classesLocal.Font}
                                 style={{ color: '#737373' }}
                             >
-                                {'จำนวน'}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <Typography
-                                className={classesLocal.Font}
-                                style={{ color: '#737373' }}
-                            >
                                 {price + ' THB'}
                             </Typography>
-                            <TextField
-                                type="number"
-                                InputLabelProps={{
-                                    className: classesLocal.textNopadding,
-                                }}
-                                InputProps={{ className: classesLocal.textStyle }}
-                                size="small"
-                                variant="standard"
-                                defaultValue={1}
-                                value={count}
-                                onChange={(e) =>
-                                    /\d/.test(e.target.value)
-                                        ? (setcount(e.target.value),
-                                        console.log(
-                                            e.target.value,
-                                            /\d/.test(e.target.value)
-                                        ))
-                                        : (setcount(count),
-                                        console.log(e.target.value))
-                                }
-                            />
                         </Grid>
                     </Grid>
                     <Grid container justify="right" alignItems="right" xs={2}>
@@ -141,9 +114,9 @@ export const Menu = (props) => {
                                     cartAction.addToCart({
                                         id: fooditem.id,
                                         name: fooditem.name,
-                                        amount: parseInt(count),
+                                        amount: 1,
                                         price:  fooditem.price,
-                                        totalPrice: fooditem.price * parseInt(count),
+                                        totalPrice: fooditem.price
                                     })
                                 }
                             >
@@ -152,7 +125,55 @@ export const Menu = (props) => {
                         </Box>
                     </Grid>
                 </Grid>
-                :<></>
+                :                
+                <Grid
+                    container
+                    alignItems="center"
+                    style={{ backgroundColor: '#e7e7e7' }}
+                >
+                    <Grid container xs={3}>
+                        <Grid xs={1} />
+                        <Grid xs={11} span={'1'}>
+                            <img
+                                src={fooditem.image_url}
+                                style={{ width: '80%', heigt: '80%' }}
+                                alt=""
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container xs={3}>
+                        <Typography className={classesLocal.Font}>
+                            <b>{fooditem.name}</b>
+                        </Typography>
+                        <Typography
+                            className={classesLocal.Font}
+                            style={{ color: '#737373' }}
+                        >
+                            {fooditem.desc}
+                        </Typography>
+                    </Grid>
+                    <Grid container xs={4}  style={{ textAlign:"center"}}>
+                        <Grid item style={{ display:'flex'}}>
+                            <Typography
+                                className={classesLocal.Font}
+                                style={{ color: '#737373',paddingLeft:'10px',paddingRight:'5px'}}
+                            >
+                                {'ราคา'}
+                            </Typography>
+                            <Typography
+                                className={classesLocal.Font}
+                                style={{ color: '#737373' }}
+                            >
+                                {price + ' THB'}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid container justify="right" alignItems="right" xs={2}>
+                        <Box component="div" alignItems="center">
+                            <img src={SoldOut} className={classesLocal.icons}/>
+                        </Box>
+                    </Grid>
+                </Grid>
         }
         </>
     )
