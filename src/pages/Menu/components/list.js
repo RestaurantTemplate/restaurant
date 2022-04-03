@@ -53,34 +53,34 @@ export const List = (props) => {
     const onDelete = () =>{
         if(number === "1"){
             removeMaindishes(state.user.branchstore,fooditem.id).then(function() {
-                setalert(prevState =>({...prevState,open:true,text:'ลบสาขาสำเร็จ',colorNotify:'success'}));
+                setalert(prevState =>({...prevState,open:true,text:'ลบเมนูสำเร็จ',colorNotify:'success'}));
             })
             .catch(function() {
-                setalert(prevState =>({...prevState,open:true,text:'ลบสาขาไม่สำเร็จ',colorNotify:'error'}));
+                setalert(prevState =>({...prevState,open:true,text:'ลบเมนูไม่สำเร็จ',colorNotify:'error'}));
             });
         }
         else if(number === "2"){
             removeAppetizers(state.user.branchstore,fooditem.id).then(function() {
-                setalert(prevState =>({...prevState,open:true,text:'ลบสาขาสำเร็จ',colorNotify:'success'}));
+                setalert(prevState =>({...prevState,open:true,text:'ลบเมนูสำเร็จ',colorNotify:'success'}));
             })
             .catch(function() {
-                setalert(prevState =>({...prevState,open:true,text:'ลบสาขาไม่สำเร็จ',colorNotify:'error'}));
+                setalert(prevState =>({...prevState,open:true,text:'ลบเมนูไม่สำเร็จ',colorNotify:'error'}));
             });
         }
         else if(number === "3"){
             removeDesserts(state.user.branchstore,fooditem.id).then(function() {
-                setalert(prevState =>({...prevState,open:true,text:'ลบสาขาสำเร็จ',colorNotify:'success'}));
+                setalert(prevState =>({...prevState,open:true,text:'ลบเมนูสำเร็จ',colorNotify:'success'}));
             })
             .catch(function() {
-                setalert(prevState =>({...prevState,open:true,text:'ลบสาขาไม่สำเร็จ',colorNotify:'error'}));
+                setalert(prevState =>({...prevState,open:true,text:'ลบเมนูไม่สำเร็จ',colorNotify:'error'}));
             });
         }
         else if(number === "4"){
             removeDrinks(state.user.branchstore,fooditem.id).then(function() {
-                setalert(prevState =>({...prevState,open:true,text:'ลบสาขาสำเร็จ',colorNotify:'success'}));
+                setalert(prevState =>({...prevState,open:true,text:'ลบเมนูสำเร็จ',colorNotify:'success'}));
             })
             .catch(function() {
-                setalert(prevState =>({...prevState,open:true,text:'ลบสาขาไม่สำเร็จ',colorNotify:'error'}));
+                setalert(prevState =>({...prevState,open:true,text:'ลบเมนูไม่สำเร็จ',colorNotify:'error'}));
             });
         }
     }
