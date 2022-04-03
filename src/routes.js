@@ -28,7 +28,7 @@ const Routes = (props) => {
             <Redirect to="/login" />
         </Switch>
     )
-
+    //manager
     if (state.user) {
         if (state.user.type === 'manager') {
             if(state.user.branchstore !== ''){
