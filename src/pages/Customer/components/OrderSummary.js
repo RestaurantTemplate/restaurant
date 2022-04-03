@@ -19,7 +19,6 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 
 import firebase from '../../../firebase/config'
-import SimpleModal from './Modal'
 import {Auth} from '../../../context/authContext';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -69,9 +68,8 @@ function OrderSummary(props) {
         props.history.replace('/billing')
         setOpen(false)
     }
-
+    console.log('Order::Summary::',state)
     const customerId = props.match.params.id
-    const tableNumber = props.match.params.table_number
 
     // const recommended = () => {
     //     orderSummary.map(order => {
@@ -79,70 +77,9 @@ function OrderSummary(props) {
     //     })
     // }
 
-    const checkout = (totalPrice) => {
-        const history = {
-            month: new Date().getMonth(),
-            table_number: tableNumber,
-            customer_id: customerId,
-            orders: orderSummary,
-            totol_price: totalPrice,
-            created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
-            updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
-        }
-        console.log('history', history)
-        firebase
-            .addHistories(state.user.branchstore,history)
-            .then(() => {})
-            .catch((error) =>
-                console.log('addHistories error message:', error.message)
-            )
-        firebase
-            .removeCustomer(state.user.branchstore,customerId)
-            .then((response) => {
-                console.log('removeCustomer response', response)
-                handleOpen()
-            })
-            .catch((error) =>
-                console.log('removeCustomer error', error.message)
-            )
-        firebase
-            .updateCustomerTable(state.user.branchstore,tableNumber, '')
-            .then(() => console.log('updateCustomerTable success'))
-            .catch((error) =>
-                console.log('updateCustomerTable error', error.message)
-            )
-
-        firebase
-            .removeCustomerInUsers(customerId)
-            .then(() => console.log('removeCustomerInUsers success'))
-            .catch((error) =>
-                console.log(
-                    'removeCustomerInUsers error.message',
-                    error.message
-                )
-            )
-        firebase.delNotifications(state.user.branchstore,customerId)
-        //     .delNotifications(customerId)
-        //     .then(() => console.log('removeCustomerInUsers success'))
-        //     .catch((error) =>
-        //         console.log(
-        //             'removeCustomerInUsers error.message',
-        //             error.message
-        //         )
-        //     )
-        
-        // firebase
-        //     .addRecommended(state.user.branchstore, orderSummary)
-        //     .then(() => console.log('addRecommended success'))
-        //     .catch((error) =>
-        //         console.log('updateCustomerTable error', error.message)
-        //     )
-
-    }
-
     const fetchCustomerData = () => {
         firebase
-            .getDataFromCustomer(state.user.branchstore,customerId)
+            .getDataFromCustomer(state.user.branchstore,state.user.uid)
             .then(function (doc) {
                 if (doc.exists) {
                     if (doc.data().orders) {
@@ -242,13 +179,6 @@ function OrderSummary(props) {
                 })}
                 <Paper className={classes.paper}>
                     <Typography>รวมทั้งสิ้น {totalPriceSummary} THB</Typography>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => checkout(totalPriceSummary)}
-                    >
-                        เสร็จสิ้น
-                    </Button>
                 </Paper>
             </React.Fragment>
         )
@@ -259,14 +189,12 @@ function OrderSummary(props) {
             <Container>
                 <Paper elevation={5} className={classes.paper}>
                     <Typography variant="h5" className={classes.textHeader}>
-                        โต๊ะที่ {tableNumber}
+                        โต๊ะที่ {state.user.table_number}
                     </Typography>
                     {orderSummaryItems}
                 </Paper>
             </Container>
-            <SimpleModal open={open} handleClose={handleClose} />
         </>
     )
 }
-
 export default withRouter(OrderSummary)

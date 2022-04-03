@@ -10,6 +10,7 @@ import LocalGroceryStoreSharpIcon from '@material-ui/icons/LocalGroceryStoreShar
 import Notification from './Notification'
 import AppLogo from './AppLogo'
 import DescriptionIcon from '@material-ui/icons/Description';
+import ReceiptIcon from '@material-ui/icons/Receipt';
 
 import { Auth } from '../context/authContext'
 import { useCartContext } from '../context/cartContext'
@@ -85,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
 function PrimarySearchAppBar(props) {
     const classes = useStyles()
 
-    const { setopenmenu,setopenorder } = props
+    const { setopenmenu,setopenorder,openordersummary,setopenordersummary} = props
     const { state } = React.useContext(Auth)
 
     const { cart,setorder, setqueues } = useCartContext()
@@ -105,28 +106,34 @@ function PrimarySearchAppBar(props) {
     let menuItem = null
     const getOrder = async() =>{
         // alert('::state:: uid:'+state.user.uid+' branchstore:'+state.user.branchstore+' type:'+state.user.type+' name:'+state.user.name+' table_number:'+state.user.table_number)
-        getCustomerOrder(state.user.branchstore).onSnapshot((snapshot) => {
-            setorder(snapshot.docs.map(doc => {
+        await  getCustomerOrder(state.user.branchstore).onSnapshot(async(snapshot) => {
+            let list  = await snapshot.docs.map(doc => {
                 let data = doc.data();
                 let value = []
                 if(data.customer_id === state.user.uid){
                     value.push(data)
                 }
                 return value
-            }))
+            })
+            await setorder(list.filter(element=> element.length > 0))
         });
-        getCustomerQueues(state.user.branchstore).onSnapshot((snapshot) => {
-            setqueues(snapshot.docs.map(doc => {
+        getCustomerQueues(state.user.branchstore).onSnapshot(async(snapshot) => {
+            let list  = await snapshot.docs.map(doc => {
                 let data = doc.data();
                 let value = []
                 if(data.customer_id === state.user.uid){
                     value.push(data)
                 }
+                console.log('_setorder::',data.customer_id,state.user.uid)
                 return value
-            }))
+            })
+            await setqueues(list.filter(element=> element.length > 0))
         });
         
         setopenorder(true);
+    }
+    const getOrderSummary = () =>{
+        setopenordersummary(true);
     }
     if (state.user.type === 'customer') {
         hamburgerButton = null
@@ -155,6 +162,17 @@ function PrimarySearchAppBar(props) {
                         color="secondary"
                     >
                         <DescriptionIcon />
+                    </Badge>
+                </IconButton>
+                <IconButton
+                    aria-label="show 4 new mails"
+                    color="inherit"
+                    onClick={getOrderSummary}
+                >
+                    <Badge
+                        color="secondary"
+                    >
+                        <ReceiptIcon />
                     </Badge>
                 </IconButton>
                 <Notification />

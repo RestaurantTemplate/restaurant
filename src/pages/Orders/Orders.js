@@ -90,9 +90,47 @@ const Orders = (props) => {
             console.log(response)
         })
     }
-
-    const removeOrderHandler = (orderId) => {
+    const removeOrderHandlers = (orderId) => {
+        const order = orders.find((order) => order.id === orderId)
         const newOrders = orders.filter((order) => order.id !== orderId)
+
+        firebase
+            .removeOrders(state.user.branchstore,orderId)
+            .then((response) => {
+                console.log('remove order successful!!!')
+                setOrders(newOrders)
+            })
+            .catch(() => {
+                console.log('remove order failed!!!')
+            })
+        let label = ''
+        for(let i=0;i<order.items.length;i++){
+            label += '[ ชื่อเมนู :'+order.items[i].name + ', จำนวน:'+order.items[i].amount+', ราคา:'+order.items[i].price+' บาท ]'
+        }
+        const alert = {
+            customer_id: order.customer_id,
+            order_number: order.order_number,
+            status: 'success',
+            message:
+                'ออเดอร์หมายเลข ' + order.order_number + ' '+label + ' ยกเลิกเรียบร้อยแล้ว',
+            created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+            updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+        }
+
+        firebase
+            .alertToCustomer(state.user.branchstore,alert)
+            .then(() => {
+                // setalert({ ...initialAlert, open: true })
+                console.log('alert to customer success')
+            })
+            .catch((error) =>
+                console.log('[alertToCustomer] error message:', error.message)
+            )
+    }
+    const removeOrderHandler = (orderId) => {
+        const order = orders.find((order) => order.id === orderId)
+        const newOrders = orders.filter((order) => order.id !== orderId)
+
         firebase
             .removeOrders(state.user.branchstore,orderId)
             .then((response) => {
@@ -109,7 +147,7 @@ const Orders = (props) => {
             order={order}
             key={order.id}
             queueAdded={addQueueHandler}
-            orderRemoved={removeOrderHandler}
+            orderRemoved={removeOrderHandlers}
         />
     ))
     if (orders.length === 0 && isLoading) {

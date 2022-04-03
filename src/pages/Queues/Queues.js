@@ -62,12 +62,16 @@ const Queues = (props) => {
     }, [])
 
     const alertToCustomer = (order) => {
+        let label = ''
+        for(let i=0;i<order.items.length;i++){
+            label += '[ ชื่อเมนู :'+order.items[i].name + ', จำนวน:'+order.items[i].amount+', ราคา:'+order.items[i].price+' บาท ]'
+        }
         const alert = {
             customer_id: order.customer_id,
             order_number: order.order_number,
             status: 'success',
             message:
-                'ออเดอร์หมายเลข ' + order.order_number + ' เสร็จเรียบร้อยแล้ว',
+                'ออเดอร์หมายเลข ' + order.order_number + ' '+label + ' เสร็จเรียบร้อยแล้ว',
             created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
             updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
         }
@@ -100,7 +104,32 @@ const Queues = (props) => {
                 console.log('remove order failed!!!')
             })
     }
+    const cancleQueueHandler = (order) =>{
+        removeQueueHandler(order.id)
+        let label = ''
+        for(let i=0;i<order.items.length;i++){
+            label += '[ ชื่อเมนู :'+order.items[i].name + ', จำนวน:'+order.items[i].amount+', ราคา:'+order.items[i].price+' บาท ]'
+        }
+        const alert = {
+            customer_id: order.customer_id,
+            order_number: order.order_number,
+            status: 'success',
+            message:
+                'ออเดอร์หมายเลข ' + order.order_number + ' '+label + ' ยกเลิกเรียบร้อยแล้ว',
+            created_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+            updated_at: moment(new Date()).format('DD/MM/YY HH:mm:ss'),
+        }
 
+        firebase
+            .alertToCustomer(state.user.branchstore,alert)
+            .then(() => {
+                setalert({ ...initialAlert, open: true })
+                console.log('alert to customer success')
+            })
+            .catch((error) =>
+                console.log('[alertToCustomer] error message:', error.message)
+            )
+    }
     const addOrderToCustomerOrders = (order) => {
         firebase
             .getDataFromCustomer(state.user.branchstore,order.customer_id)
@@ -151,6 +180,7 @@ const Queues = (props) => {
             alert={alertToCustomer}
             addOrderToCustomerOrders={addOrderToCustomerOrders}
             queueHandle={queueHandle}
+            cancleQueueHandler={cancleQueueHandler}
             queueRemoved={() => removeQueueHandler(index)}
         />
     ))

@@ -4,4 +4,6 @@ import { Tablelist } from './table'
 import { TableOrderlist } from './tableorder'
 import { TableQueueslist } from './tablequeues'
 import {DialogOrderValue} from './dialogorder'
-export { DialogValue, Menu, Tablelist, TableOrderlist, DialogOrderValue, TableQueueslist }
+import OrderSummary from './OrderSummary'
+import {DialogOrderSummaryValue} from './dialogordersummary';
+export { DialogValue, Menu, Tablelist, TableOrderlist, DialogOrderValue, TableQueueslist, OrderSummary, DialogOrderSummaryValue }

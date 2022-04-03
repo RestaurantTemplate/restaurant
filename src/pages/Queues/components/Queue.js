@@ -7,6 +7,7 @@ import Box from '@material-ui/core/Box'
 import IconButton from '@material-ui/core/IconButton'
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 
 const useStyles = makeStyles({
     root: {
@@ -31,7 +32,7 @@ const useStyles = makeStyles({
 export default function Queue(props) {
     const classes = useStyles()
 
-    const { queue, queueRemoved, alert, queueHandle } = props
+    const { queue, queueRemoved, alert, queueHandle,cancleQueueHandler } = props
 
     return (
         <Card className={classes.root}>
@@ -43,6 +44,9 @@ export default function Queue(props) {
                     </IconButton>
                     <IconButton onClick={() => queueHandle(queue)}>
                         <CheckCircleOutlineIcon />
+                    </IconButton>
+                    <IconButton onClick={() => cancleQueueHandler(queue)}>
+                        <CancelOutlinedIcon />
                     </IconButton>
                 </Grid>
                 <Grid item xs={7} sm={8} md={10}>

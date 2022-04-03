@@ -58,6 +58,7 @@ export const TableQueueslist = () => {
         {
             queues.map((queue,index)=>
                 <>
+                    <h4>{'เลข order :' + queue[0].order_number}</h4>
                     <TableContainer component={Paper}>
                         <Table className={classes.table} aria-label="simple table">
                             <TableHead>

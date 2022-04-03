@@ -14,6 +14,7 @@ export const DialogOrderlist = (props) => {
     return (
         <DialogOrderValue onClose={onClose} open={open}>
             <>
+                {console.log('DialogOrderValue:',order)}
                 {
                     (order[0] !== undefined) &&
                         <TableOrderlist />

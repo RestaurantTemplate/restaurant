@@ -48,28 +48,12 @@ const generateData = (monthlySales) => {
     }))
 }
 
-const monthlySales = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-]
 
 export const LineChart = () => {
+    const [monthlySales,setmonthlySales] = useState([0,0,0,0,0,0,0,0,0,0,0,0])
     const [chartData, setChartData] = useState(generateData(monthlySales))
     const {state} = useContext(Auth);
-
     const fetchHistoriesJan = () => {
-
-
         firebase.getHistories(state.user.branchstore).onSnapshot(
             (snapshot) => {
                 let data = []
@@ -106,6 +90,10 @@ export const LineChart = () => {
 
     useEffect(() => {
         fetchHistoriesJan()
+        return () =>{
+            console.log('chartData::',chartData)
+            setmonthlySales([0,0,0,0,0,0,0,0,0,0,0,0])
+        }
     }, [])
 
     return (

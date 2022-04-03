@@ -161,6 +161,20 @@ class Firebase {
             .collection('Notifications')
             .orderBy('created_at', 'desc')
 
+    delNotifications = (branch_id,customerId) =>{
+        var noti = firebase
+            .firestore()
+            .collection('Restaurants')
+            .doc(branch_id)
+            .collection('Notifications')
+            .where('customer_id','==',customerId)
+        noti.get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                doc.ref.delete();
+            });
+        });
+    }
+        
     getUserInfo = (id) => firebase.firestore().collection('Users').doc(id).get()
 
     addCustomer = (customer) => {
